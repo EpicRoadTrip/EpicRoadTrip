@@ -1,4 +1,4 @@
-module github.com/mgl/epicroadtrip
+module EpicRoadTrip
 
 go 1.20
 
