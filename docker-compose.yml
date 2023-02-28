@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  # NextJS Frontend
+  frontend:
+    container_name: front
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+  # Go Backend
+  backend:
+    container_name: back
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./backend:/app
+    restart: unless-stopped
