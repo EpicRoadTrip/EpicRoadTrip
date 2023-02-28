@@ -1,11 +1,7 @@
 name: Code coverage
 on:
   push:
-    paths:
-      - 'front/**'
   pull_request:
-      paths:
-        - 'front/**'
 jobs:
   coverage:
   
