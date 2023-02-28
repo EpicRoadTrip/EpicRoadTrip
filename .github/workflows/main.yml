@@ -7,6 +7,10 @@ jobs:
   
     runs-on: ubuntu-latest
     
+    defaults:
+      run:
+        working-directory: ./front
+    
     steps:
       - uses: pnpm/action-setup@v2
         with:
@@ -15,9 +19,10 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--global, gulp, prettier, typescript]
-            
+      
+      - run: ls -lah
+      
       - run: pnpm run test --coverage
-        working-directory: front
         
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
