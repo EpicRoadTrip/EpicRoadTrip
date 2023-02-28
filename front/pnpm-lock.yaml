@@ -6,13 +6,12 @@ specifiers:
   '@types/node': 18.14.2
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
-  '@typescript-eslint/eslint-plugin': ^5.54.0
-  '@typescript-eslint/parser': ^5.0.0
   eslint: 8.35.0
   eslint-config-next: 13.2.1
   eslint-config-prettier: ^8.6.0
   jest: ^29.4.3
   jest-environment-jsdom: ^29.4.3
+  multi-range-slider-react: ^2.0.2
   next: 13.2.1
   only-allow: ^1.1.1
   prettier: ^2.8.4
@@ -29,11 +28,6 @@ dependencies:
   '@types/node': 18.14.2
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
-  '@typescript-eslint/eslint-plugin': 5.54.0_6mj2wypvdnknez7kws2nfdgupi
-  '@typescript-eslint/parser': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
-  eslint: 8.35.0
-  eslint-config-next: 13.2.1_ycpbpc6yetojsgtrx3mwntkhsu
-  eslint-config-prettier: 8.6.0_eslint@8.35.0
   next: 13.2.1_biqbaboplfbrettd7655fr4n2y
   prettier: 2.8.4
   react: 18.2.0
@@ -1794,6 +1788,13 @@ packages:
       babel-plugin-jest-hoist: 29.4.3
       babel-preset-current-node-syntax: 1.0.1_@babel+core@7.21.0
     dev: true
+
+  /babel-runtime/6.26.0:
+    resolution: {integrity: sha512-ITKNuq2wKlW1fJg9sSW52eepoYgZBggvOAHC0u/CYu/qxQ9EVzThCgR69BnSXLHjy2f7SY5zaQ4yt7H9ZVxY2g==}
+    dependencies:
+      core-js: 2.6.12
+      regenerator-runtime: 0.11.1
+    dev: false
 
   /balanced-match/1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -3971,6 +3972,10 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: false
 
+  /multi-range-slider-react/2.0.2:
+    resolution: {integrity: sha512-xHeZIavJ4/Mg+sjwls3/5F018uic222uaNlFSsWmv4OjWVlWgFL6VKv2nJCVLUBR49pebcdhOyEdSGNtGbYf5Q==}
+    dev: false
+
   /nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -4494,6 +4499,10 @@ packages:
       indent-string: 4.0.0
       strip-indent: 3.0.0
     dev: true
+
+  /regenerator-runtime/0.11.1:
+    resolution: {integrity: sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==}
+    dev: false
 
   /regenerator-runtime/0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}

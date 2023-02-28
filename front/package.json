@@ -19,6 +19,8 @@
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.1",
     "eslint-config-prettier": "^8.6.0",
+    "babel-runtime": "^6.26.0",
+    "multi-range-slider-react": "^2.0.2",
     "next": "13.2.1",
     "prettier": "^2.8.4",
     "react": "18.2.0",
