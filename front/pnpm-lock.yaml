@@ -6,6 +6,9 @@ specifiers:
   '@types/node': 18.14.2
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
+  '@typescript-eslint/eslint-plugin': ^5.54.0
+  '@typescript-eslint/parser': ^5.0.0
+  babel-runtime: ^6.26.0
   eslint: 8.35.0
   eslint-config-next: 13.2.1
   eslint-config-prettier: ^8.6.0
@@ -28,6 +31,13 @@ dependencies:
   '@types/node': 18.14.2
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
+  '@typescript-eslint/eslint-plugin': 5.54.0_6mj2wypvdnknez7kws2nfdgupi
+  '@typescript-eslint/parser': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
+  babel-runtime: 6.26.0
+  eslint: 8.35.0
+  eslint-config-next: 13.2.1_ycpbpc6yetojsgtrx3mwntkhsu
+  eslint-config-prettier: 8.6.0_eslint@8.35.0
+  multi-range-slider-react: 2.0.2
   next: 13.2.1_biqbaboplfbrettd7655fr4n2y
   prettier: 2.8.4
   react: 18.2.0
@@ -1977,6 +1987,12 @@ packages:
   /convert-source-map/2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
     dev: true
+
+  /core-js/2.6.12:
+    resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
+    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
+    requiresBuild: true
+    dev: false
 
   /cosmiconfig/7.1.0:
     resolution: {integrity: sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA==}
