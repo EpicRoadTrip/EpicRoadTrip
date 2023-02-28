@@ -1,0 +1,6 @@
+.sb-container {
+    display: flex;
+    flex-direction: row;
+    background-color: red;
+    color: red;
+}
