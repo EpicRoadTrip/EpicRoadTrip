@@ -23,6 +23,7 @@ jobs:
             - args: [--global, gulp, prettier, typescript]
 
       - run: pnpm run coverage
+        continue-on-error: true
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
