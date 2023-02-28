@@ -22,8 +22,13 @@
     "next": "13.2.1",
     "prettier": "^2.8.4",
     "react": "18.2.0",
+    "react-datepicker": "^4.10.0",
     "react-dom": "18.2.0",
-    "typescript": "4.9.5"
+    "react-dropdown": "^1.11.0",
+    "react-intl": "^6.2.10",
+    "react-select": "^5.7.0",
+    "typescript": "4.9.5",
+    "webpack": "^5.75.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
