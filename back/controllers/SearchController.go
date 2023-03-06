@@ -2,23 +2,16 @@ package controllers
 
 import (
 	"EpicRoadTrip/services"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func GetSearchHandler(c *gin.Context) {
-	city := c.Param("city")
+	var city string = c.Param("city")
 
-	/*
-		var input models.Search
-		err := c.ShouldBindJSON(&input)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}*/
-
-	var search, err2 = services.GetSearchByCity(city)
-	if err2 != nil {
+	var search, err = services.GetSearchByCity(city)
+	if err != nil {
 		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": "City not found"})
 		return
 	}
