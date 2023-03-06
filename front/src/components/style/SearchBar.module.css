@@ -4,3 +4,23 @@
     background-color: red;
     color: red;
 }
+
+.hh-container {
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+.hh-nav-item {
+    font-family: 'Montserrat',
+    color: black,
+    textDecoration: 'none',
+    marginLeft: '2%'
+}
