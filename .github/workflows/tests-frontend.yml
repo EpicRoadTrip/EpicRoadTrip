@@ -1,8 +1,16 @@
-name: Code coverage
+name: Tests frontend
 on:
-  [push, pull_request]
+  push:
+    branches:
+    - main
+    - develop
+  pull_request:
+    branches:
+    - main
+    - develop
+
 jobs:
-  coverage:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -21,9 +29,4 @@ jobs:
               args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--global, gulp, prettier, typescript]
 
-      - run: pnpm run coverage
-        continue-on-error: true
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-
+      - run: pnpm run test
