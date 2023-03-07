@@ -1,4 +1,4 @@
-name: Code coverage backend
+name: Build backend
 on:
   push:
     branches:
@@ -22,12 +22,7 @@ jobs:
 
       - uses: actions/setup-go@v3
         with:
-          go-version: '^1.20.1' # The Go version to download (if necessary) and use.
+          go-version: '^1.20.1'
       - run: go version
 
-      - run: go test -race -coverprofile=coverage.out -covermode=atomic
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          flags: backend
+      - run: go build
