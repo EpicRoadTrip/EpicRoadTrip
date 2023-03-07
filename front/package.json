@@ -8,8 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --collectCoverageFrom=\"./pages/**/*.{js,jsx,ts,tsx}\"",
-    "coverage": "jest --coverage --collectCoverageFrom=\"./pages/**/*.{js,jsx,ts,tsx}\""
+    "test": "jest --collectCoverageFrom=\"./src/**\"",
+    "coverage": "jest --coverage --collectCoverageFrom=\"./src/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
     "@types/node": "18.14.2",
