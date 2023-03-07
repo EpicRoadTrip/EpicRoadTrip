@@ -1,4 +1,4 @@
-name: Code coverage
+name: Code coverage frontend
 on:
   [push, pull_request]
 jobs:
@@ -26,4 +26,6 @@ jobs:
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
+        with:
+          flags: frontend
 

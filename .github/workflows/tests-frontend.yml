@@ -1,7 +1,7 @@
-name: Test
+name: Tests frontend
 on:
   [push, pull_request]
-  
+
 jobs:
   test:
 
