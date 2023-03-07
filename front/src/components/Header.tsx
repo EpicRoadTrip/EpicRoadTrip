@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react';
 
 export default function Header() {
@@ -10,9 +11,9 @@ export default function Header() {
             <div/>
             <h1 data-testid='h-title' style={{fontFamily: 'Inter', flex: 1, textAlign: 'left'}}>EpicRoadTrip</h1>
             <nav style={{flex: 1, textAlign: 'center'}}>
-                <a href='/' className='.hh-nav-item' data-testid='h-nav-home'>Home</a>
-                <a href='/about' className='.hh-nav-item' data-testid='h-nav-about'>About us</a>
-                <a href='/destinations' className='.hh-nav-item' data-testid='h-nav-destinations'>Destinations</a>
+                <Link href='/' className='.hh-nav-item' data-testid='h-nav-home'>Home</Link>
+                <Link href='/about' className='.hh-nav-item' data-testid='h-nav-about'>About us</Link>
+                <Link href='/destinations' className='.hh-nav-item' data-testid='h-nav-destinations'>Destinations</Link>
             </nav>
             <p style={{flex: 1, textAlign: 'right'}} data-testid='h-copyright'>Copryright 2023</p>
         </header>
