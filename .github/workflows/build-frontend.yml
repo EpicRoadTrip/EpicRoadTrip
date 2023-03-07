@@ -1,4 +1,4 @@
-name: Code coverage frontend
+name: Build frontend
 on:
   push:
     branches:
@@ -27,10 +27,4 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
 
-      - run: pnpm run coverage
-        continue-on-error: true
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          flags: frontend
+      - run: pnpm run build
