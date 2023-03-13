@@ -2,6 +2,7 @@ package main
 
 import (
 	"EpicRoadTrip/controllers"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +13,7 @@ func setupRouter() *gin.Engine {
 	})
 
 	r.GET("/search/:city", controllers.GetSearchHandler)
+	r.GET("/details/:locationId", controllers.GetLocationHandler)
 
 	return r
 }
