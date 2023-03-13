@@ -13,6 +13,10 @@ jobs:
   build:
     runs-on: 'ubuntu-latest'
 
+    defaults:
+      run:
+        working-directory: back
+
     steps:
     - uses: actions/checkout@v2
 
@@ -31,7 +35,7 @@ jobs:
       with:
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_4eb0596e1c37489497961c0e84842fd7 }}/backend:${{ github.sha }}
-        file: ./back/Dockerfile
+        file: ./Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
