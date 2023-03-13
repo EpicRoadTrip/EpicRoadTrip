@@ -1,9 +1,12 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import CardColumn from '../../src/components/CardColumn';
+
+afterEach(cleanup);
 
 describe('Card column', () => {
     it('Renders correctly', () => {
-        render(<CardColumn />);
+        render(<CardColumn imgSrc='coucou' title='La montagne du Gay' price={542} description='La description' />);
 
         expect(screen.getByTestId('card-container')).toBeVisible();
         expect(screen.getByTestId('card-image')).toBeVisible();
@@ -12,38 +15,32 @@ describe('Card column', () => {
         expect(screen.getByTestId('card-body-description')).toBeVisible();
     });
 
-    it('image should have a top radius only', () => {
-        const { container, getAllByTestId } = render(<CardColumn />);
+    it('Card container should contain image and card body', () => {
+        const card = render(<CardColumn imgSrc='coucou' title='La montagne du Gay' price={542} description='La description' />);
+        const imageCard = card.getByTestId('card-image');
+        const cardBody = card.getByTestId('card-body');
 
-        // Replace <YOUR_DIV_ID> by your component's id
-        let contentDiv = document.getElementById('card-image'); // Retrieve the image
-        let style = window.getComputedStyle(contentDiv[0]); // Get the style of the image
-
-        expect(style.borderTopLeftRadius).toEqual('10px'); // Test if have a border top left radius equal to 10px
-        expect(style.borderTopRightRadius).toEqual('10px'); // Test if have a border top right radius equal to 10px
-
-        expect(style.borderBottomLeftRadius).toEqual('10px'); // Test if have a border bottom left radius equal to 10px
-        expect(style.borderBottomRightRadius).toEqual('10px'); // Test if have a border bottom right radius equal to 10px
+        expect(card.container).toContainElement(imageCard);
+        expect(card.container).toContainElement(cardBody);
     });
 
-    it('should not have a shadow', () => {
-        const { container, getAllByTestId } = render(<CardColumn />);
+    it('Card body should contain card header and card text description', () => {
+        const card = render(<CardColumn imgSrc='coucou' title='La montagne du Gay' price={542} description='La description' />);
+        const cardBody = card.getByTestId('card-body');
+        const cardHeader = card.getByTestId('card-header');
+        const cardTextDescription = card.getByTestId('card-body-description');
 
-        // Replace <YOUR_DIV_ID> by your component's id
-        let contentDiv = document.getElementById('card-image'); // Retrieve the image
-        let style = window.getComputedStyle(contentDiv[0]); // Get the style of the image
-
-        expect(style.boxShadow).toBeNull();
+        expect(cardBody).toContainElement(cardHeader);
+        expect(cardBody).toContainElement(cardTextDescription);
     });
 
-    it('should be in display row', () => {
-        const { container, getAllByTestId } = render(<CardRow />);
+    it('Card header should contain card title and card price', () => {
+        const card = render(<CardColumn imgSrc='coucou' title='La montagne du Gay' price={542} description='La description' />);
+        const cardHeader = card.getByTestId('card-header');
+        const cardTitle = card.getByTestId('card-header-title');
+        const cardPrice = card.getByTestId('card-header-price');
 
-        // Replace <YOUR_DIV_ID> by your component's id
-        let contentDiv = document.getElementById('card-image'); // Retrieve the image
-        let style = window.getComputedStyle(contentDiv[0]); // Get the style of the image
-
-        expect(style.display).toEqual('flex');
-        expect(style.flexDirection).toEqual('column');
+        expect(cardHeader).toContainElement(cardTitle);
+        expect(cardHeader).toContainElement(cardPrice);
     });
 })
