@@ -40,4 +40,13 @@ describe('Card row', () => {
         expect(cardHeader).toContainElement(cardTitle);
         expect(cardHeader).toContainElement(cardPrice);
     });
+
+    it('Click on card should redirect to detail page', () => {
+        const card = render(<CardRow imgSrc='coucou' title='La montagne du Gay' price={542} description='La description' />);
+        fireEvent.click(card.baseElement);
+
+        const link = window.location.href;
+
+        expect(link).toContain('/detail/');
+    })
 });
