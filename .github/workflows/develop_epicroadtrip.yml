@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v1
       with:
         registry: https://epicroadtrip.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_4bb10597711e4176af308fc95049f07e }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_c6aa73d21b204080b77888a4f710b40a }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_eacd5e8b67d54f97899b59abcd428d24 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_57081c06190148c59052d32d2fd86aa1 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: epicroadtrip.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_4bb10597711e4176af308fc95049f07e }}/backend:${{ github.sha }}
+        tags: epicroadtrip.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_eacd5e8b67d54f97899b59abcd428d24 }}/back:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'epicroadtrip'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_6734d562d75045c994d61022a79bbe0d }}
-        images: 'epicroadtrip.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_4bb10597711e4176af308fc95049f07e }}/backend:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ebb11968d1ec48528c5d3824da80d88b }}
+        images: 'epicroadtrip.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_eacd5e8b67d54f97899b59abcd428d24 }}/back:${{ github.sha }}'
