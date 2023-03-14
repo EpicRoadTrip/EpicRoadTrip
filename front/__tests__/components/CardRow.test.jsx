@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import CardRow from '../../src/components/CardRow';
 
 jest.mock('next/router', () => require('next-router-mock'));
-afterEach(cleanup());
+afterEach(cleanup);
 
 describe('Card row', () => {
     it('Renders correctly', () => {
