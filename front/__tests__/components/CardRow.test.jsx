@@ -1,11 +1,9 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CardRow from '../../src/components/CardRow';
-import mockRouter from 'next-router-mock/async';
-import userEvent from '@testing-library/user-event';
 
 jest.mock('next/router', () => require('next-router-mock'));
-afterEach(cleanup);
+afterEach(cleanup());
 
 describe('Card row', () => {
     it('Renders correctly', () => {
