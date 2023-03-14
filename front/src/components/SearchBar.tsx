@@ -12,7 +12,7 @@ export default function SearchBar() {
     const [date, setDate] = React.useState<Date>(new Date());
 
     return (
-        <div style={{display: 'flex', flexDirection: 'row'}}>
+        <div style={{display: 'flex', flexDirection: 'row'}} data-testid='sb-container'>
             <Dropdown options={[{value: 'test1', label: 'test1'}, {value: 'test2', label: 'test2'}]} value='test'/>
             <MultiRangeSlider
                 min={0}
