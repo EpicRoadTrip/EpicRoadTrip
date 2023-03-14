@@ -1,7 +1,10 @@
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CardColumn from '../../src/components/CardColumn';
+import mockRouter from 'next-router-mock/async';
+import userEvent from '@testing-library/user-event';
 
+jest.mock('next/router', () => require('next-router-mock'));
 afterEach(cleanup);
 
 describe('Card column', () => {

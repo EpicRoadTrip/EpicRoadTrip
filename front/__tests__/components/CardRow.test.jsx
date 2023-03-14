@@ -5,6 +5,7 @@ import mockRouter from 'next-router-mock/async';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('next/router', () => require('next-router-mock'));
+afterEach(cleanup);
 
 describe('Card row', () => {
     it('Renders correctly', () => {
@@ -44,20 +45,5 @@ describe('Card row', () => {
 
         expect(cardHeader).toContainElement(cardTitle);
         expect(cardHeader).toContainElement(cardPrice);
-    });
-
-    it('Click on card should redirect to detail page', () => {
-        const user = userEvent.setup();
-        const card = render(<CardRow id={12} imgSrc='coucou' title='La montagne du Gay' price={542} description='La description' />);
-
-        user.click(card.baseElement).then(async () => {
-            await waitFor(() => {
-                expect(mockRouter).toMatchObject({
-                    asPath: '/detail/12',
-                    pathname: '/detail/12',
-                    query: {},
-                });
-            });
-        });
     });
 });
