@@ -1,10 +1,11 @@
 import React from 'react';
 import { ICard } from '@/public/interfaces/card';
 import styles from './style/CardColumn.module.css';
+import Link from 'next/link';
 
-export default function CardColumn({imgSrc, title, price, description}: ICard) {
+export default function CardColumn({id, imgSrc, title, price, description}: ICard) {
     return (
-        <div className={styles.cardContainer} data-testid='card-container'>
+        <Link href={`/detail/${encodeURIComponent(id)}`} className={styles.cardContainer} data-testid='card-container'>
             <img src={imgSrc}  alt="Image of the card" className={styles.cardImage} data-testid='card-image' />
             <div className={styles.cardBody} data-testid='card-body'>
                 <div className={styles.cardHeader} data-testid='card-header'>
@@ -13,6 +14,6 @@ export default function CardColumn({imgSrc, title, price, description}: ICard) {
                 </div>
                 <p className={styles.cardBodyDescription} data-testid='card-body-description'>{description}</p>
             </div>
-        </div>
+        </Link>
     )
 }
