@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
 type SearchResult struct {
@@ -16,7 +17,9 @@ type SearchResult struct {
 func GetSearchByCity(city string) ([]models.Search, error) {
 	tripAdvisorKey := config.GoDotEnvVariable("TRIPADVISOR_KEY")
 
-	url := fmt.Sprintf("https://api.content.tripadvisor.com/api/v1/location/search?key=%s&searchQuery=%s&category=hotels&radiusUnit=km&language=fr", tripAdvisorKey, city)
+	city = strings.ReplaceAll(city, " ", "-")
+
+	url := fmt.Sprintf("https://api.content.tripadvisor.com/api/v1/location/search?key=%s&searchQuery=%s&radiusUnit=km&language=fr?limit=20&offset=0", tripAdvisorKey, city)
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("accept", "application/json")
 	res, _ := http.DefaultClient.Do(req)
@@ -24,7 +27,6 @@ func GetSearchByCity(city string) ([]models.Search, error) {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-
 		}
 	}(res.Body)
 

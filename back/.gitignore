@@ -68,6 +68,9 @@ out/
 .AppleDouble
 .LSOverride
 
+coverage.out
+EpicRoadTrip.exe
+
 # Icon must end with two \r
 Icon
 

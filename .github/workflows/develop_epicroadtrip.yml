@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy container app to Azure Web App - epicroadtrip
+name: Build and deploy Azure Web App
 
 on:
   push:
@@ -33,9 +30,10 @@ jobs:
     - name: Build and push container image to registry
       uses: docker/build-push-action@v4
       with:
+        file: ./back/Dockerfile
+        context: ./back
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_4eb0596e1c37489497961c0e84842fd7 }}/backend:${{ github.sha }}
-        context: "{{defaultContext}}:back"
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_4eb0596e1c37489497961c0e84842fd7 }}/epic:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
