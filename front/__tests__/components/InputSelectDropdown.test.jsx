@@ -134,4 +134,55 @@ describe('InputSelectDropdown', () => {
         expect(handleOnSelectedChange).toHaveBeenCalledTimes(2);
         expect(selectedDataArray).toHaveLength(0);
     });
+
+    it('Should filter by the search bar input value', () => {
+        render(<InputSelectDropdown data={[{
+            id: 1,
+            name: "Logement",
+            apiName: "location",
+        }, {
+            id: 2,
+            name: "Voyage",
+            apiName: "travel",
+        }]} />);
+
+        const header = screen.getByTestId('isd-header');
+        const input = screen.getByTestId("isd-input-search");
+        const elements = screen.getAllByTestId('isd-checkbox');
+
+        fireEvent.click(header); // Open the dropdown
+        fireEvent.change(input, {target: {value: 'log'}});
+
+        waitFor(() => {
+            expect(elements).toHaveLength(1);
+        });
+    });
+
+    it('Should display all data back after emptying the search bar', () => {
+        render(<InputSelectDropdown data={[{
+            id: 1,
+            name: "Logement",
+            apiName: "location",
+        }, {
+            id: 2,
+            name: "Voyage",
+            apiName: "travel",
+        }]} />);
+
+        const header = screen.getByTestId('isd-header');
+        const input = screen.getByTestId("isd-input-search");
+        const elements = screen.getAllByTestId('isd-checkbox');
+
+        fireEvent.click(header); // Open the dropdown
+        fireEvent.change(input, {target: {value: 'log'}});
+
+        waitFor(() => {
+            expect(elements).toHaveLength(1);
+        });
+
+        fireEvent.change(input, {target: {value: ''}});
+        waitFor(() => {
+            expect(elements).toHaveLength(2);
+        });
+    });
 });
