@@ -83,19 +83,23 @@ describe('InputSelectDropdown', () => {
     });
 
     it('Should send selected data on selection', () => {
-        const handleOnSelectedChange = jest.fn();
+        let selectedDataArray = null;
+        const handleOnSelectedChange = jest.fn((selectedData) => {
+            selectedDataArray = selectedData;
+        });
         render(<InputSelectDropdown data={[{
-            id: 1,
-            name: "Logement",
-            apiName: "location",
-        }]} selectedData={[{
             id: 1,
             name: "Logement",
             apiName: "location",
         }]} onSelectedChange={handleOnSelectedChange} />);
 
-        waitFor(() => {
-            expect(handleOnSelectedChange).toHaveBeenCalledTimes(1);
-        });
+        fireEvent.click(screen.getByTestId("isd-checkbox"));
+
+        expect(handleOnSelectedChange).toHaveBeenCalledTimes(1);
+        expect(selectedDataArray).toHaveLength(1);
     });
+
+    // it('Should remove selected data on click on delete icon of tag', () => {
+
+    // });
 });
