@@ -1,23 +1,25 @@
 import React from 'react';
-import MapComponent from '../components/MapDirection';
-import { ChakraProvider } from '@chakra-ui/react';
+//import MapComponent from '../components/MapDirection';
+//import { ChakraProvider } from '@chakra-ui/react';
 
-const AnyReactComponent = ({ text }) => <div style={{backgroundColor: 'red'}}>{text}</div>;
+import { getStatus, getLocationsByCity } from '../api/api.js';
 
 export default function IndexPage() {
-  const defaultProps = {
-    center: {
-      lat: 10.99835602,
-      lng: 77.01502627
-    },
-    zoom: 11
-  };
+  const [text, setText] = React.useState<string>('');
 
+  React.useEffect(() => {
+    async function getData() {
+      await getLocationsByCity("Nantes")
+        .then((result) => {
+          console.log(result);
+          setText(JSON.stringify(result));
+        });
+    }
+    getData();
+  }, []);
   return (
     <>
-      <ChakraProvider>
-        <MapComponent/>
-      </ChakraProvider>
+      <p>{text}</p>
     </>
   )
 }
