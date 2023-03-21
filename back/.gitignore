@@ -10,7 +10,6 @@ pkg/*
 # goop - go package manager
 .vendor
 
-
 #############################
 #  $ gibo Go JetBrains OSX  #
 #############################

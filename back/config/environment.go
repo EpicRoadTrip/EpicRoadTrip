@@ -20,3 +20,18 @@ func GoDotEnvVariable(key string) string {
 
 	return os.Getenv(key)
 }
+
+func GetVarEnv() map[string]string {
+	tripAdvisorKey := os.Getenv("TRIPADVISOR_KEY")
+	if tripAdvisorKey == "" {
+		tripAdvisorKey = GoDotEnvVariable("TRIPADVISOR_KEY") // valeur par défaut
+	}
+
+	googleKey := os.Getenv("GOOGLE_KEY")
+	if googleKey == "" {
+		googleKey = GoDotEnvVariable("GOOGLE_KEY") // valeur par défaut
+	}
+
+	var envs = map[string]string{"tripAdvisorKey": tripAdvisorKey, "googleKey": googleKey}
+	return envs
+}

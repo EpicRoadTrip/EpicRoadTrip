@@ -2,7 +2,6 @@ package services
 
 import (
 	"EpicRoadTrip/config"
-	"EpicRoadTrip/models"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,12 +11,8 @@ import (
 	"strings"
 )
 
-type LocationResult struct {
-	Data []models.Location `json:"data"`
-}
-
 func GetLocationById(locationId string) (map[string]interface{}, error) {
-	tripAdvisorKey := config.GoDotEnvVariable("TRIPADVISOR_KEY")
+	tripAdvisorKey := config.GetVarEnv()["tripAdvisorKey"]
 
 	locationId = strings.ReplaceAll(locationId, " ", "-")
 

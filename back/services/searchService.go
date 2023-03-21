@@ -15,7 +15,7 @@ type SearchResult struct {
 }
 
 func GetSearchByCity(city string) ([]models.Search, error) {
-	tripAdvisorKey := config.GoDotEnvVariable("TRIPADVISOR_KEY")
+	tripAdvisorKey := config.GetVarEnv()["tripAdvisorKey"]
 
 	city = strings.ReplaceAll(city, " ", "-")
 
