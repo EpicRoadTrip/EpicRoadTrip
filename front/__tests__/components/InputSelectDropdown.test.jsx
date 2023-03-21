@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import InputSelectDropdown from '../../src/components/InputSelectDropdown';
 import '@testing-library/jest-dom';
 
 describe('InputSelectDropdown', () => {
@@ -39,38 +40,55 @@ describe('InputSelectDropdown', () => {
 
         fireEvent.click(header);
 
-        expect(screen.getByTestId('isd-body')).toBeVisible();
-        expect(screen.getByTestId('isd-body')).not.toBeEmptyDOMElement();
+        waitFor(() => {
+            expect(screen.getByTestId('isd-body')).toBeVisible();
+            expect(screen.getByTestId('isd-body')).not.toBeEmptyDOMElement();
+        });
     });
 
     it('Close openned dropdown on click outside', () => {
-        render(<InputSelectDropdown data={[]} selectedData={[]} />);
+        render(<InputSelectDropdown data={[{
+            id: 1,
+            name: "Logement",
+            apiName: "location",
+        }]} selectedData={[]} />);
         const header = screen.getByTestId('isd-header');
 
         fireEvent.click(header);
-        expect(screen.getByTestId('isd-body')).toBeVisible();
-        expect(screen.getByTestId('isd-body')).not.toBeEmptyDOMElement();
+        waitFor(() => { // Wait for the click handler to finish its call
+            expect(screen.getByTestId('isd-body')).toBeVisible();
+            expect(screen.getByTestId('isd-body')).not.toBeEmptyDOMElement();
+        });
 
         fireEvent.click(document.body);
-        expect(screen.getByTestId('isd-body')).toBeVisible();
-        expect(screen.getByTestId('isd-body')).toBeEmptyDOMElement();
+        waitFor(() => { // Wait for the click handler to finish its call
+            expect(screen.getByTestId('isd-body')).toBeVisible();
+            expect(screen.getByTestId('isd-body')).toBeEmptyDOMElement();
+        });
     });
 
     it('Chips should be visible if selected data', () => {
-        render(<InputSelectDropdown data={[]} selectedData={[{
+        render(<InputSelectDropdown data={[{
+            id: 1,
+            name: "Logement",
+            apiName: "location",
+        }]} selectedData={[{
             id: 1,
             name: "Logement",
             apiName: "location",
         }]} />);
 
-        const header = screen.getByTestId('isd-header');
         const chipContainer = screen.getByTestId('isd-display-chip-container');
         expect(chipContainer).not.toBeEmptyDOMElement();
     });
 
     it('Should send selected data on selection', () => {
         const handleOnSelectedChange = jest.fn();
-        render(<InputSelectDropdown data={[]} selectedData={[{
+        render(<InputSelectDropdown data={[{
+            id: 1,
+            name: "Logement",
+            apiName: "location",
+        }]} selectedData={[{
             id: 1,
             name: "Logement",
             apiName: "location",
