@@ -99,7 +99,39 @@ describe('InputSelectDropdown', () => {
         expect(selectedDataArray).toHaveLength(1);
     });
 
-    // it('Should remove selected data on click on delete icon of tag', () => {
+    it('Should remove item from selected data if unchecked', () => {
+        let selectedDataArray = null;
+        const handleOnSelectedChange = jest.fn((selectedData) => {
+            selectedDataArray = selectedData;
+        });
+        render(<InputSelectDropdown data={[{
+            id: 1,
+            name: "Logement",
+            apiName: "location",
+        }]} onSelectedChange={handleOnSelectedChange} />);
 
-    // });
+        fireEvent.click(screen.getByTestId("isd-checkbox"));
+        fireEvent.click(screen.getByTestId("isd-checkbox"));
+
+        expect(handleOnSelectedChange).toHaveBeenCalledTimes(2);
+        expect(selectedDataArray).toHaveLength(0);
+    });
+
+    it('Should remove selected data on click on delete icon of tag', () => {
+        let selectedDataArray = null;
+        const handleOnSelectedChange = jest.fn((selectedData) => {
+            selectedDataArray = selectedData;
+        });
+        render(<InputSelectDropdown data={[{
+            id: 1,
+            name: "Logement",
+            apiName: "location",
+        }]} onSelectedChange={handleOnSelectedChange} />);
+
+        fireEvent.click(screen.getByTestId("isd-checkbox"));
+        fireEvent.click(screen.getByTestId("isd-tag-close"));
+
+        expect(handleOnSelectedChange).toHaveBeenCalledTimes(2);
+        expect(selectedDataArray).toHaveLength(0);
+    });
 });
