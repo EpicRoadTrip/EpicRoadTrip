@@ -4,7 +4,18 @@ import styles from './style/NumberSelector.module.css';
 
 export default function NumberSelector({ title, items, onChange }: INumberSelector) {
 
-    const [data, setData] = React.useState(items); 
+    React.useEffect(() => {
+        if (items) {
+            setData(items.map((item) => {
+                if (item.min && item.min >= 0) {
+                    item.number = item.min;
+                }
+                return item;
+            }));
+        }
+    }, [items]);
+
+    const [data, setData] = React.useState(items ?? []);
 
     const increment = (item: INumberSelectorData) => {
         const findedData = data.find((element) => element.id === item.id);
@@ -37,11 +48,11 @@ export default function NumberSelector({ title, items, onChange }: INumberSelect
     return (
         <div className={styles.nbsContainer} data-testid='nbs-container'>
             <h2 className={styles.nbsTitle} data-testid='nbs-title'>{title ?? "Veuillez insérer un titre"}</h2>
-            <div className={styles.nbsBody}>
+            <div className={styles.nbsBody} data-testid='nbs-body'>
                 {
                     data.map((item) => (
-                        <div key={item.id} className={styles.nbsBodyItem}>
-                            <p className={styles.nbsBodyItemName}>{item.name}</p>
+                        <div key={item.id} className={styles.nbsBodyItem} data-testid='nbs-body-item'>
+                            <p className={styles.nbsBodyItemName} data-testid='nbs-item-name'>{item.name}</p>
                             <div className={styles.nbsBodyItemActions} data-testid='nbs-item-actions'>
                                 <button type='button' className={styles.nbsMinusButton} onClick={() => {decrement(item)}} disabled={item.min ? item.number === item.min : item.number === 0} data-testid='nbs-item-minus-button'></button>
                                 <span className={styles.nbsItemNumber} data-testid='nbs-item-number'>{item.number}</span>
