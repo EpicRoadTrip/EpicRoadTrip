@@ -1,7 +1,9 @@
 package models
 
 type Accommodation struct {
-	LocationID    string        `json:"location_id"`
-	Name          string        `json:"name"`
-	AddressSearch AddressSearch `json:"address_obj"`
+	PlaceID  string `json:"place_id"`
+	Name     string `json:"name"`
+	Address  string `json:"formatted_address"`
+	Photo    string `json:"photo"`
+	Location string `json:"location"`
 }
