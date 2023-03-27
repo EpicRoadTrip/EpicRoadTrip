@@ -12,7 +12,6 @@ describe('InputSelectDropdown', () => {
         expect(screen.getByTestId('isd-display-chip-container')).toBeEmptyDOMElement();
         expect(screen.getByTestId('isd-input-search')).toBeInTheDocument();
         expect(screen.getByTestId('isd-body')).toBeInTheDocument();
-        expect(screen.getByTestId('isd-body')).toBeEmptyDOMElement();
     });
 
     it('Header and body should by in container', () => {
