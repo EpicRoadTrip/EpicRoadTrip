@@ -2,7 +2,7 @@ import { INumberSelector, INumberSelectorData } from '@/public/interfaces/number
 import React from 'react';
 import styles from './style/NumberSelector.module.css';
 
-export default function NumberSelector({ title, items }: INumberSelector) {
+export default function NumberSelector({ title, items, onChange }: INumberSelector) {
 
     const [data, setData] = React.useState(items); 
 
@@ -13,6 +13,8 @@ export default function NumberSelector({ title, items }: INumberSelector) {
             findedData.number++;
             setData([...data]);
         }
+
+        handleOnChange();
     };
 
     const decrement = (item: INumberSelectorData) => {
@@ -22,7 +24,15 @@ export default function NumberSelector({ title, items }: INumberSelector) {
             findedData.number--;
             setData([...data]);
         }
+
+        handleOnChange();
     };
+
+    function handleOnChange(): void {
+        if (onChange) {
+            onChange(data);
+        }
+    }
 
     return (
         <div className={styles.nbsContainer} data-testid='nbs-container'>
