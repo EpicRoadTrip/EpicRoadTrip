@@ -1,7 +1,9 @@
-import SearchBar from '../components/SearchBar';
+import Header from '../components/Header';
 
 export default function IndexPage() {
   return (
-    <SearchBar />
+    <>
+      <Header data-testid='i-header' />
+    </>
   )
 }
