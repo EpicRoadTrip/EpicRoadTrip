@@ -3,7 +3,7 @@ export interface INumberSelector {
     items: INumberSelectorData[],
 }
 
-interface INumberSelectorData {
+export interface INumberSelectorData {
     id: number,
     name: string,
     number: number,
