@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBar(t *testing.T) {
+func TestGetBars(t *testing.T) {
 	// Configuration de Gin et de la route
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -20,7 +20,7 @@ func TestBar(t *testing.T) {
 
 	// Test de la requête
 	location := "Nantes petermccool"
-	req, err := http.NewRequest("GET", "/accommodations/"+location, nil)
+	req, err := http.NewRequest("GET", "/bars/"+location, nil)
 	if err != nil {
 		t.Fatalf("Failed to create request: %v", err)
 	}
@@ -37,9 +37,6 @@ func TestBar(t *testing.T) {
 
 	// Récupérer uniquement le premier résultat
 	firstResult := jsonResponse["results"][0]
-
-	fmt.Println(firstResult)
-	fmt.Println(firstResult["formatted_address"])
 
 	idTest, idOk := firstResult["place_id"].(string)
 	photoTest, photoOk := firstResult["photo"].(string)
