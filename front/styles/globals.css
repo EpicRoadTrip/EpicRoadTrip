@@ -1,4 +1,17 @@
 :root {
+  --blueOne: #0466C8;
+  --blueTwo: #0353A4;
+  --blueThree: #023E7D;
+  --blueFour: #002855;
+  --blueFive: #001845;
+  --blueSix: #001233;
+  --greyOne: #33415C;
+  --greyTwo: #5C677D;
+  --greyThree: #7D8597;
+  --greyFour: #979DAC;
+
+
+
   --max-width: 1100px;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
