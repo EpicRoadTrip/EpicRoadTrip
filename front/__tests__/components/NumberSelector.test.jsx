@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import NumberSelector from '../../src/components/NumberSelector';
 import '@testing-library/jest-dom';
 
 describe('NumberSelectorComponent', () => {
@@ -13,17 +14,17 @@ describe('NumberSelectorComponent', () => {
     it('Should data render correctly', () => {
         render(<NumberSelector data={[{
             title: "Voyageur",
-            items: [
-                {
-                    name: "Adulte",
-                    number: 0,
-                    apiName: "adult"
-                }, {
-                    name: "Enfant",
-                    number: 0,
-                    apiName: "children"
-                }
-            ]
+            items: [{
+                id: 1,
+                name: "Adulte",
+                number: 0,
+                apiName: "adult"
+            }, {
+                id: 2,
+                name: "Enfant",
+                number: 0,
+                apiName: "children"
+            }]
         }]} />);
 
         const title = screen.getByTestId('nbs-title');
@@ -43,13 +44,12 @@ describe('NumberSelectorComponent', () => {
     it('Should data item render correctly', () => {
         render(<NumberSelector data={[{
             title: "Voyageur",
-            items: [
-                {
-                    name: "Adulte",
-                    number: 0,
-                    apiName: "adult"
-                }
-            ]
+            items: [{
+                id: 1,
+                name: "Adulte",
+                number: 0,
+                apiName: "adult"
+            }]
         }]} />);
 
         const dataItem = screen.getByTestId('nbs-body-item');
@@ -72,13 +72,12 @@ describe('NumberSelectorComponent', () => {
     it('Should increment number', () => {
         render(<NumberSelector data={[{
             title: "Voyageur",
-            items: [
-                {
-                    name: "Adulte",
-                    number: 0,
-                    apiName: "adult"
-                }
-            ]
+            items: [{
+                id: 1,
+                name: "Adulte",
+                number: 0,
+                apiName: "adult"
+            }]
         }]} />);
 
         const minusButton = screen.getByTestId('nbs-item-minus-button');
@@ -96,13 +95,12 @@ describe('NumberSelectorComponent', () => {
     it('Should decrement number', () => {
         render(<NumberSelector data={[{
             title: "Voyageur",
-            items: [
-                {
-                    name: "Adulte",
-                    number: 0,
-                    apiName: "adult"
-                }
-            ]
+            items: [{
+                id: 1,
+                name: "Adulte",
+                number: 0,
+                apiName: "adult"
+            }]
         }]} />);
 
         const minusButton = screen.getByTestId('nbs-item-minus-button');
@@ -127,13 +125,12 @@ describe('NumberSelectorComponent', () => {
 
         render(<NumberSelector data={[{
             title: "Voyageur",
-            items: [
-                {
-                    name: "Adulte",
-                    number: 0,
-                    apiName: "adult"
-                }
-            ]
+            items: [{
+                id: 1,
+                name: "Adulte",
+                number: 0,
+                apiName: "adult"
+            }]
         }]} onChange={handleValueReturn} />);
 
         const plusButton = screen.getByTestId('nbs-item-plus-button');
@@ -149,13 +146,12 @@ describe('NumberSelectorComponent', () => {
 
         render(<NumberSelector data={[{
             title: "Voyageur",
-            items: [
-                {
-                    name: "Adulte",
-                    number: 0,
-                    apiName: "adult"
-                }
-            ]
+            items: [{
+                id: 1,
+                name: "Adulte",
+                number: 0,
+                apiName: "adult",
+            }]
         }]} onChange={handleValueReturn} />);
         
         const minusButton = screen.getByTestId('nbs-item-minus-button');
@@ -167,5 +163,95 @@ describe('NumberSelectorComponent', () => {
 
         expect(handleValueReturn).toHaveBeenCalled();
         expect(handleValueReturn).toHaveBeenCalledTimes(3);
+    });
+
+    it('Should stop increment if max is reached', () => {
+        const handleValueReturn = jest.fn();
+
+        render(<NumberSelector data={[{
+            title: "Voyageur",
+            items: [{
+                id: 1,
+                name: "Adulte",
+                number: 0,
+                max: 5,
+                apiName: "adult"
+            }]
+        }]} onChange={handleValueReturn} />);
+        
+        const plusButton = screen.getByTestId('nbs-item-plus-button');
+        const numberDisplayItem = screen.getByTestId('nbs-item-number');
+
+        fireEvent.click(plusButton);
+        fireEvent.click(plusButton);
+        fireEvent.click(plusButton);
+        fireEvent.click(plusButton);
+        fireEvent.click(plusButton);
+        fireEvent.click(plusButton);
+        fireEvent.click(plusButton);
+        fireEvent.click(plusButton);
+
+        expect(handleValueReturn).toHaveBeenCalled();
+        expect(handleValueReturn).toHaveBeenCalledTimes(5);
+        expect(numberDisplayItem).toHaveTextContent("5");
+        expect(plusButton).toBeDisabled();
+    });
+
+    it('Should stop decrement if min is reached', () => {
+        const handleValueReturn = jest.fn();
+
+        render(<NumberSelector data={[{
+            title: "Voyageur",
+            items: [{
+                id: 1,
+                name: "Adulte",
+                number: 0,
+                min: 1,
+                apiName: "adult"
+            }]
+        }]} onChange={handleValueReturn} />);
+        
+        const plusButton = screen.getByTestId('nbs-item-plus-button');
+        const minusButton = screen.getByTestId('nbs-item-minus-button');
+        const numberDisplayItem = screen.getByTestId('nbs-item-number');
+
+        fireEvent.click(plusButton);
+        fireEvent.click(plusButton);
+
+        fireEvent.click(minusButton);
+        fireEvent.click(minusButton);
+        fireEvent.click(minusButton);
+        fireEvent.click(minusButton);
+
+        expect(handleValueReturn).toHaveBeenCalled();
+        expect(handleValueReturn).toHaveBeenCalledTimes(4);
+        expect(numberDisplayItem).toHaveTextContent("1");
+        expect(minusButton).toBeDisabled();
+    });
+
+    it('Should minus equal 0 unless specified', () => {
+        render(<NumberSelector data={[{
+            title: "Voyageur",
+            items: [{
+                id: 1,
+                name: "Adulte",
+                number: 0,
+                min: -2,
+                apiName: "adult"
+            }]
+        }]} onChange={handleValueReturn} />);
+
+        const minusButton = screen.getByTestId('nbs-item-minus-button');
+        const numberDisplayItem = screen.getByTestId('nbs-item-number');
+
+        expect(minusButton).not.toBeDisabled();
+
+        fireEvent.click(minusButton);
+        fireEvent.click(minusButton);
+        fireEvent.click(minusButton);
+        fireEvent.click(minusButton);
+
+        expect(minusButton).toBeDisabled();
+        expect(numberDisplayItem).toHaveTextContent("-2");
     });
 });
