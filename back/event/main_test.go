@@ -12,7 +12,7 @@ func TestGetEvents(t *testing.T) {
 	// Configuration de Gin et de la route
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
-	router.GET("/events/:location", controllers.GetAccomodationHandler)
+	router.GET("/events/:location", controllers.GetEventsHandler)
 
 	// Test de la requête
 	location := "Nantes"

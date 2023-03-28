@@ -4,6 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetAccomodationHandler(c *gin.Context) {
+func GetAccomodationsHandler(c *gin.Context) {
 
 }

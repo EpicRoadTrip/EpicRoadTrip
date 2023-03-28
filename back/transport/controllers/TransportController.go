@@ -4,6 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetLocationHandler(c *gin.Context) {
+func GetTransportsHandler(c *gin.Context) {
 
 }

@@ -16,7 +16,7 @@ func TestGetAccomodation(t *testing.T) {
 	// Configuration de Gin et de la route
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
-	router.GET("/accommodations/:location", controllers.GetAccomodationHandler)
+	router.GET("/accommodations/:location", controllers.GetAccomodationsHandler)
 
 	// Test de la requête
 	location := "Nantes Radisson"

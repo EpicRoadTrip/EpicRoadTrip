@@ -1,5 +1,5 @@
 package services
 
-func GetLocationById() {
+func GetRestaurants() {
 
 }

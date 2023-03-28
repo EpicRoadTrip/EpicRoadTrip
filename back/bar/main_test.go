@@ -16,7 +16,7 @@ func TestGetBars(t *testing.T) {
 	// Configuration de Gin et de la route
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
-	router.GET("/bars/:location", controllers.GetBarHandler)
+	router.GET("/bars/:location", controllers.GetBarsHandler)
 
 	// Test de la requête
 	location := "Nantes petermccool"

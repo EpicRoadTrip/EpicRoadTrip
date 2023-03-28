@@ -4,6 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetBarHandler(c *gin.Context) {
+func GetBarsHandler(c *gin.Context) {
 
 }
