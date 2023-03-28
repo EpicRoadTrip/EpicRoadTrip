@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetBars(t *testing.T) {
+func TestGetRestaurants(t *testing.T) {
 	// Configuration de Gin et de la route
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
