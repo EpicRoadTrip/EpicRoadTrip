@@ -88,19 +88,22 @@ graph LR
 The API consists of the following endpoints:
 
 ```text
-POST /enjoy - List of existing events and activities.
+GET /events - List of existing events and activities.
 Request body: { "location": "<location>", "constraints": "<constraints>" }
 
-POST /sleep - List of available accommodations.
+GET /accomodations - List of available accommodations.
 Request body: { "location": "<location>", "constraints": "<constraints>" }
 
-POST /travel - List of available transports.
+GET /bars - List of available bars.
 Request body: { "location": "<location>", "constraints": "<constraints>" }
 
-POST /eat - List of available restaurants.
+GET /restaurants - List of available restaurants.
 Request body: { "location": "<location>", "constraints": "<constraints>" }
 
-POST /drink - List of available bars.
+GET /photos - List of available photos.
+Request body: { "location": "<location>", "constraints": "<constraints>" }
+
+GET /transports - List of available transports.
 Request body: { "location": "<location>", "constraints": "<constraints>" }
 ```
 
