@@ -12,6 +12,8 @@
     "coverage": "jest --coverage --collectCoverageFrom=\"./src/**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
+    "@mui/material": "^5.11.14",
+    "@mui/styled-engine-sc": "^5.11.11",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/dom": "^9.2.0",
     "@types/node": "18.14.2",
@@ -23,6 +25,7 @@
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.1",
     "eslint-config-prettier": "^8.6.0",
+    "moment": "^2.29.4",
     "multi-range-slider-react": "^2.0.2",
     "next": "13.2.1",
     "next-redux-wrapper": "^8.1.0",
@@ -34,6 +37,7 @@
     "react-intl": "^6.2.10",
     "react-redux": "^8.0.5",
     "react-select": "^5.7.0",
+    "styled-components": "^5.3.9",
     "typescript": "4.9.5",
     "webpack": "^5.75.0"
   },
