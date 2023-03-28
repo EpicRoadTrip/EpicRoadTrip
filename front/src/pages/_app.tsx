@@ -1,9 +1,14 @@
-import "../../styles/globals.css"
-import type { AppProps } from 'next/app';
-import { wrapper } from '../store/store';
+import '../../styles/globals.css';
 
-function EpicRoadTrip({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
+
+function MyApp({ Component, pageProps, ...rest }) {
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  );
 }
 
-export default wrapper.withRedux(EpicRoadTrip);
+export default MyApp;

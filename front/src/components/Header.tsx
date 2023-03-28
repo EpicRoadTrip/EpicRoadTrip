@@ -1,17 +1,25 @@
 import Link from 'next/link'
 import React from 'react';
 
+import { useAppSelector } from '../store/hook';
+
 export default function Header() {
+    const view = useAppSelector(state => state.view.value);
+    console.log("View: " + view);
 
     React.useEffect(() => {
         const style = document.createElement('style');
         document.head.append(style);
         style.innerText = `
-        .hh-container {
-            height: 40vh;  
+        .hh-container-image {
+            height: 24vh;  
             background-image: url(/assets/images/header-background.jpg);
             background-size: cover;
             background-position: center;
+            width: 100%;
+        }
+        .hh-container-no-image {
+            height: 10vh;  
             width: 100%;
         }
         .hh-top {
@@ -36,7 +44,7 @@ export default function Header() {
     }, []);
 
     return (
-        <header className='hh-container'>
+        <header className={view ? 'hh-container-image' : 'hh-container-no-image'}>
             <div className='hh-top'>
                 <h1 data-testid='h-title' style={{flex: 1, textAlign: 'left', marginLeft: '2%'}}>EpicRoadTrip</h1>
                 <nav style={{flex: 1, textAlign: 'center'}}>

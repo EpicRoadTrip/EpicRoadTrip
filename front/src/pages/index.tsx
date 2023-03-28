@@ -1,28 +1,23 @@
 import React from 'react';
-import Header from '../components/Header';
 import Head from 'next/head';
-import { useRouter } from 'next/navigation';
+
+import Header from '../components/Header';
+import ListView from './view/list';
+import MapView from './view/map';
+
+import { useAppSelector, useAppDispatch } from '../store/hook';
+import { change } from '../store/slices/viewSlice';
 
 export default function Home() {
-  const router = useRouter();
-  const [type, setType] = React.useState<string>('list');
+  const [listView, setListView] = React.useState<boolean>(true);
+  const view = useAppSelector(state => state.view.value);
+  const dispatch = useAppDispatch();
 
-  React.useEffect(() => {
-    if (router.asPath !== '/?type=list' && router.asPath !== '/?type=map') {
-      router.push('/?type=list');
-    } else {
-      setType(router.query.type);
-    }
-  }, [router]);
-
-  let content;
-  if (type === 'list') {
-    content = <div>Contenu de la liste</div>;
-  } else if (type === 'map') {
-    content = <div>Contenu de la carte</div>;
-  } else {
-    content = <div>Chargement...</div>;
+  function handleClick() {
+    setListView(!listView);
+    dispatch(change()); 
   }
+
   return (
     <>
         <Head>
@@ -33,7 +28,8 @@ export default function Home() {
             <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'/>
         </Head>
         <Header />
-        <div>{content}</div>
+        { view ? <p>List</p> : <p>Map</p>}
+        <button onClick={() => {handleClick()}} style={{position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)'}}>Change view</button>
     </>
   )
 }
