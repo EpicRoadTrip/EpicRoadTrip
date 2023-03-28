@@ -65,16 +65,12 @@ graph LR
   A -- REST, JSON --> F[Transport Service]
   A -- REST, JSON --> G[Eat Service]
   A -- REST, JSON --> H[Drink Service]
-  A -- REST, JSON --> J[Printable Service]
-  A -- REST, JSON --> K[Save & Share Service]
   subgraph GCP Cloud Run
     D
     E
     F
     G
     H
-    J
-    K
   end
   D -- REST, JSON --> L[External Event API]
   E -- REST, JSON --> M[External Hotel API]
@@ -88,23 +84,17 @@ graph LR
 The API consists of the following endpoints:
 
 ```text
-GET /events - List of existing events and activities.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /events/:location?constraints - List of existing events and activities.
 
-GET /accomodations - List of available accommodations.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /accomodations/:location?constraints - List of available accommodations.
 
-GET /bars - List of available bars.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /bars/:location?constraints - List of available bars.
 
-GET /restaurants - List of available restaurants.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /restaurants/:location?constraints - List of available restaurants.
 
-GET /photos - List of available photos.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /photos/:ref - List of available photos.
 
-GET /transports - List of available transports.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /transports/:location?constraints - List of available transports.
 ```
 
 Each endpoint accepts a JSON object in the request body containing a location and an optional constraints field. The constraints field can be used to refine the search results according to dates, budget, area, and other constraints.
