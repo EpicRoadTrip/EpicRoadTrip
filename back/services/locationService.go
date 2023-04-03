@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -29,10 +28,11 @@ func GetLocationById(locationId string) (map[string]interface{}, error) {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
+			log.Fatal(err)
 		}
 	}(res.Body)
 
-	body, _ := ioutil.ReadAll(res.Body)
+	body, _ := io.ReadAll(res.Body)
 
 	var data map[string]interface{}
 	err := json.Unmarshal(body, &data)
