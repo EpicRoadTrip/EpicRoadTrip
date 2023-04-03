@@ -13,9 +13,7 @@ func setupRouter() *gin.Engine {
 		c.String(200, "pong")
 	})
 
-	r.GET("/search/:city", controllers.GetSearchHandler)
-	r.GET("/place/:search", controllers.GetPlaceHandler)
-	r.GET("/details/:locationId", controllers.GetLocationHandler)
+	r.GET("/bars/:location", controllers.GetBarsHandler)
 
 	return r
 }

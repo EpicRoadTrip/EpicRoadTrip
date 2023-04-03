@@ -10,7 +10,7 @@ import (
 	"googlemaps.github.io/maps"
 )
 
-func GetBars(location string) ([]models.Bar, error) {
+func GetRestaurants(location string) ([]models.Restaurant, error) {
 	googleKey := config.GetVarEnv()["googleKey"]
 
 	client, err := maps.NewClient(maps.WithAPIKey(googleKey))
@@ -19,7 +19,7 @@ func GetBars(location string) ([]models.Bar, error) {
 	}
 
 	r := &maps.TextSearchRequest{
-		Query: location + " bars",
+		Query: location + " restaurants",
 		//Query: location,
 	}
 
@@ -28,16 +28,16 @@ func GetBars(location string) ([]models.Bar, error) {
 		log.Fatalf("fatal error: %s", err)
 	}
 
-	bars := make([]models.Bar, len(resp.Results))
+	restaurants := make([]models.Restaurant, len(resp.Results))
 	for i, result := range resp.Results {
-		bars[i] = mapPlacesSearchResultToBar(result)
+		restaurants[i] = mapPlacesSearchResultToRestaurant(result)
 	}
 
-	return bars, nil
+	return restaurants, nil
 }
 
-func mapPlacesSearchResultToBar(result maps.PlacesSearchResult) models.Bar {
-	bar := models.Bar{
+func mapPlacesSearchResultToRestaurant(result maps.PlacesSearchResult) models.Restaurant {
+	restaurant := models.Restaurant{
 		PlaceID:  result.PlaceID,
 		Name:     result.Name,
 		Address:  result.FormattedAddress,
@@ -45,10 +45,10 @@ func mapPlacesSearchResultToBar(result maps.PlacesSearchResult) models.Bar {
 	}
 
 	if len(result.Photos) > 0 {
-		bar.Photo = getPhotoURL(result.Photos[0].PhotoReference)
+		restaurant.Photo = getPhotoURL(result.Photos[0].PhotoReference)
 	}
 
-	return bar
+	return restaurant
 }
 
 func getPhotoURL(photoReference string) string {
