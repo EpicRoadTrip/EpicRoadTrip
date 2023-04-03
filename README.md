@@ -1,9 +1,10 @@
-# EPIC ROAD TRIP - DREAM & RIDE
+# EPIC ROAD TRIP
+
+https://epic-road-trip-mu.vercel.app/
 
 ## Table of Contents
 
-- [EPIC ROAD TRIP - DREAM \& RIDE](#epic-road-trip---dream--ride)
-  - [Table of Contents](#table-of-contents)
+  - [Status](#status)
   - [Introduction](#introduction)
   - [User Stories](#user-stories)
   - [Functional Tests](#functional-tests)
@@ -16,6 +17,19 @@
   - [UI / UX](#ui--ux)
   - [Bonus Features](#bonus-features)
   - [Team](#team)
+ 
+## Status
+
+| Workflow | Status | Platform |
+| - | - | - |
+| Backend build | Ubuntu | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EpicRoadTrip/EpicRoadTrip/build-backend.yml)
+| Frontend build | Ubuntu | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EpicRoadTrip/EpicRoadTrip/build-frontend.yml)
+| CodeQL | None | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EpicRoadTrip/EpicRoadTrip/codeql.yml?label=analysis)
+| Coverage | Ubuntu | [![codecov](https://codecov.io/gh/EpicRoadTrip/EpicRoadTrip/branch/main/graph/badge.svg?token=p3qeOnB8X9)](https://codecov.io/gh/EpicRoadTrip/EpicRoadTrip)
+| Lint backend | Ubuntu | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EpicRoadTrip/EpicRoadTrip/lint-backend.yml)
+| Lint frontend | Ubuntu | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EpicRoadTrip/EpicRoadTrip/lint-front.yml)
+| Unit tests frontend | Ubuntu | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EpicRoadTrip/EpicRoadTrip/tests-frontend.yml?label=tests)
+| Unit tests backend | Ubuntu | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EpicRoadTrip/EpicRoadTrip/tests-backend.yml?label=tests)
 
 ## Introduction
 
