@@ -1,4 +1,4 @@
-name: Tests frontend
+name: Lint frontend
 on:
   push:
     branches:
@@ -10,10 +10,9 @@ on:
     - develop
 
 jobs:
-  test:
-
+  lint:
     runs-on: ubuntu-latest
-
+    
     defaults:
       run:
         working-directory: front
@@ -27,5 +26,6 @@ jobs:
           run_install: |
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
-
-      - run: pnpm run test
+      
+      - name: Run lint
+        run: pnpm run lint
