@@ -16,6 +16,8 @@ export default function InputDateRangePicker() {
 
   const ref = React.useRef(null)
   const [isDropdownOpen, setDropdownOpen] = React.useState(false)
+  const [dateStart, setDateStart] = React.useState<moment.Moment | null>(null)
+  const [dateEnd, setDateEnd] = React.useState<moment.Moment | null>(null)
 
   function dateHeaderDiplay(): JSX.Element {
     if (dateStore.isDateSet) {
@@ -66,24 +68,24 @@ export default function InputDateRangePicker() {
               <div className={styles.idrpBodyHeaderDateDisplay}>
                 <p className={styles.idrpBodyHeaderDateDisplayTitle}>Start date</p>
                 <div className={styles.idrpBodyHeaderDateFormat}>
-                  <span className={styles.idrpBodyHeaderDateFormatDayLetter}>12</span>
-                  <span className={styles.idrpBodyHeaderDateFormatMonthYear}>may 2023</span>
-                  <span className={styles.idrpBodyHeaderDateFormatDayName}>Friday</span>
+                  <span className={styles.idrpBodyHeaderDateFormatDayLetter}>{ dateStart ? dateStart.format("DD") : ""  } </span>
+                  <span className={styles.idrpBodyHeaderDateFormatMonthYear}>{ dateStart ? dateStart.format("MMMM YYYY") : ""}</span>
+                  <span className={styles.idrpBodyHeaderDateFormatDayName}>{ dateStart ? dateStart.format("dddd") : "" }</span>
                 </div>
               </div>
               <EastIcon fontSize="large" color='primary' />
               <div className={styles.idrpBodyHeaderDateDisplay}>
                 <p className={styles.idrpBodyHeaderDateDisplayTitle}>End date</p>
                 <div className={styles.idrpBodyHeaderDateFormat}>
-                  <span className={styles.idrpBodyHeaderDateFormatDayLetter}>12</span>
-                  <span className={styles.idrpBodyHeaderDateFormatMonthYear}>may 2023</span>
-                  <span className={styles.idrpBodyHeaderDateFormatDayName}>Friday</span>
+                <span className={styles.idrpBodyHeaderDateFormatDayLetter}>{ dateEnd ? dateEnd.format("DD") : ""  } </span>
+                  <span className={styles.idrpBodyHeaderDateFormatMonthYear}>{ dateEnd ? dateEnd.format("MMMM YYYY") : ""}</span>
+                  <span className={styles.idrpBodyHeaderDateFormatDayName}>{ dateEnd ? dateEnd.format("dddd") : "" }</span>
                 </div>
               </div>
             </div>
             <div className={styles.idrpBodyCalendar}>
-              <DateCalendar />
-              <DateCalendar />
+              <DateCalendar value={dateStart} onChange={(newValue) => setDateStart(newValue)} maxDate={dateEnd} />
+              <DateCalendar value={dateEnd} onChange={(newValue) => setDateEnd(newValue)} minDate={dateStart} disabled={dateStart === null} disableHighlightToday={dateStart === null} />
             </div>
             <div className={styles.idrpBodyFooter}>
               <ChakraProvider>
