@@ -40,6 +40,15 @@ export default function InputDateRangePicker() {
     }
   }
 
+  function handleCancel() {
+    if (dateEnd !== null || dateStart !== null) {
+      setDateStart(null)
+      setDateEnd(null)
+    } else {
+      setDropdownOpen(false)
+    }
+  }
+
   useOutsideClick({
     ref: ref,
     handler: () => setDropdownOpen(false),
@@ -89,7 +98,7 @@ export default function InputDateRangePicker() {
             </div>
             <div className={styles.idrpBodyFooter}>
               <ChakraProvider>
-                <Button variant="outline" colorScheme="gray">
+                <Button variant="outline" colorScheme="gray" onClick={() => handleCancel()}>
                   Cancel
                 </Button>
                 <Button colorScheme="blue">Choose dates</Button>
@@ -97,7 +106,6 @@ export default function InputDateRangePicker() {
             </div>
           </>
         ) : <></>}
-
       </div>
     </div>
   )
