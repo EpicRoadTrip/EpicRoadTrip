@@ -24,10 +24,10 @@ export default function InputDateRangePicker() {
       return (
         <>
           <p className={styles.idrpHeaderStartDate}>
-            {moment(dateStore.start).format('D/MM/yyyy')}
+            {moment(dateStore.start).format('DD/MM/yyyy')}
           </p>
           <ArrowForwardIcon />
-          <p className={styles.idrpHeaderEndDate}>{moment(dateStore.end).format('D/MM/yyyy')}</p>
+          <p className={styles.idrpHeaderEndDate}>{moment(dateStore.end).format('DD/MM/yyyy')}</p>
         </>
       )
     }
@@ -58,10 +58,10 @@ export default function InputDateRangePicker() {
     <div className={styles.idrpContainer}>
       <div className={styles.idrpHeader} onClick={() => handleDropdownOpen()}>
         <div className={styles.idrpHeaderTitleContainer}>
-          <h3 className={styles.idrpHeaderTitle}>Date</h3>
+          <h4 className={styles.idrpHeaderTitle}>Date</h4>
           <ChevronDownIcon />
         </div>
-        <div className={styles.idrpHeaderDateContainer}>
+        <div className={`${styles.idrpHeaderDateContainer} ${dateStore.isDateSet ? styles.dateSet : ''}`}>
           {/* Add condition on display */}
           {dateHeaderDiplay()}
         </div>
