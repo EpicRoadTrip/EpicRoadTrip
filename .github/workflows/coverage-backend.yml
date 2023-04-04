@@ -2,27 +2,31 @@ name: Code coverage backend
 on:
   push:
     branches:
-    - main
-    - develop
+      - main
+      - develop
   pull_request:
     branches:
-    - main
-    - develop
+      - main
+      - develop
+
 jobs:
   coverage:
-
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go_directory:
+          ["accomodation", "bar", "event", "photo", "restaurant", "transport"]
 
     defaults:
       run:
-        working-directory: back
+        working-directory: back/${{ matrix.go_directory }}
 
     steps:
       - uses: actions/checkout@v3
 
       - uses: actions/setup-go@v4
         with:
-          go-version: '^1.20.2'
+          go-version: "^1.20.2"
 
       - run: go test -race -coverprofile=coverage.out -covermode=atomic
 
@@ -30,3 +34,4 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           flags: backend
+          file: back/${{ matrix.go_directory }}/coverage.out
