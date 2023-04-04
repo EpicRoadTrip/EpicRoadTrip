@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 
 	"googlemaps.github.io/maps"
 )
@@ -17,6 +18,8 @@ func GetAccomodations(location string) ([]models.Accommodation, error) {
 	if err != nil {
 		log.Fatalf("fatal error: %s", err)
 	}
+
+	location = strings.ReplaceAll(location, " ", "-")
 
 	r := &maps.TextSearchRequest{
 		Query: location + " logement hotel",
