@@ -22,15 +22,15 @@ export default function InputDateRangePicker() {
     if (dateStore.isDateSet) {
       return (
         <>
-          <p className={styles.idrpHeaderStartDate}>
+          <p className={styles.idrpHeaderStartDate} data-testid="idrp-header-start-date">
             {moment(dateStore.start).format('DD/MM/yyyy')}
           </p>
           <ArrowForwardIcon />
-          <p className={styles.idrpHeaderEndDate}>{moment(dateStore.end).format('DD/MM/yyyy')}</p>
+          <p className={styles.idrpHeaderEndDate} data-testid="idrp-header-end-date">{moment(dateStore.end).format('DD/MM/yyyy')}</p>
         </>
       )
     }
-    return <p className={styles.idrpHeaderChooseDate}>Choose date</p>
+    return <p className={styles.idrpHeaderChooseDate} data-testid="idrp-header-choose-date">Choose date</p>
   }
 
   function handleDropdownOpen() {
@@ -64,53 +64,53 @@ export default function InputDateRangePicker() {
   })
 
   return (
-    <div className={styles.idrpContainer}>
-      <div className={styles.idrpHeader} onClick={() => handleDropdownOpen()}>
-        <div className={styles.idrpHeaderTitleContainer}>
-          <h4 className={styles.idrpHeaderTitle}>Date</h4>
+    <div className={styles.idrpContainer} data-testid="idrp-container">
+      <div className={styles.idrpHeader} onClick={() => handleDropdownOpen()} data-testid="idrp-header">
+        <div className={styles.idrpHeaderTitleContainer} data-testid="idrp-header-title-container">
+          <h4 className={styles.idrpHeaderTitle} data-testid="idrp-header-title">Date</h4>
           <ChevronDownIcon />
         </div>
-        <div className={`${styles.idrpHeaderDateContainer} ${dateStore.isDateSet ? styles.dateSet : ''}`}>
+        <div className={`${styles.idrpHeaderDateContainer} ${dateStore.isDateSet ? styles.dateSet : ''}`} data-testid="idrp-header-date-container">
           {/* Add condition on display */}
           {dateHeaderDiplay()}
         </div>
         <span
-          className={`${styles.idrpHeaderCalendarIcon} ${dateStore.isDateSet ? styles.dateSet : ''}`}>
+          className={`${styles.idrpHeaderCalendarIcon} ${dateStore.isDateSet ? styles.dateSet : ''}`} data-testid="idrp-header-calendar-icon">
           <CalendarIcon fontSize={dateStore.isDateSet ? 15 : 25} />
         </span>
       </div>
-      <div ref={ref} className={`${styles.idrpBody} ${isDropdownOpen ? styles.activated : ""}`}>
+      <div ref={ref} className={`${styles.idrpBody} ${isDropdownOpen ? styles.activated : ""}`} data-testid="idrp-body">
         {isDropdownOpen ? (
           <>
-            <div className={styles.idrpBodyHeader}>
-              <div className={styles.idrpBodyHeaderDateDisplay}>
-                <p className={styles.idrpBodyHeaderDateDisplayTitle}>Start date</p>
-                <div className={styles.idrpBodyHeaderDateFormat}>
-                  <span className={styles.idrpBodyHeaderDateFormatDayLetter}>{ dateStart ? dateStart.format("DD") : ""  } </span>
-                  <span className={styles.idrpBodyHeaderDateFormatMonthYear}>{ dateStart ? dateStart.format("MMMM YYYY") : ""}</span>
-                  <span className={styles.idrpBodyHeaderDateFormatDayName}>{ dateStart ? dateStart.format("dddd") : "" }</span>
+            <div className={styles.idrpBodyHeader} data-testid="idrp-body-header">
+              <div className={styles.idrpBodyHeaderDateDisplay} data-testid="idrp-body-header-date-display">
+                <p className={styles.idrpBodyHeaderDateDisplayTitle} data-testid="idrp-body-header-date-displayTitle">Start date</p>
+                <div className={styles.idrpBodyHeaderDateFormat} data-testid="idrp-body-header-date-format">
+                  <span className={styles.idrpBodyHeaderDateFormatDayLetter} data-testid="idrp-body-header-date-format-day-letter">{ dateStart ? dateStart.format("DD") : ""  } </span>
+                  <span className={styles.idrpBodyHeaderDateFormatMonthYear} data-testid="idrp-body-header-date-format-month-year">{ dateStart ? dateStart.format("MMMM YYYY") : ""}</span>
+                  <span className={styles.idrpBodyHeaderDateFormatDayName} data-testid="idrp-body-header-date-format-day-name">{ dateStart ? dateStart.format("dddd") : "" }</span>
                 </div>
               </div>
               <EastIcon fontSize="large" color='primary' />
-              <div className={styles.idrpBodyHeaderDateDisplay}>
-                <p className={styles.idrpBodyHeaderDateDisplayTitle}>End date</p>
-                <div className={styles.idrpBodyHeaderDateFormat}>
-                <span className={styles.idrpBodyHeaderDateFormatDayLetter}>{ dateEnd ? dateEnd.format("DD") : ""  } </span>
-                  <span className={styles.idrpBodyHeaderDateFormatMonthYear}>{ dateEnd ? dateEnd.format("MMMM YYYY") : ""}</span>
-                  <span className={styles.idrpBodyHeaderDateFormatDayName}>{ dateEnd ? dateEnd.format("dddd") : "" }</span>
+              <div className={styles.idrpBodyHeaderDateDisplay} data-testid="idrp-body-header-date-display">
+                <p className={styles.idrpBodyHeaderDateDisplayTitle} data-testid="idrp-body-header-date-display-title">End date</p>
+                <div className={styles.idrpBodyHeaderDateFormat} data-testid="idrp-body-header-date-format">
+                <span className={styles.idrpBodyHeaderDateFormatDayLetter} data-testid="idrp-body-header-date-format-day-letter">{ dateEnd ? dateEnd.format("DD") : ""  } </span>
+                  <span className={styles.idrpBodyHeaderDateFormatMonthYear} data-testid="idrp-body-header-date-format-month-year">{ dateEnd ? dateEnd.format("MMMM YYYY") : ""}</span>
+                  <span className={styles.idrpBodyHeaderDateFormatDayName} data-testid="idrp-body-header-date-format-day-name">{ dateEnd ? dateEnd.format("dddd") : "" }</span>
                 </div>
               </div>
             </div>
-            <div className={styles.idrpBodyCalendar}>
+            <div className={styles.idrpBodyCalendar} data-testid="idrp-body-calendar">
               <DateCalendar value={dateStart} onChange={(newValue) => setDateStart(newValue)} maxDate={dateEnd} />
               <DateCalendar value={dateEnd} onChange={(newValue) => setDateEnd(newValue)} minDate={dateStart} disabled={dateStart === null} disableHighlightToday={dateStart === null} />
             </div>
-            <div className={styles.idrpBodyFooter}>
+            <div className={styles.idrpBodyFooter} data-testid="idrp-body-footer">
               <ChakraProvider>
-                <Button variant="outline" colorScheme="gray" onClick={() => handleCancel()}>
+                <Button variant="outline" colorScheme="gray" onClick={() => handleCancel()} data-testid='idrp-body-footer-button-cancel'>
                   Cancel
                 </Button>
-                <Button colorScheme="blue" onClick={handleChangeDate} isDisabled={!dateStart || !dateEnd}>Choose dates</Button>
+                <Button colorScheme="blue" onClick={handleChangeDate} isDisabled={!dateStart || !dateEnd} data-testid='idrp-body-footer-button-select'>Choose dates</Button>
               </ChakraProvider>
             </div>
           </>
