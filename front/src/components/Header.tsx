@@ -1,49 +1,58 @@
 import Link from 'next/link'
 import React from 'react';
 
+import { useAppSelector } from '../store/hook';
+
 export default function Header() {
-    return (
-        <>
-            <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'/>
-            <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'/>
-            <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png' width='100%'/>
-        <header className='hh-container'>
-            <div/>
-            <h1 data-testid='h-title' style={{fontFamily: 'Inter', flex: 1, textAlign: 'left'}}>EpicRoadTrip</h1>
-            <nav style={{flex: 1, textAlign: 'center'}}>
-                <Link href='/' className='.hh-nav-item' data-testid='h-nav-home'>Home</Link>
-                <Link href='/about' className='.hh-nav-item' data-testid='h-nav-about'>About us</Link>
-                <Link href='/destinations' className='.hh-nav-item' data-testid='h-nav-destinations'>Destinations</Link>
-            </nav>
-            <p style={{flex: 1, textAlign: 'right'}} data-testid='h-copyright'>Copryright 2023</p>
-        </header>
-        </>
-    )
-}
-
-if (typeof window !== 'undefined') {
-    const style = document.createElement('style');
-    document.head.append(style);
-
-    style.innerText = `
-        .hh-container {
-            backdrop-filter: blur(10px);
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            height: 60px;
+    const view = useAppSelector(state => state.view.value);
+    console.log("View: " + view);
+    React.useEffect(() => {
+        const style = document.createElement('style');
+        document.head.append(style);
+        style.innerText = `
+        .hh-container-image {
+            height: ${(window.innerHeight/100)*20}px;  
+            background-image: url(/assets/images/header-background.jpg);
+            background-size: cover;
+            background-position: center;
+            width: ${window.innerWidth}px;
+        }
+        .hh-container-no-image {
+            height: ${(window.innerHeight/100)*10}px;  
+            width: ${window.innerWidth}px;
+        }
+        .hh-top {
             display: flex;
-            justify-content: space-between;
+            width: 100%;
+            height: 30%;
+            backdrop-filter: blur(10px);
+            font-family: 'Montserrat';
+            justify-content: center;
+            flex-direction: row;
             align-items: center;
-            padding: 0 20px;
-            box-sizing: border-box;
+        }
+        .hh-title {
+            flex: 1;
+            text-align: left;
+            margin-left: 2%;
         }
         .hh-nav-item {
-            font-family: 'Montserrat';
-            color: black;
-            text-decoration: 'none';
-            margin-left: '2%';
+            font-size: 150px;
         }
-    `
+        `
+    }, []);
+
+    return (
+        <header className={view ? 'hh-container-image' : 'hh-container-no-image'}>
+            <div className='hh-top'>
+                <h1 data-testid='h-title' style={{flex: 1, textAlign: 'left', marginLeft: '2%'}}>EpicRoadTrip</h1>
+                <nav style={{flex: 1, textAlign: 'center'}}>
+                    <Link href='/' style={{marginRight: '1%'}} data-testid='h-nav-home'>Home</Link>
+                    <Link href='/about' data-testid='h-nav-about'>About us</Link>
+                    <Link href='/destinations' data-testid='h-nav-destinations' style={{marginLeft: '1%'}}>Destinations</Link>
+                </nav>
+                <div style={{flex: 1, textAlign: 'right', marginRight: '2%'}} data-testid='h-copyright'>Copryright 2023</div>
+            </div>
+        </header>
+    )
 }
