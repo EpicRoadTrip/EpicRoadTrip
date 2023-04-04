@@ -7,17 +7,16 @@ import { useAppSelector, useAppDispatch } from '../store/hook'
 import moment from 'moment'
 import { useOutsideClick } from '@chakra-ui/react';
 import { DateCalendar } from '@mui/x-date-pickers'
-// import { addStartDate, addEndDate } from '../store/slices/dateSearchSlice';
+import { addStartDate, addEndDate } from '../store/slices/dateSearchSlice';
 
 export default function InputDateRangePicker() {
   const dateStore = useAppSelector(state => state.dateSearch)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useAppDispatch()
 
   const ref = React.useRef(null)
   const [isDropdownOpen, setDropdownOpen] = React.useState(false)
-  const [dateStart, setDateStart] = React.useState<moment.Moment | null>(null)
-  const [dateEnd, setDateEnd] = React.useState<moment.Moment | null>(null)
+  const [dateStart, setDateStart] = React.useState<moment.Moment | null>(dateStore.start !== null ? moment(dateStore.start) : dateStore.start)
+  const [dateEnd, setDateEnd] = React.useState<moment.Moment | null>(dateStore.end !== null ? moment(dateStore.end) : dateStore.end)
 
   function dateHeaderDiplay(): JSX.Element {
     if (dateStore.isDateSet) {
@@ -42,10 +41,20 @@ export default function InputDateRangePicker() {
 
   function handleCancel() {
     if (dateEnd !== null || dateStart !== null) {
-      setDateStart(null)
-      setDateEnd(null)
+      setDateStart(null);
+      setDateEnd(null);
     } else {
       setDropdownOpen(false)
+    }
+  }
+
+  function handleChangeDate() {
+    if (dateStart!== null && dateEnd!== null) {
+      dispatch(addStartDate(dateStart.toISOString()));
+      dispatch(addEndDate(dateEnd.toISOString()));
+      if (dateStore.isDateSet) {
+        setDropdownOpen(false);
+      }
     }
   }
 
@@ -101,7 +110,7 @@ export default function InputDateRangePicker() {
                 <Button variant="outline" colorScheme="gray" onClick={() => handleCancel()}>
                   Cancel
                 </Button>
-                <Button colorScheme="blue">Choose dates</Button>
+                <Button colorScheme="blue" onClick={handleChangeDate} isDisabled={!dateStart || !dateEnd}>Choose dates</Button>
               </ChakraProvider>
             </div>
           </>
