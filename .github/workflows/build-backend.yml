@@ -29,7 +29,7 @@ jobs:
 
       - name: Compile Go code
         run: |
-          cd ${{ matrix.go_directory }}
+          cd back/${{ matrix.go_directory }}
           go mod tidy
           go build -v -o my_binary
 
