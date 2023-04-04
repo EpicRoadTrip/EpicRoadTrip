@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         go_directory:
-          ["accomodation", "bar", "event", "photo", "restaurant", "transport"]
+          ["accommodation", "bar", "event", "photo", "restaurant", "transport"]
 
     defaults:
       run:
