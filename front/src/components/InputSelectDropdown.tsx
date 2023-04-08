@@ -1,8 +1,8 @@
 import {
   IInputSelectDropdown,
   ISelectedInputDropdownData,
-} from '@/public/interfaces/input-select-dropdown'
-import { Checkbox, Input, useOutsideClick } from '@chakra-ui/react'
+} from '@interfaces/input-select-dropdown';
+import { ChakraProvider, Checkbox, Input, useOutsideClick } from '@chakra-ui/react'
 import { Tag, TagCloseButton, TagLabel } from '@chakra-ui/react'
 import React from 'react'
 import styles from './style/InputSelectDropdown.module.css'
@@ -12,6 +12,7 @@ export default function InputSelectDropdown({
   selectedData,
   onSelectedChange,
   inputPlaceholder,
+  className,
 }: IInputSelectDropdown) {
   const ref = React.useRef(null)
   const searchInputRef = React.useRef<HTMLInputElement>(null)
@@ -67,63 +68,65 @@ export default function InputSelectDropdown({
   })
 
   return (
-    <div
-      ref={ref}
-      className={styles.isdContainer}
-      data-testid="isd-container"
-      onClick={handleOpenDropdown}>
+    <ChakraProvider>
       <div
-        className={`${styles.isdHeader} ${isDropdownOpen ? styles.active : ''}`}
-        data-testid="isd-header">
-        <div className={styles.isdChipContainer} data-testid="isd-display-chip-container">
-          {formattedSelectedData.map(selectedItem => (
-            <Tag
-              key={selectedItem.id}
-              borderRadius="full"
-              data-testid="isd-tag"
-              colorScheme="facebook">
-              <TagLabel>{selectedItem.name}</TagLabel>
-              <TagCloseButton
-                onClick={() => handleSelectedData(selectedItem, false)}
-                data-testid="isd-tag-close"
-              />
-            </Tag>
-          ))}
+        ref={ref}
+        className={`${styles.isdContainer} ${className}`}
+        data-testid="isd-container"
+        onClick={handleOpenDropdown}>
+        <div
+          className={`${styles.isdHeader} ${isDropdownOpen ? styles.active : ''}`}
+          data-testid="isd-header">
+          <div className={styles.isdChipContainer} data-testid="isd-display-chip-container">
+            {formattedSelectedData.map(selectedItem => (
+              <Tag
+                key={selectedItem.id}
+                borderRadius="full"
+                data-testid="isd-tag"
+                colorScheme="facebook">
+                <TagLabel>{selectedItem.name}</TagLabel>
+                <TagCloseButton
+                  onClick={() => handleSelectedData(selectedItem, false)}
+                  data-testid="isd-tag-close"
+                />
+              </Tag>
+            ))}
+          </div>
+          <Input
+            type="text"
+            variant="unstyled"
+            borderRadius="none"
+            ref={searchInputRef}
+            onChange={e => search(e.currentTarget.value)}
+            placeholder={inputPlaceholder ? inputPlaceholder : 'Select a type'}
+            className={`${styles.isdInputSearch} ${
+              formattedSelectedData.length > 0 && !isDropdownOpen ? styles.closeSelectedActive : ''
+            }`}
+            data-testid="isd-input-search"
+          />
         </div>
-        <Input
-          type="text"
-          variant="unstyled"
-          borderRadius="none"
-          ref={searchInputRef}
-          onChange={e => search(e.currentTarget.value)}
-          placeholder={inputPlaceholder ? inputPlaceholder : 'Select a type'}
-          className={`${styles.isdInputSearch} ${
-            formattedSelectedData.length > 0 && !isDropdownOpen ? styles.closeSelectedActive : ''
-          }`}
-          data-testid="isd-input-search"
-        />
+        <div
+          className={`${styles.isdBody} ${isDropdownOpen ? styles.active : ''}`}
+          data-testid="isd-body">
+          {formattedData.length > 0 ? (
+            formattedData.map(item => (
+              <Checkbox
+                key={item.id}
+                className={styles.isdBodyItem}
+                data-testid="isd-checkbox"
+                isChecked={isInputSelected(item)}
+                defaultChecked={isInputSelected(item)}
+                onChange={e => handleSelectedData(item, e.currentTarget.checked)}>
+                {item.name}
+              </Checkbox>
+            ))
+          ) : (
+            <span className={styles.isdNoDataMessage}>
+              Aucune données disponible{searchInputRef.current?.value ? ' pour la recherche' : ''}
+            </span>
+          )}
+        </div>
       </div>
-      <div
-        className={`${styles.isdBody} ${isDropdownOpen ? styles.active : ''}`}
-        data-testid="isd-body">
-        {formattedData.length > 0 ? (
-          formattedData.map(item => (
-            <Checkbox
-              key={item.id}
-              className={styles.isdBodyItem}
-              data-testid="isd-checkbox"
-              isChecked={isInputSelected(item)}
-              defaultChecked={isInputSelected(item)}
-              onChange={e => handleSelectedData(item, e.currentTarget.checked)}>
-              {item.name}
-            </Checkbox>
-          ))
-        ) : (
-          <span className={styles.isdNoDataMessage}>
-            Aucune données disponible{searchInputRef.current?.value ? ' pour la recherche' : ''}
-          </span>
-        )}
-      </div>
-    </div>
+    </ChakraProvider>
   )
 }

@@ -8,8 +8,9 @@ import moment from 'moment'
 import { useOutsideClick } from '@chakra-ui/react';
 import { DateCalendar } from '@mui/x-date-pickers'
 import { addStartDate, addEndDate } from '../store/slices/dateSearchSlice';
+import { IInputDateRangePicker } from '@interfaces/input-date-range-picker';
 
-export default function InputDateRangePicker() {
+export default function InputDateRangePicker({className}: IInputDateRangePicker) {
   const dateStore = useAppSelector(state => state.dateSearch)
   const dispatch = useAppDispatch()
 
@@ -64,7 +65,7 @@ export default function InputDateRangePicker() {
   })
 
   return (
-    <div className={styles.idrpContainer} data-testid="idrp-container">
+    <div className={`${styles.idrpContainer} ${className ?? ''}`} data-testid="idrp-container">
       <div className={styles.idrpHeader} onClick={() => handleDropdownOpen()} data-testid="idrp-header">
         <div className={styles.idrpHeaderTitleContainer} data-testid="idrp-header-title-container">
           <h4 className={styles.idrpHeaderTitle} data-testid="idrp-header-title">Date</h4>
