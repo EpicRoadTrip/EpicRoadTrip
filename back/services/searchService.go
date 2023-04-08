@@ -27,6 +27,7 @@ func GetSearchByCity(city string) ([]models.Search, error) {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
+			panic(err)
 		}
 	}(res.Body)
 

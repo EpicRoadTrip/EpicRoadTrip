@@ -1,0 +1,133 @@
+.nbsContainer {
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.nbsContainer .nbsTitle {
+    margin: 0;
+    font-weight: 600;
+    color: #001233;
+    font-family: 'Poppins';
+}
+
+.nbsContainer .nbsBody {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 2px solid #001233;
+    display: flex;
+    flex-direction: column;
+}
+
+.nbsBody .nbsBodyItem {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nbsBodyItem:not(.nbsBodyItem:last-of-type) {
+    border-bottom: 2px solid #979DAC;
+}
+
+.nbsBodyItem .nbsBodyItemName {
+    margin: 0;
+    font-size: large;
+    font-weight: 600;
+    font-family: 'Montserrat';
+    text-transform: capitalize;
+}
+
+.nbsBodyItem .nbsBodyItemActions {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nbsBodyItemActions .nbsItemNumber {
+    color: #001233;
+    font-weight: 600;
+    font-size: 18px;
+    font-family: 'Montserrat';
+} 
+
+.nbsPlusButton {
+    border: 2px solid #001233;
+    background-color: #001233;
+    font-size: 10px;
+    height: 2.5em;
+    width: 2.5em;
+    border-radius: 999px;
+    position: relative;
+}
+
+.nbsPlusButton:after,
+.nbsPlusButton:before {
+    content: "";
+    display: block;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.nbsPlusButton:before {
+    height: 1em;
+    width: 0.2em;
+}
+
+.nbsPlusButton:after {
+    height: 0.2em;
+    width: 1em;
+}
+
+.nbsPlusButton:disabled {
+    border-color: #979DAC;
+    background-color: transparent;
+}
+
+.nbsPlusButton:disabled:after,
+.nbsPlusButton:disabled:before {
+    background-color: #979DAC;
+}
+
+.nbsMinusButton {
+    border: 2px solid #001233;
+    background-color: #001233;
+    font-size: 10px;
+    height: 2.5em;
+    width: 2.5em;
+    border-radius: 999px;
+    position: relative;
+}
+
+.nbsMinusButton:after {
+    content: "";
+    display: block;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 0.2em;
+    width: 1em;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+}
+
+.nbsMinusButton:disabled {
+    border-color: #979DAC;
+    background-color: transparent;
+}
+
+.nbsMinusButton:disabled:after {
+    background-color: #979DAC;
+}
+
+.nbsPlusButton:not(:disabled),
+.nbsMinusButton:not(:disabled) {
+    cursor: pointer;
+}
