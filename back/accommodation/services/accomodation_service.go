@@ -14,11 +14,6 @@ import (
 
 const BASE_URL = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400"
 
-type MapsClient interface {
-	TextSearch(context.Context, *maps.TextSearchRequest) ([]maps.PlacesSearchResult, error)
-	PlaceDetails(context.Context, *maps.PlaceDetailsRequest) (*maps.PlaceDetailsResult, error)
-}
-
 var mapsClient *maps.Client
 
 func init() {

@@ -7,6 +7,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
+// @BasePath /accomodations
+// @Router /accomodations/{location} [get]
+// @Summary Get accomodations
+// @Description Get accomodations
+// @Accept  json
+// @Produce  json
+// @Param location path string true "Location"
+// @Success 200 {object} models.Accommodation
+// @Failure 404
+// @Failure 500
 func GetAccomodationHandler(c *gin.Context) {
 	location := c.Param("location")
 
