@@ -49,7 +49,7 @@ export default function InputDateRangePicker() {
   }
 
   function handleChangeDate() {
-    if (dateStart!== null && dateEnd!== null) {
+    if (dateStart !== null && dateEnd !== null) {
       dispatch(addStartDate(dateStart.toISOString()));
       dispatch(addEndDate(dateEnd.toISOString()));
       if (dateStore.isDateSet) {
