@@ -96,16 +96,13 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  margin: 0;
 }
 
 body {
+  min-height: 100vh!important;
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: #fff!important;
 }
 
 a {
