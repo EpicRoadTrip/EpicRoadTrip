@@ -11,31 +11,30 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
-let store;
-let persistor;
-
-function createTestStore() {
-    const persistConfig = {
-        key: 'root',
-        storage,
-    }
-    const persistedDateSearchReducer = persistReducer(persistConfig, dateSearchSlice);
-    const store = configureStore({
-        reducer: {
-            dateSearch: persistedDateSearchReducer
-        },
-        middleware: [thunk]
-    });
-    persistor = persistStore(store);
-    return store;
-}
-
-
-
 describe('Date Range Picker', () => {
+    let store;
+    let persistor;
+
+    function createTestStore() {
+        const persistConfig = {
+            key: 'root',
+            storage,
+        }
+        const persistedDateSearchReducer = persistReducer(persistConfig, dateSearchSlice);
+        const store = configureStore({
+            reducer: {
+                dateSearch: persistedDateSearchReducer
+            },
+            middleware: [thunk]
+        });
+        persistor = persistStore(store);
+        return store;
+    }
+
     beforeEach(() => {
         store = createTestStore();
     });
+
     afterEach(cleanup);
 
     it('Renders correctly', async () => {
@@ -136,5 +135,67 @@ describe('Date Range Picker', () => {
         fireEvent.click(cancelButton);
 
         expect(screen.getByTestId('idrp-body')).toBeEmptyDOMElement();
+    });
+
+    it('Should reset date if date is selected', async () => {
+        render(
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+                <Provider store={store}>
+                    <PersistGate loading={null} persistor={persistor}>
+                        <InputDateRangePicker />
+                    </PersistGate>
+                </Provider>
+            </LocalizationProvider>
+        );
+        const header = screen.getByTestId('idrp-header');
+        fireEvent.click(header);
+
+        const cancelButton = screen.getByTestId('idrp-body-footer-button-cancel');
+        const selectButton = screen.getByTestId('idrp-body-footer-button-select');
+        const calendarButton1 = (await screen.findAllByText("7"))[0];
+        const calendarButton2 = (await screen.findAllByText("14"))[1];
+
+
+        waitFor(() => {
+            fireEvent.click(calendarButton1);
+            fireEvent.click(calendarButton2);
+            expect(selectButton).toBeEnabled();
+        });
+
+        fireEvent.click(cancelButton);
+
+        expect(selectButton).toBeDisabled();
+    });
+
+    it('Should close dropdown if date is selected', async () => {
+        render(
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+                <Provider store={store}>
+                    <PersistGate loading={null} persistor={persistor}>
+                        <InputDateRangePicker />
+                    </PersistGate>
+                </Provider>
+            </LocalizationProvider>
+        );
+        const header = screen.getByTestId('idrp-header');
+        const body = screen.getByTestId('idrp-body');
+        fireEvent.click(header);
+
+        const selectButton = screen.getByTestId('idrp-body-footer-button-select');
+        const calendarButton1 = (await screen.findAllByText("7"))[0];
+        const calendarButton2 = (await screen.findAllByText("14"))[1];
+
+
+        waitFor(() => {
+            fireEvent.click(calendarButton1);
+            fireEvent.click(calendarButton2);
+            expect(selectButton).toBeEnabled();
+        });
+
+        fireEvent.click(selectButton);
+
+        waitFor(() => {
+            expect(body).toBeEmptyDOMElement();
+        });
     });
 });
