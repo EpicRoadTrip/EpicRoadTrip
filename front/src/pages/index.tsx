@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import ListRoundedIcon from '@mui/icons-material/ListRounded';
 import MapRoundedIcon from '@mui/icons-material/MapRounded';
-import Header from '../components/Header';
+
 import { useAppSelector, useAppDispatch } from '../store/hook';
 import { change } from '../store/slices/viewSlice';
 import { Button, ChakraProvider } from '@chakra-ui/react';
@@ -25,7 +25,6 @@ export default function Home() {
             <title>EpicRoadTrip | Welcome !</title>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
-        <Header />
         <div style={{overflow: 'hidden'}}>
           {view ? <ListView/> : <MapView/>}
         </div>
