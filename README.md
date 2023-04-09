@@ -22,6 +22,10 @@ https://epic-road-trip-mu.vercel.app/
 
 ## Status
 
+Frontend deployment: <https://epic-road-trip-mu.vercel.app/>
+
+Gateway deployment: <http://163.172.137.43/>
+
 | Workflow | Status | Platform |
 | - | - | - |
 | Backend build | Ubuntu | ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EpicRoadTrip/EpicRoadTrip/build-backend.yml)
