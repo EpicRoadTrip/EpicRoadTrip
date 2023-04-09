@@ -24,7 +24,7 @@ export default function ListView() {
     }, [apiStore.data.length, dispatch, isDataLoaded, searchStore.searchValue, isRequestLaunched]);
     
     return (
-        <div className={styles.lContainer}>
+        <div className={styles.lContainer} data-testid='iv-list'>
             {
                 apiStore.data.map((item) => (
                     <div key={item.id} className={styles.lItem}>
