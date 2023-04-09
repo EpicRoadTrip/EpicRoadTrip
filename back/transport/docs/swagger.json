@@ -1,0 +1,53 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/transports/": {
+            "get": {
+                "description": "Get transports",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get transports",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Transport"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Transport": {
+            "type": "object",
+            "properties": {
+                "bicycl": {
+                    "type": "string"
+                },
+                "drive": {
+                    "type": "string"
+                },
+                "transit": {
+                    "type": "string"
+                },
+                "walk": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

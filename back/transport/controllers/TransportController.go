@@ -8,6 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @BasePath /transports
+// @Router /transports/ [get]
+// @Summary Get transports
+// @Description Get transports
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.Transport
+// @Failure 404
+// @Failure 500
 func GetTransportsHandler(c *gin.Context) {
 
 	var params models.Locations
