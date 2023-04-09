@@ -13,7 +13,7 @@ export default function CardColumn({id, imgSrc, alt, title, price, description}:
                     <p className={styles.cardHeaderTitle} data-testid='card-header-title'>{title}</p>
                     <small className={styles.cardHeaderPrice} data-testid='card-header-price'>{ price !== 'Not available' ? price : ""}</small>
                 </div>
-                <p className={styles.cardBodyDescription} data-testid='card-body-description'>{description}</p>
+                <p className={styles.cardBodyDescription} data-testid='card-body-description'>{description && description.trim() !== "" ? description : "No description"}</p>
             </div>
         </Link>
     )
