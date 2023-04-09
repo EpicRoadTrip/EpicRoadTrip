@@ -79,7 +79,7 @@ graph LR
     A[Frontend<br>Next.js]
   end
   subgraph Scaleway
-    B[API Gateway]
+    B[API Gateway<br>Rate-limiting<br>Caching]
     D[Enjoy Service]
     E[Sleep Service]
     F[Transport Service]
@@ -96,11 +96,11 @@ graph LR
   B -- REST, JSON --> I
   subgraph External APIs
     L[SerpAPI]
-    M[Google]
-    N[Google]
-    O[Google]
-    P[Google]
-    Q[TripAdvisor, Google]
+    M[External Hotel API]
+    N[External Transport API]
+    O[External Restaurant API]
+    P[External Bar API]
+    Q[TripAdvisor API]
   end
   D -- REST, JSON --> L
   E -- REST, JSON --> M
@@ -123,7 +123,7 @@ GET /bars/:location?constraints - List of available bars.
 
 GET /restaurants/:location?constraints - List of available restaurants.
 
-GET /photos/:ref - List of available photos.
+GET /details/:placeId - Get the details of a specific event, accommodation, restaurant, or bar.
 
 GET /transports/:location?constraints - List of available transports.
 ```
