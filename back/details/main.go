@@ -21,7 +21,7 @@ func setupRouter() *gin.Engine {
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // valeur par défaut
+		port = "8081" // valeur par défaut
 	}
 
 	r := setupRouter()

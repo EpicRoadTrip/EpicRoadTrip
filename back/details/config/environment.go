@@ -1,37 +1,68 @@
 package config
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 )
 
-// use godot package to load/read the .env file and
-// return the value of the key
-func GoDotEnvVariable(key string) string {
+// Constantes pour les clés de variables d'environnement
+const (
+	TRIPADVISOR_KEY_VAR = "TRIPADVISOR_KEY"
+	GOOGLE_KEY_VAR      = "GOOGLE_KEY"
+)
 
-	// load .env file
-	err := godotenv.Load(".env")
-
+// init charge les variables d'environnement du fichier .env
+func init() {
+	envPath, err := findEnvFile()
 	if err != nil {
-		log.Fatalf("Error loading .env file")
+		log.Printf("Error finding .env file: %v", err)
+		return
 	}
 
+	err = godotenv.Load(envPath)
+	if err != nil {
+		log.Printf("Error loading .env file: %v", err)
+	}
+}
+
+func findEnvFile() (string, error) {
+	// Check if the .env file is in the current working directory
+	wd, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	envPath := filepath.Join(wd, ".env")
+	if _, err := os.Stat(envPath); err == nil {
+		return envPath, nil
+	}
+
+	// Check if the .env file is in the parent directory
+	envPath = filepath.Join(wd, "..", ".env")
+	if _, err := os.Stat(envPath); err == nil {
+		return envPath, nil
+	}
+
+	return "", fmt.Errorf(".env file not found")
+}
+
+// getEnvVariable récupère la valeur d'une variable d'environnement
+func getEnvVariable(key string) string {
 	return os.Getenv(key)
 }
 
+// GetVarEnv retourne un dictionnaire des variables d'environnement
 func GetVarEnv() map[string]string {
-	tripAdvisorKey := os.Getenv("TRIPADVISOR_KEY")
-	if tripAdvisorKey == "" {
-		tripAdvisorKey = GoDotEnvVariable("TRIPADVISOR_KEY") // valeur par défaut
-	}
+	tripAdvisorKey := getEnvVariable(TRIPADVISOR_KEY_VAR)
+	googleKey := getEnvVariable(GOOGLE_KEY_VAR)
 
-	googleKey := os.Getenv("GOOGLE_KEY")
-	if googleKey == "" {
-		googleKey = GoDotEnvVariable("GOOGLE_KEY") // valeur par défaut
+	var envs = map[string]string{
+		"tripAdvisorKey": tripAdvisorKey,
+		"googleKey":      googleKey,
 	}
-
-	var envs = map[string]string{"tripAdvisorKey": tripAdvisorKey, "googleKey": googleKey}
 	return envs
 }

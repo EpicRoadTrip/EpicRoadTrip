@@ -22,7 +22,8 @@ func GetEvents(location string) ([]models.Event, error) {
 	location = strings.ReplaceAll(location, " ", "-")
 
 	r := &maps.TextSearchRequest{
-		Query: "event in " + location,
+		Query:    location,
+		Language: "fr",
 		//Query: location,
 	}
 

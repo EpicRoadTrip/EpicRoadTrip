@@ -31,30 +31,33 @@ func GetDetails(placeId string) (models.Detail, error) {
 		log.Fatalf("fatal error: %s", err)
 	}
 
-	detail := mapPlaceDetailsResultToDetail(resp)
+	detail := MapPlaceDetailsResultToDetail(resp)
 
 	return detail, nil
 }
 
-func mapPlaceDetailsResultToDetail(result maps.PlaceDetailsResult) models.Detail {
+func MapPlaceDetailsResultToDetail(result maps.PlaceDetailsResult) models.Detail {
 	detail := models.Detail{
 		Name:         result.Name,
 		Address:      result.FormattedAddress,
 		Location:     fmt.Sprintf("%f,%f", result.Geometry.Location.Lat, result.Geometry.Location.Lng),
-		Description:  result.EditorialSummary.Overview,
 		Phone:        result.InternationalPhoneNumber,
 		OpeningHours: result.OpeningHours.WeekdayText,
 		Website:      result.Website,
 	}
 
+	if result.EditorialSummary != nil {
+		detail.Description = result.EditorialSummary.Overview
+	}
+
 	if len(result.Photos) > 0 {
-		detail.Photo = getPhotoURL(result.Photos[0].PhotoReference)
+		detail.Photo = GetPhotoURL(result.Photos[0].PhotoReference)
 	}
 
 	return detail
 }
 
-func getPhotoURL(photoReference string) string {
+func GetPhotoURL(photoReference string) string {
 	googleKey := config.GetVarEnv()["googleKey"]
 
 	photoURL := fmt.Sprintf("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=%s&key=%s", photoReference, googleKey)
