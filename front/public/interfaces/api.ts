@@ -1,9 +1,14 @@
 export interface IAPI {
-    data: IDetailAPI[],
+    data: IDataAPI[],
     loading: loadingDetail[],
 }
 
-export interface IDetailAPI {
+export interface IDataAPI {
+    id: string,
+    data: IDetailAPI[]
+}
+
+interface IDetailAPI {
     place_id: string,
     name: string,
     formatted_address: string,

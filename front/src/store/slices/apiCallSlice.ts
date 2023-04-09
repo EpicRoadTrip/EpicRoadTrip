@@ -15,7 +15,6 @@ const initialState: IAPI = {
 }
 
 export const getAccomodation$ = createAsyncThunk('api/accomodation', async (city_name: string) => {
-    console.log(urlAccomodationAPI as string + city_name);
   const { data } = await axios.get(urlAccomodationAPI as string + city_name)
   return data
 })
@@ -62,10 +61,18 @@ export const apiCallSlice = createSlice({
         })
         .addCase(getAccomodation$.fulfilled, (state, action) => {
             const loading = state.loading.find((loadingState) => loadingState.name === 'api/accomodation');
+            const data = state.data.find((item) => item.id === 'Accomodations');
             if (loading) {
                 state.loading.filter((item) => item.name === loading.name);
             }
-            state.data = [...state.data, action.payload]
+            if (data) {
+                data.data = action.payload.results
+            } else {
+                state.data.push({
+                    id: "Accomodations",
+                    data: action.payload.results
+                })
+            }
         })
         .addCase(getAccomodation$.rejected, (state) => {
             const loading = state.loading.find((loadingState) => loadingState.name === 'api/accomodation');
@@ -80,10 +87,18 @@ export const apiCallSlice = createSlice({
         })
         .addCase(getBar$.fulfilled, (state, action) => {
             const loading = state.loading.find((loadingState) => loadingState.name === 'api/bar');
+            const data = state.data.find((item) => item.id === 'Bars');
             if (loading) {
                 state.loading.filter((item) => item.name === loading.name);
             }
-            state.data = [...state.data, action.payload]
+            if (data) {
+                data.data.push(action.payload.results)
+            } else {
+                state.data.push({
+                    id: "Bars",
+                    data: action.payload.results
+                })
+            }
         })
         .addCase(getBar$.rejected, (state) => {
             const loading = state.loading.find((loadingState) => loadingState.name === 'api/bar');
@@ -98,10 +113,18 @@ export const apiCallSlice = createSlice({
         })
         .addCase(getTransport$.fulfilled, (state, action) => {
             const loading = state.loading.find((loadingState) => loadingState.name === 'api/transport');
+            const data = state.data.find((item) => item.id === 'Transports');
             if (loading) {
                 state.loading.filter((item) => item.name === loading.name);
             }
-            state.data = [...state.data, action.payload]
+            if (data) {
+                data.data.push(action.payload.results)
+            } else {
+                state.data.push({
+                    id: "Transports",
+                    data: action.payload.results
+                })
+            }
         })
         .addCase(getTransport$.rejected, (state) => {
             const loading = state.loading.find((loadingState) => loadingState.name === 'api/transport');
@@ -116,10 +139,18 @@ export const apiCallSlice = createSlice({
         })
         .addCase(getRestaurant$.fulfilled, (state, action) => {
             const loading = state.loading.find((loadingState) => loadingState.name === 'api/restaurant');
+            const data = state.data.find((item) => item.id === 'Restaurants');
             if (loading) {
                 state.loading.filter((item) => item.name === loading.name);
             }
-            state.data = [...state.data, action.payload]
+            if (data) {
+                data.data.push(action.payload.results)
+            } else {
+                state.data.push({
+                    id: "Restaurants",
+                    data: action.payload.results
+                })
+            }
         })
         .addCase(getRestaurant$.rejected, (state) => {
             const loading = state.loading.find((loadingState) => loadingState.name === 'api/restaurant');
@@ -134,10 +165,18 @@ export const apiCallSlice = createSlice({
         })
         .addCase(getEvent$.fulfilled, (state, action) => {
             const loading = state.loading.find((loadingState) => loadingState.name === 'api/event');
+            const data = state.data.find((item) => item.id === 'Events');
             if (loading) {
                 state.loading.filter((item) => item.name === loading.name);
             }
-            state.data = [...state.data, action.payload]
+            if (data) {
+                data.data.push(action.payload.results)
+            } else {
+                state.data.push({
+                    id: "Events",
+                    data: action.payload.results
+                })
+            }
         })
         .addCase(getEvent$.rejected, (state) => {
             const loading = state.loading.find((loadingState) => loadingState.name === 'api/event');
