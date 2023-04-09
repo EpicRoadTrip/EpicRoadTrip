@@ -1,6 +1,6 @@
 package models
 
-type Bar struct {
+type Accommodation struct {
 	PlaceID     string `json:"place_id"`
 	Name        string `json:"name"`
 	Address     string `json:"formatted_address"`
