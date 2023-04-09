@@ -52,7 +52,11 @@ export const getEvent$ = createAsyncThunk('api/event', async (city_name: string)
 export const apiCallSlice = createSlice({
   name: 'apiCall',
   initialState,
-  reducers: {},
+  reducers: {
+    resetSearch: (state) => {
+        state.data = [];
+    }
+  },
   extraReducers(builder) {
       builder
         //#region Accomodation
@@ -189,4 +193,5 @@ export const apiCallSlice = createSlice({
   },
 })
 
+export const { resetSearch } = apiCallSlice.actions
 export default apiCallSlice.reducer

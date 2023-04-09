@@ -12,7 +12,7 @@ import { ISelectedInputDropdownData } from '@interfaces/input-select-dropdown'
 import { useAppDispatch, useAppSelector } from 'src/store/hook'
 import { saveSearch } from 'src/store/slices/searchSlice'
 import { IClassName } from '@interfaces/className'
-import { getAccomodation$, getRestaurant$, getBar$, getEvent$ } from 'src/store/slices/apiCallSlice'
+import { getAccomodation$, getRestaurant$, getBar$, getEvent$, resetSearch } from 'src/store/slices/apiCallSlice'
 
 export default function SearchEvent({ className }: IClassName) {
   const ref = React.useRef(null)
@@ -83,32 +83,29 @@ export default function SearchEvent({ className }: IClassName) {
   function handleClick() {
     if (isAllPropertiesRequiredPresent()) {
       // API Request
+      dispatch(resetSearch());
       selectedDropdownData.forEach((data) => {
-        let response = null;
         switch (data.apiName) {
           case "accomodation":
-            response = dispatch(getAccomodation$(inputSearchValue));
+            dispatch(getAccomodation$(inputSearchValue));
             break;
 
           case "restaurant":
-            response = dispatch(getRestaurant$(inputSearchValue));
+            dispatch(getRestaurant$(inputSearchValue));
             break;
 
           case "bar":
-            response = dispatch(getBar$(inputSearchValue));
+            dispatch(getBar$(inputSearchValue));
             break;
 
           case "event":
-            response = dispatch(getEvent$(inputSearchValue));
+            dispatch(getEvent$(inputSearchValue));
             break;
 
           default:
-            response = dispatch(getEvent$(inputSearchValue));
+            dispatch(getEvent$(inputSearchValue));
             break;
         }
-        response.unwrap().then((value) => {
-          console.log(value);
-        })
       })
     } else {
       alert('Toute les items ne sont pas présent');
