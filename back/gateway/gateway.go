@@ -22,6 +22,14 @@ var cache = sync.Map{}
 
 // Handles incoming requests and proxies them to the appropriate API
 func gatewayHandler(w http.ResponseWriter, r *http.Request) {
+	// Add CORS headers to allow requests from anywhere
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+
+	// Set the response content type to JSON
+	w.Header().Set("Content-Type", "application/json")
+
 	// Log the request URL path and method
 	log.Printf("[%s] Request received: %s", r.Method, r.URL.Path)
 
