@@ -1,0 +1,77 @@
+version: "3"
+
+services:
+  accommodation:
+    build: ./accommodation
+    environment:
+      PORT: "8080"
+      GOOGLE_KEY: ${GOOGLE_KEY}
+      GIN_MODE: "release"
+    networks:
+      - mynetwork
+
+  bar:
+    build: ./bar
+    environment:
+      PORT: "8080"
+      GOOGLE_KEY: ${GOOGLE_KEY}
+      GIN_MODE: "release"
+    networks:
+      - mynetwork
+
+  details:
+    build: ./details
+    environment:
+      PORT: "8080"
+      GOOGLE_KEY: ${GOOGLE_KEY}
+      GIN_MODE: "release"
+    networks:
+      - mynetwork
+
+  event:
+    build: ./event
+    environment:
+      PORT: "8080"
+      SERP_API_KEY: ${SERP_API_KEY}
+      GIN_MODE: "release"
+    networks:
+      - mynetwork
+
+  restaurant:
+    build: ./restaurant
+    environment:
+      PORT: "8080"
+      GOOGLE_KEY: ${GOOGLE_KEY}
+      GIN_MODE: "release"
+    networks:
+      - mynetwork
+
+  transport:
+    build: ./transport
+    environment:
+      PORT: "8080"
+      GOOGLE_KEY: ${GOOGLE_KEY}
+      GIN_MODE: "release"
+    networks:
+      - mynetwork
+
+  gateway:
+    build: ./gateway
+    environment:
+      ACCOMMODATIONS_API_BASE_URL: "http://accommodation:8080/accomodations"
+      BAR_API_BASE_URL: "http://bar:8080/bars"
+      DETAILS_API_BASE_URL: "http://details:8080/details"
+      EVENT_API_BASE_URL: "http://event:8080/events"
+      RESTAURANT_API_BASE_URL: "http://restaurant:8080/restaurants"
+      TRANSPORT_API_BASE_URL: "http://transport:8080/transports"
+      GIN_MODE: "release"
+    ports:
+      - "80:8080"
+    expose:
+      - "80"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+

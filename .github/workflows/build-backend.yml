@@ -1,27 +1,40 @@
-name: Build backend
+name: Go Build
+
 on:
   push:
     branches:
-    - main
-    - develop
+      - main
+      - develop
   pull_request:
     branches:
-    - main
-    - develop
+      - main
+      - develop
+
 jobs:
-  coverage:
-
+  build:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: back
+    strategy:
+      matrix:
+        go_directory:
+          ["accommodation", "bar", "event", "photo", "restaurant", "transport"]
 
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-go@v4
+      - name: Set up Go
+        uses: actions/setup-go@v4
         with:
-          go-version: '^1.20.2'
+          go-version: 1.20.2
 
-      - run: go build
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Compile Go code
+        run: |
+          cd back/${{ matrix.go_directory }}
+          go mod tidy
+          go build -v -o my_binary
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.go_directory }}-binary
+          path: ${{ matrix.go_directory }}/
