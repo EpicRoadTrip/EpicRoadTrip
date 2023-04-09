@@ -31,5 +31,6 @@ func GetVarEnv() map[string]string {
 		"tripAdvisorKey": tripAdvisorKey,
 		"googleKey":      googleKey,
 	}
+
 	return envs
 }

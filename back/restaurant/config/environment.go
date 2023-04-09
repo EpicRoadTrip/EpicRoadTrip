@@ -7,31 +7,30 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// use godot package to load/read the .env file and
-// return the value of the key
-func GoDotEnvVariable(key string) string {
+const (
+	tripAdvisorKeyVar = "TRIPADVISOR_KEY"
+	googleKeyVar      = "GOOGLE_KEY"
+)
 
-	// load .env file
+func init() {
 	err := godotenv.Load(".env")
-
 	if err != nil {
-		log.Fatalf("Error loading .env file")
+		log.Printf("Error loading .env file: %v", err)
 	}
+}
 
+func getEnvVariable(key string) string {
 	return os.Getenv(key)
 }
 
 func GetVarEnv() map[string]string {
-	tripAdvisorKey := os.Getenv("TRIPADVISOR_KEY")
-	if tripAdvisorKey == "" {
-		tripAdvisorKey = GoDotEnvVariable("TRIPADVISOR_KEY") // valeur par défaut
+	tripAdvisorKey := getEnvVariable(tripAdvisorKeyVar)
+	googleKey := getEnvVariable(googleKeyVar)
+
+	var envs = map[string]string{
+		"tripAdvisorKey": tripAdvisorKey,
+		"googleKey":      googleKey,
 	}
 
-	googleKey := os.Getenv("GOOGLE_KEY")
-	if googleKey == "" {
-		googleKey = GoDotEnvVariable("GOOGLE_KEY") // valeur par défaut
-	}
-
-	var envs = map[string]string{"tripAdvisorKey": tripAdvisorKey, "googleKey": googleKey}
 	return envs
 }
