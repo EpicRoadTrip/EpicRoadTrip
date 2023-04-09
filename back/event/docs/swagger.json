@@ -1,0 +1,71 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/events/{location}": {
+            "get": {
+                "description": "Get events",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get events",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Location",
+                        "name": "location",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Event"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Event": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "formatted_address": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                },
+                "place_id": {
+                    "type": "string"
+                },
+                "price_level": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

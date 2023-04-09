@@ -2,6 +2,8 @@
 #  Original  #
 ##############
 
+tmp/
+
 # directory structure
 bin/*
 pkg/*

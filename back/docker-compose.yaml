@@ -32,7 +32,7 @@ services:
     build: ./event
     environment:
       PORT: "8080"
-      GOOGLE_KEY: ${GOOGLE_KEY}
+      SERP_API_KEY: ${SERP_API_KEY}
       GIN_MODE: "release"
     networks:
       - mynetwork
