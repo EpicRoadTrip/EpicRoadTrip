@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 
 interface ViewState {
     value: boolean
@@ -20,5 +19,5 @@ export const viewSlice = createSlice({
 })
 
 export const { change } = viewSlice.actions
-export const selectView = (state: any) => state.view.value
+export const selectView = (state: ViewState) => state.value
 export default viewSlice.reducer

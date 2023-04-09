@@ -5,5 +5,8 @@ const nextConfig = {
 
 module.exports = {
   ...nextConfig,
-  transpilePackages: ['multi-range-slider-react']
+  transpilePackages: ['multi-range-slider-react'],
+  images: {
+    domains: ['picsum.photos']
+  }
 }
