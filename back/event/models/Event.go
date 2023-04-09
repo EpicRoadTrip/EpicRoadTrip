@@ -1,9 +1,9 @@
 package models
 
 type Event struct {
-	PlaceID  string `json:"place_id"`
-	Name     string `json:"name"`
-	Address  string `json:"formatted_address"`
-	Photo    string `json:"photo"`
-	Location string `json:"location"`
+	Name        string `json:"name"`
+	Address     string `json:"formatted_address"`
+	Photo       string `json:"photo"`
+	Description string `json:"description"`
+	Date   string `json:"date"`
 }

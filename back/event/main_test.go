@@ -1,21 +1,25 @@
 package main
 
 import (
+	"EpicRoadTrip/controllers"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetEvents(t *testing.T) {
+func TestGetEvent(t *testing.T) {
 	// Configuration de Gin et de la route
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
-	router.GET("/events/:location", controllers.GetEventsHandler)
+	router.GET("/events/:location", controllers.GetEventHandler)
 
 	// Test de la requête
-	location := "Nantes"
+	location := "Nantes Radisson"
 	req, err := http.NewRequest("GET", "/events/"+location, nil)
 	if err != nil {
 		t.Fatalf("Failed to create request: %v", err)
@@ -34,22 +38,16 @@ func TestGetEvents(t *testing.T) {
 	// Récupérer uniquement le premier résultat
 	firstResult := jsonResponse["results"][0]
 
+	fmt.Println(firstResult)
+	fmt.Println(firstResult["formatted_address"])
+
 	idTest, idOk := firstResult["place_id"].(string)
 	photoTest, photoOk := firstResult["photo"].(string)
-	addressTest, addressOk := firstResult["formatted_address"].(string)
-	locationTest, locationOk := firstResult["location"].(string)
-	nameTest, nameOk := firstResult["name"].(string)
 
 	assert.Equal(t, http.StatusOK, resp.Code, "Response status should be OK")
-
-	assert.True(t, addressOk, "Address should be of type string")
-	assert.True(t, len(addressTest) > 0, "The address should have a length greater than 0")
-
-	assert.True(t, locationOk, "Location should be of type string")
-	assert.True(t, len(locationTest) > 0, "The location should have a length greater than 0")
-
-	assert.True(t, nameOk, "Name should be of type string")
-	assert.True(t, len(nameTest) > 0, "The name should have a length greater than 0")
+	assert.Equal(t, "6 Pl. Aristide Briand, 44000 Nantes, France", firstResult["formatted_address"], "Adress OK")
+	assert.Equal(t, "47.217597,-1.563158", firstResult["location"], "Location OK")
+	assert.Equal(t, "Radisson Blu Hotel, Nantes", firstResult["name"], "Location OK")
 
 	assert.True(t, photoOk, "Photo should be of type string")
 	assert.True(t, len(photoTest) > 0, "The photo should have a length greater than 0")
