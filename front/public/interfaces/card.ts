@@ -1,8 +1,8 @@
 export interface ICard {
-    id: number,
+    id: number | string,
     imgSrc?: string,
     alt?: string,
     title: string,
-    price: number,
+    price: string,
     description: string,
 }

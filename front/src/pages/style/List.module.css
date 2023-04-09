@@ -1,0 +1,8 @@
+.lContainer {
+    margin-top: 100px;
+    display: grid;
+    gap: 25px;
+    justify-content: center;
+    grid-template-columns: repeat(5, auto);
+    grid-template-rows: auto;
+}

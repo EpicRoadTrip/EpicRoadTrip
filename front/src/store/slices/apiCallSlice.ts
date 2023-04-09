@@ -15,7 +15,8 @@ const initialState: IAPI = {
 }
 
 export const getAccomodation$ = createAsyncThunk('api/accomodation', async (city_name: string) => {
-  const { data } = await axios.get(urlAccomodationAPI + city_name)
+    console.log(urlAccomodationAPI as string + city_name);
+  const { data } = await axios.get(urlAccomodationAPI as string + city_name)
   return data
 })
 

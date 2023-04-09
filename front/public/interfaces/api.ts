@@ -3,7 +3,7 @@ export interface IAPI {
     loading: loadingDetail[],
 }
 
-interface IDetailAPI {
+export interface IDetailAPI {
     place_id: string,
     name: string,
     formatted_address: string,

@@ -16,6 +16,7 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@styledPageStyle/*": ["./src/pages/style/*"],
       "@styledComponentStyle/*": ["./src/components/style/*"],
       "@interfaces/*": ["./public/interfaces/*"], 
       "@components/*": ["./src/components/*"],

@@ -7,6 +7,6 @@ module.exports = {
   ...nextConfig,
   transpilePackages: ['multi-range-slider-react'],
   images: {
-    domains: ['picsum.photos']
+    domains: ['picsum.photos', 'maps.googleapis.com']
   }
 }
