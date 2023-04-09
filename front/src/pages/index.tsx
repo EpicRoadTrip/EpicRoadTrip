@@ -35,7 +35,7 @@ export default function Home() {
             colorScheme='blue'
             variant='solid'
             borderRadius={50}
-            position='absolute'
+            position='fixed'
             bottom='3%'
             left='50%'
             transform='translateX(-50%)'
