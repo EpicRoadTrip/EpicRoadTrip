@@ -10,7 +10,7 @@ export default function Header() {
     const router = useRouter();
 
     return (
-        <header className={view ? styles.hhContainerImage : styles.hhContainerNoImage}>
+        <header className={view ? styles.hhContainerImage : styles.hhContainerNoImage} style={{zIndex: '1'}}>
             <div className={ styles.hhTop}>
                 <h1 data-testid='h-title' className={styles.hhTitle}>EpicRoadTrip</h1>
                 <nav style={{flex: 1, textAlign: 'center'}} className={styles.hNav}>
