@@ -47,7 +47,8 @@
 
 .hSearchEvent {
     position: absolute;
-    left: calc(50% - (800px / 2));
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .hhContainerImage .hSearchEvent {
