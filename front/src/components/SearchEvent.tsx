@@ -9,17 +9,21 @@ import styles from '@styledComponentStyle/SearchEvent.module.css'
 import InputSelectDropdown from './InputSelectDropdown'
 import { INumberSelectorData } from '@interfaces/number-selector'
 import { ISelectedInputDropdownData } from '@interfaces/input-select-dropdown'
-import { useAppSelector } from 'src/store/hook'
+import { useAppDispatch, useAppSelector } from 'src/store/hook'
+import { saveSearch } from 'src/store/slices/searchSlice'
 
 export default function SearchEvent() {
   const ref = React.useRef(null)
+  const dispatch = useAppDispatch()
   const refInputSearch = React.useRef(null)
+  const searchStore = useAppSelector(state => state.search)
   const dateStore = useAppSelector(state => state.dateSearch)
-  const [inputSearchValue, setInputSearchValue] = React.useState<string>()
+  const [hasSomethingChanged, setHasSomethingChanged] = React.useState(false)
+  const [inputSearchValue, setInputSearchValue] = React.useState<string>(searchStore.searchValue ?? "")
   const [isDropdownOpen, setDropdownOpen] = React.useState(false)
   const [selectedDataNumberSelector, setSelectedDataNumberSelector] = React.useState<
     INumberSelectorData[]
-  >([
+  >(searchStore.travelers && searchStore.travelers.length ? searchStore.travelers : [
     {
       id: 1,
       name: 'Adulte',
@@ -37,11 +41,11 @@ export default function SearchEvent() {
   ])
   const [selectedDropdownData, setSelectedDropdownData] = React.useState<
     ISelectedInputDropdownData[]
-  >([])
+  >(searchStore.selectedTypes)
   const isAllPropertiesRequiredPresent = () => {
     if (
       inputSearchValue &&
-      inputSearchValue !== '' &&
+      inputSearchValue.trim() !== '' &&
       selectedDataNumberSelector.length !== 0 &&
       selectedDataNumberSelector.some(data => data.number !== 0) &&
       selectedDropdownData.length !== 0 &&
@@ -52,16 +56,49 @@ export default function SearchEvent() {
     return false
   }
 
+  function handleSetInputSearchValue(value: string) {
+    setInputSearchValue(value);
+    setHasSomethingChanged(true);
+  }
+
+  function handleSetSelectedDataNumberSelector(data: INumberSelectorData[]) {
+    setSelectedDataNumberSelector(data);
+    setHasSomethingChanged(true);
+  }
+
+  function handleSetSelectedDropdownData(data: ISelectedInputDropdownData[]) {
+    setSelectedDropdownData(data);
+    setHasSomethingChanged(true);
+  }
+
   function handleDropdownOpen() {
     if (!isDropdownOpen) {
-      ;(refInputSearch.current as unknown as HTMLInputElement).focus()
+      (refInputSearch.current as unknown as HTMLInputElement).focus()
       setDropdownOpen(true)
     }
   }
 
   function handleClick() {
-    // API Request
-    console.log(isAllPropertiesRequiredPresent())
+    if (isAllPropertiesRequiredPresent()) {
+      // API Request
+    } else {
+      alert('Toute les items ne sont pas présent');
+    }
+  }
+
+  function handleSaveSearch() {
+    if (isAllPropertiesRequiredPresent()) {
+      dispatch(saveSearch({
+        date: {
+          end: dateStore.end,
+          start: dateStore.start,
+          isDateSet: dateStore.isDateSet
+        },
+        travelers: selectedDataNumberSelector,
+        selectedTypes: selectedDropdownData,
+        searchValue: inputSearchValue
+      }));
+    }
   }
 
   useOutsideClick({
@@ -78,7 +115,7 @@ export default function SearchEvent() {
             <Input
               ref={refInputSearch}
               value={inputSearchValue}
-              onChange={event => setInputSearchValue(event.target.value)}
+              onChange={event => handleSetInputSearchValue(event.target.value)}
               variant="unstyled"
               placeholder="Where would you like to go?"
               data-testid="se-header-input"
@@ -125,14 +162,14 @@ export default function SearchEvent() {
                 },
               ]}
               selectedData={selectedDropdownData}
-              onSelectedChange={data => setSelectedDropdownData(data)}
+              onSelectedChange={data => handleSetSelectedDropdownData(data)}
             />
             <NumberSelector
               data-testid="se-body-number-selector"
               className={styles.seSelectNumberTraveler}
               title="Voyageur"
               items={selectedDataNumberSelector}
-              onChange={data => setSelectedDataNumberSelector(data)}
+              onChange={data => handleSetSelectedDataNumberSelector(data)}
             />
             <InputDateRangePicker
               className={styles.seDatePicker}
@@ -144,10 +181,11 @@ export default function SearchEvent() {
                   <Button
                     data-testid="se-body-button-save-seach"
                     size="sm"
+                    onClick={handleSaveSearch}
                     borderRadius={15}
                     leftIcon={<SaveOutlined htmlColor="#fff" fontSize="small" />}
                     colorScheme="blue"
-                    isDisabled={!isAllPropertiesRequiredPresent()}>
+                    isDisabled={!hasSomethingChanged}>
                     Save search
                   </Button>
                   <Button
@@ -155,7 +193,7 @@ export default function SearchEvent() {
                     size="lg"
                     width={150}
                     colorScheme="blue"
-                    isDisabled={!isAllPropertiesRequiredPresent()}
+                    isDisabled={!hasSomethingChanged}
                     data-testid="se-body-button-search">
                     Search
                   </Button>
