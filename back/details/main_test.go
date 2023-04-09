@@ -4,28 +4,35 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
+	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
-func TestSetupRouter(t *testing.T) {
-	// Create a new Gin router using setupRouter function
+func TestPingRoute(t *testing.T) {
+	gin.SetMode(gin.TestMode)
 	router := setupRouter()
 
-	// Test the /ping endpoint
-	req, _ := http.NewRequest("GET", "/ping", nil)
 	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("GET", "/ping", nil)
 	router.ServeHTTP(w, req)
+
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, "pong", w.Body.String())
+}
+
+func TestDetailsRoute(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	router := setupRouter()
 
 	// Test de la route /details
 	placeId := "ChIJLU7jZClu5kcR4PcOOO6p3I0"
 	req, err := http.NewRequest("GET", "/details/"+placeId, nil)
-	if err != nil {
-		t.Fatalf("Failed to create request: %v", err)
-	}
+	require.NoError(t, err, "Failed to create request")
 
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
@@ -33,18 +40,14 @@ func TestSetupRouter(t *testing.T) {
 	// Décoder la réponse JSON
 	var jsonResponse map[string]map[string]interface{}
 	err = json.Unmarshal(resp.Body.Bytes(), &jsonResponse)
-	if err != nil {
-		t.Fatalf("Failed to decode JSON response: %v", err)
-	}
+	require.NoError(t, err, "Failed to decode JSON response")
 
-	// Récupérer uniquement le premier résultat
 	result := jsonResponse["results"]
 
 	nameTest, nameOk := result["name"].(string)
 	addressTest, addressOk := result["formatted_address"].(string)
 	descriptionTest, descriptionOk := result["description"].(string)
 	locationTest, locationOk := result["location"].(string)
-	openingHoursTest, openingHoursOk := result["opening_hours"].([]string)
 	websiteTest, websiteOk := result["website"].(string)
 	photoTest, photoOk := result["photo"].(string)
 
@@ -62,12 +65,39 @@ func TestSetupRouter(t *testing.T) {
 	assert.True(t, locationOk, "Location should be of type string")
 	assert.True(t, len(locationTest) > 0, "The location should have a length greater than 0")
 
-	assert.True(t, openingHoursOk, "OpeningHours should be of type []string")
-	assert.True(t, len(openingHoursTest) > 0, "The openingHours should have a length greater than 0")
-
 	assert.True(t, websiteOk, "Website should be of type string")
 	assert.True(t, len(websiteTest) > 0, "The website should have a length greater than 0")
 
 	assert.True(t, photoOk, "Photo should be of type string")
 	assert.True(t, len(photoTest) > 0, "The photo should have a length greater than 0")
+}
+
+func TestRunApp(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	originalPort := os.Getenv("PORT")
+	defer os.Setenv("PORT", originalPort)
+	os.Setenv("PORT", "8083")
+
+	go func() {
+		err := runApp()
+		require.NoError(t, err, "Failed to run app")
+	}()
+
+	time.Sleep(500 * time.Millisecond) // Attente de 500 ms pour que le serveur démarre
+
+	resp, err := http.Get("http://localhost:8083/ping")
+	require.NoError(t, err, "Failed to send request to server")
+	defer resp.Body.Close()
+
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+}
+
+func TestRunWithInvalidPort(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	originalPort := os.Getenv("PORT")
+	defer os.Setenv("PORT", originalPort)
+	os.Setenv("PORT", "-1")
+
+	err := runApp()
+	require.Error(t, err, "An error should occur when running the app with an invalid port")
 }

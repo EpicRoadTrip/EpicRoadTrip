@@ -4,10 +4,11 @@ import (
 	"EpicRoadTrip/controllers"
 	"os"
 
-	"github.com/gin-gonic/gin"
 	docs "EpicRoadTrip/docs"
-    swaggerfiles "github.com/swaggo/files"
-    ginSwagger "github.com/swaggo/gin-swagger"
+
+	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 const DEFAULT_PORT = "8080"

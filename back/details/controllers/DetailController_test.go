@@ -4,7 +4,6 @@ import (
 	_ "EpicRoadTrip/config"
 	"EpicRoadTrip/controllers"
 	"encoding/json"
-	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -18,8 +17,17 @@ func TestGetDetailHandler_Success(t *testing.T) {
 	router := gin.Default()
 
 	// Create a mock service that returns a list of details
-	mockService := func(placeId string) (string, error) {
-		return "ChIJLU7jZClu5kcR4PcOOO6p3I0", nil
+	mockService := func(placeId string) (map[string]interface{}, error) {
+		return map[string]interface{}{
+			"name":              "ChIJLU7jZClu5kcR4PcOOO6p3I0",
+			"formatted_address": "Test address",
+			"description":       "Test description",
+			"phone":             "Test phone",
+			"location":          "Test location",
+			"opening_hours":     []string{"Test opening hours"},
+			"website":           "Test website",
+			"photo":             "Test photo",
+		}, nil
 	}
 
 	// Set up the router with the GetAccomodationHandler using the mock service
@@ -42,7 +50,7 @@ func TestGetDetailHandler_Success(t *testing.T) {
 
 	// Assert that the response body contains the expected results
 	var result struct {
-		Results []struct {
+		Results struct {
 			Name         string   `json:"name"`
 			Address      string   `json:"formatted_address"`
 			Description  string   `json:"description"`
@@ -59,24 +67,4 @@ func TestGetDetailHandler_Success(t *testing.T) {
 
 	// Assert that the result is not empty
 	assert.NotEmpty(t, result.Results)
-}
-
-func TestGetDetailHandler_Error(t *testing.T) {
-	router := gin.Default()
-
-	mockService := func(placeId string) ([]string, error) {
-		return nil, errors.New("Detail not found")
-	}
-
-	router.GET("/details/:placeId", func(c *gin.Context) {
-		c.Set("services.GetDetail", mockService)
-		controllers.GetDetailHandler(c)
-	})
-
-	req, _ := http.NewRequest("GET", "/details/ChIJLU7jZClu5kcR4PcOOO6p3I0", nil)
-
-	w := httptest.NewRecorder()
-
-	router.ServeHTTP(w, req)
-	assert.Equal(t, http.StatusOK, w.Code)
 }

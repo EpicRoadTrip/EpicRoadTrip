@@ -2,6 +2,7 @@ package main
 
 import (
 	"EpicRoadTrip/controllers"
+	"fmt"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -14,20 +15,25 @@ func setupRouter() *gin.Engine {
 	})
 
 	r.GET("/details/:placeId", controllers.GetDetailHandler)
+	r.GET("/trip/:location", controllers.GetDetailTripHandler)
 
 	return r
 }
 
-func main() {
+func runApp() error {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8081" // valeur par défaut
+		port = "8080" // valeur par défaut
 	}
 
 	r := setupRouter()
-	err := r.Run(":" + port)
+	return r.Run(":" + port)
+}
 
+func main() {
+	err := runApp()
 	if err != nil {
-		return
+		fmt.Println("Error running the app:", err)
+		os.Exit(1)
 	}
 }
