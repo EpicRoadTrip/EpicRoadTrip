@@ -3,6 +3,8 @@ import type { NextPage } from 'next';
 import { useMemo, useState } from 'react';
 import CardColumn from '@components/CardColumn';
 
+const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places']
+
 const MapView: NextPage = () => {
     const [located, setLocated] = useState<boolean>(false);
     const [position, setPosition] = useState<google.maps.LatLng>(new google.maps.LatLng(0, 0));
@@ -16,7 +18,7 @@ const MapView: NextPage = () => {
 
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
-        libraries: ['places']
+        libraries: libraries
     });
 
     navigator.geolocation.getCurrentPosition((pos) => {
