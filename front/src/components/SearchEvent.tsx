@@ -11,8 +11,9 @@ import { INumberSelectorData } from '@interfaces/number-selector'
 import { ISelectedInputDropdownData } from '@interfaces/input-select-dropdown'
 import { useAppDispatch, useAppSelector } from 'src/store/hook'
 import { saveSearch } from 'src/store/slices/searchSlice'
+import { IClassName } from '@interfaces/className'
 
-export default function SearchEvent() {
+export default function SearchEvent({className}: IClassName) {
   const ref = React.useRef(null)
   const dispatch = useAppDispatch()
   const refInputSearch = React.useRef(null)
@@ -107,7 +108,7 @@ export default function SearchEvent() {
   })
 
   return (
-    <div ref={ref} className={styles.seContainer} data-testid="se-container">
+    <div ref={ref} className={`${styles.seContainer} ${className ?? ''}`} data-testid="se-container">
       <div className={styles.seHeader} onClick={handleDropdownOpen} data-testid="se-header">
         <div className={styles.seHeaderGroup} data-testid="se-header-group-one">
           <ChakraProvider>
