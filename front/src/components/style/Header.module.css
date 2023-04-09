@@ -1,0 +1,59 @@
+.hhContainerImage {
+    position: relative;
+    width: 100%;
+    height: 24vh;
+    background-size: cover;
+    background-position: center;
+    background-image: url(/assets/images/header-background.jpg);
+}
+
+.hhContainerNoImage {
+    position: relative;
+    width: 100%;
+    height: 75px;
+    background: linear-gradient(90.16deg, #001233 0%, #023E7D 100%);
+}
+
+.hhTop {
+    width: 100%;
+    height: 30%;
+    font-family: 'Montserrat';
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.hhContainerNoImage .hhTop {
+    height: 100%;
+}
+
+.hhTitle {
+    color: #fff;
+    flex: 1;
+    text-align: left;
+    margin-left: 2%;
+}
+
+.hNav {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+}
+
+.hSearchEvent {
+    position: absolute;
+    left: calc(50% - (800px / 2));
+}
+
+.hhContainerImage .hSearchEvent {
+    top: calc(100% - 30px);
+}
+
+.hhContainerNoImage .hSearchEvent {
+    top: calc(100% + 30px);
+}
