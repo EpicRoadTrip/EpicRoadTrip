@@ -3,8 +3,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import dateSearchSlice from './slices/dateSearchSlice';
 import { viewSlice } from './slices/viewSlice';
 import { persistReducer, persistStore } from 'redux-persist';
-import thunk from 'redux-thunk';
 import searchSlice from './slices/searchSlice';
+import apiCallSlice from './slices/apiCallSlice';
 
 const persistConfig = {
   key: 'root',
@@ -19,8 +19,11 @@ export const store = configureStore({
     view: viewSlice.reducer,
     dateSearch: persistedDateSearchReducer,
     search: persistedSearchReducer,
+    api: apiCallSlice,
   },
-  middleware: [thunk]
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false
+  }),
 })
 
 export const persistor = persistStore(store);
