@@ -1,23 +1,41 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 interface ViewState {
-    value: boolean
+    value: 'list' | 'map',
+    isInPageDetail: boolean
   }
   
 const initialState: ViewState = {
-    value: true,
+    value: 'list',
+    isInPageDetail: false,
 }
 
 export const viewSlice = createSlice({
     name: 'view',
     initialState,
     reducers: {
+      leavePageDetail: (state) => {
+        state.isInPageDetail = false
+      },
+      setIsInPageDetail: (state) => {
+        state.isInPageDetail = true
+      },
+      setListView: (state) => {
+        state.value = 'list'
+      },
+      setMapView: (state) => {
+        state.value = 'map'
+      },
       change: (state) => {
-        state.value = !state.value;
+        if (state.value === 'list') {
+          state.value = 'map'
+        } else {
+          state.value = 'list'
+        }
       },
     },  
 })
 
-export const { change } = viewSlice.actions
+export const { change, setListView, setMapView, setIsInPageDetail, leavePageDetail } = viewSlice.actions
 export const selectView = (state: ViewState) => state.value
 export default viewSlice.reducer
