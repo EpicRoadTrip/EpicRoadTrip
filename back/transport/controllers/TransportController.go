@@ -9,7 +9,7 @@ import (
 )
 
 // @BasePath /transports
-// @Router /transports/ [get]
+// @Router /transports/ [post]
 // @Summary Get transports
 // @Description Get transports
 // @Accept  json
