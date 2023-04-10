@@ -25,7 +25,7 @@ func gatewayHandler(w http.ResponseWriter, r *http.Request) {
 	// Add CORS headers to allow requests from anywhere
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST")
 
 	// Set the response content type to JSON
 	w.Header().Set("Content-Type", "application/json")
@@ -42,15 +42,18 @@ func gatewayHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Split the URL path into components
 	path := strings.Split(r.URL.Path, "/")
-	if len(path) < 3 {
-		// If the URL path doesn't contain at least 3 components, return a 404 error
+	if len(path) < 2 {
+		// If the URL path doesn't contain at least 2 components, return a 404 error
 		http.NotFound(w, r)
 		return
 	}
 
 	// Extract the API and resource names from the URL path
 	api := path[1]
-	resource := path[2]
+	resource := ""
+	if len(path) > 1 {
+		resource = path[1]
+	}
 
 	// Look up the base URL for the API in an environment variable
 	var baseUrl string
@@ -65,7 +68,8 @@ func gatewayHandler(w http.ResponseWriter, r *http.Request) {
 		baseUrl = os.Getenv("EVENT_API_BASE_URL")
 	case "restaurant":
 		baseUrl = os.Getenv("RESTAURANT_API_BASE_URL")
-	case "transport":
+	case "transports":
+		fmt.Println("REdirect to transport API")
 		baseUrl = os.Getenv("TRANSPORT_API_BASE_URL")
 	default:
 		// If the API name is not recognized, return a 404 error
@@ -86,7 +90,10 @@ func gatewayHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Generate a cache key for the requested resource
-	cacheKey := baseUrl + "/" + resource
+	cacheKey := baseUrl
+	if resource != "" {
+		cacheKey += "/" + resource
+	}
 
 	// Check if the response for the requested resource is already cached
 	if cachedData, ok := cache.Load(cacheKey); ok {
@@ -97,17 +104,15 @@ func gatewayHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		// If the response is not cached, proxy the request to the API
 		log.Printf("[%s] Cache miss: %s", r.Method, cacheKey)
-		proxyAPI(w, r, cacheKey)
+		proxyAPI(w, *r, cacheKey)
 	}
-
 }
 
 // Proxies a request to an API and caches the response
-func proxyAPI(w http.ResponseWriter, r *http.Request, url string) {
+func proxyAPI(w http.ResponseWriter, r http.Request, url string) {
 	// Create a timeout context with a 5-second deadline
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
-
 	// Rate limit outgoing requests
 	err := limiter.Wait(ctx)
 	if err != nil {
@@ -116,8 +121,24 @@ func proxyAPI(w http.ResponseWriter, r *http.Request, url string) {
 		return
 	}
 
-	// Send a GET request to the API endpoint
-	resp, err := http.Get(url)
+	// Prepare the request to the API endpoint
+	req, err := http.NewRequest(r.Method, url, r.Body)
+	if err != nil {
+		err = fmt.Errorf("[%s] error creating request for %s: %w", r.Method, url, err)
+		log.Printf("%v", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Copy headers from the original request to the new request
+	for name, values := range r.Header {
+		for _, value := range values {
+			req.Header.Set(name, value)
+		}
+	}
+
+	// Send the request to the API endpoint
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		// If there is an error fetching the resource, return an error response
 		err = fmt.Errorf("[%s] error fetching resource from %s: %w", r.Method, url, err)
