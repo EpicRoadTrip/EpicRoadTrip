@@ -2,6 +2,57 @@ import { IDataEventAPI, IDetailAPI } from './../../../public/interfaces/api';
 import { IAPI } from '@interfaces/api'
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
+import * as moment from 'moment-timezone';
+import momentLg from 'moment';
+
+type DateResult = {
+  startDate: Date;
+  endDate?: Date;
+};
+
+function parseDateString(dateString: string): DateResult | null {
+  const regex = /([A-Za-z]+),\s+([A-Za-z]+)\s+(\d+),\s+(\d+):(\d+)\s+([AP]M)(?:\s+[-–]\s+([A-Za-z]+)?,\s+([A-Za-z]+)?\s+(\d+)?,\s+(\d+)?:(\d+)?\s+([AP]M))?\s+GMT\+(\d+)/;
+  const match = dateString.match(regex);
+
+  if (match) {
+    const [
+      ,
+      day1,
+      month1,
+      date1,
+      hour1,
+      minute1,
+      ampm1,
+      day2,
+      month2,
+      date2,
+      hour2,
+      minute2,
+      ampm2,
+      timezoneOffset,
+    ] = match;
+
+    const startDate = moment.tz(
+      `${day1}, ${month1} ${date1}, ${hour1}:${minute1} ${ampm1}`,
+      'ddd, MMM D, h:mm A',
+      `Etc/GMT+${timezoneOffset}`
+    ).toDate();
+
+    if (day2 && month2 && date2 && hour2 && minute2 && ampm2) {
+      const endDate = moment.tz(
+        `${day2}, ${month2} ${date2}, ${hour2}:${minute2} ${ampm2}`,
+        'ddd, MMM D, h:mm A',
+        `Etc/GMT+${timezoneOffset}`
+      ).toDate();
+
+      return { startDate, endDate };
+    }
+
+    return { startDate };
+  }
+
+  return null;
+}
 
 const urlAccomodationAPI = process.env.NEXT_PUBLIC_API_ACCOMODATION
 const urlBarAPI = process.env.NEXT_PUBLIC_API_BAR
@@ -32,14 +83,14 @@ export const getTransport$ = createAsyncThunk(
   'api/transport',
   async (localization: { locationDest: string; locationStart: string }) => {
     const response = await fetch(urlTransportAPI ?? '', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(localization),
-    })
-    const data = await response.json()
-    return data
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(localization),
+      })
+      const data = await response.json()
+      return data
   }
 )
 
@@ -48,9 +99,10 @@ export const getRestaurant$ = createAsyncThunk('api/restaurant', async (city_nam
   return data
 })
 
-export const getEvent$ = createAsyncThunk('api/event', async (city_name: string) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getEvent$ = createAsyncThunk('api/event', async ({city_name, _start, _end}: {city_name: string, _start: string | null, _end: string | null}) => {
   const { data } = await axios.get(urlEventAPI + city_name)
-  return data
+  return {data, _start, _end}
 })
 
 export const getDetail$ = createAsyncThunk('api/detail', async (id: string) => {
@@ -135,11 +187,11 @@ export const apiCallSlice = createSlice({
                 state.loading.filter((item) => item.name === loading.name);
             }
             if (data) {
-                data.data.push(action.payload.results)
+                data.data.push(action.payload.data.results)
             } else {
                 state.data.push({
                     id: "Transports",
-                    data: action.payload.results
+                    data: action.payload.data.results
                 })
             }
         })
@@ -187,7 +239,7 @@ export const apiCallSlice = createSlice({
                 state.loading.filter((item) => item.name === loading.name);
             }
             if (data) {
-                const formattedData = action.payload.results.map((data: IDataEventAPI) => {
+                let formattedData = action.payload.data.results.map((data: IDataEventAPI) => {
                     return {
                         place_id: crypto.randomUUID(),
                         name: data.name,
@@ -197,9 +249,10 @@ export const apiCallSlice = createSlice({
                         date: data.date
                     }
                 });
+                formattedData = formattedData.filter((data: IDataEventAPI) => momentLg(parseDateString(data.date)?.startDate).isBetween(momentLg(action.payload._start), momentLg(action.payload._end)))
                 data.data.push(formattedData)
             } else {
-                const formattedData: IDetailAPI[] = action.payload.results.map((data: IDataEventAPI) => {
+                let formattedData: IDetailAPI[] = action.payload.data.results.map((data: IDataEventAPI) => {
                     return {
                         place_id: crypto.randomUUID(),
                         name: data.name,
@@ -209,6 +262,7 @@ export const apiCallSlice = createSlice({
                         date: data.date
                     }
                 });
+                formattedData = formattedData.filter(data => momentLg(parseDateString(data.date ?? '')?.startDate).isBetween(momentLg(action.payload._start), momentLg(action.payload._end)))
                 state.data.push({
                     id: "Events",
                     data: formattedData

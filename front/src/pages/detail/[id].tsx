@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styles from "@styledPageStyle/Detail.module.css"
 import { useAppDispatch, useAppSelector } from "src/store/hook";
 import { setIsInPageDetail } from "src/store/slices/viewSlice";
-import { getDetail$, setDetailId } from "src/store/slices/apiCallSlice";
+import { getDetail$, getTransport$, setDetailId } from "src/store/slices/apiCallSlice";
 import Image from "next/image";
 import { Button, ChakraProvider, CloseButton, Link, Spinner } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
@@ -32,6 +32,12 @@ export default function Detail() {
       zoomControl: true,
     };
 
+    const [resultTransport, setResultTransport] = React.useState<{
+      walk: string,
+      drive: string,
+      bicycl: string,
+      transit: string
+    }>()
     const [latDep, setLatDep] = React.useState<string | null>(null)
     const [lngDep, setLngDep] = React.useState<string | null>(null)
     
@@ -44,6 +50,8 @@ export default function Detail() {
     }, [dispatch, id])
 
     function handleDisplayItinerary() {
+      const latDest = detailStore?.location.split(",")[0].trim()
+      const lngDest = detailStore?.location.split(",")[1].trim()
       setDisplayItinerary({
         type: 'pending',
         response: false,
@@ -52,6 +60,12 @@ export default function Detail() {
         setLatDep(pos.coords.latitude.toString())
         setLngDep(pos.coords.longitude.toString())
         setLocated(true);
+        dispatch(getTransport$({
+          locationDest: `${latDest},${lngDest}`,
+          locationStart: `${latDep},${lngDep}`
+        })).unwrap().then(response => {
+          setResultTransport(response.results)
+        })
         setDisplayItinerary({
           type: 'fullfied',
           response: true,
@@ -176,6 +190,12 @@ export default function Detail() {
                   }}
                   mapOptions={mapOptionsItinerary}
                 />
+                <div style={{position: 'absolute', right: 0, bottom: 0, padding: '1em', display: 'flex', flexDirection: 'column', gap: 10}}>
+                  <p> {resultTransport?.walk} </p>
+                  <p> {resultTransport?.bicycl} </p>
+                  <p> {resultTransport?.drive} </p>
+                  <p> {resultTransport?.transit} </p>
+                </div>
                 <ChakraProvider>
                   <CloseButton size="lg" className={styles.dOverlayCloseButton} onClick={() => setDisplayItinerary({
                     type: 'ask',

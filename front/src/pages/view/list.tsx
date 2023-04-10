@@ -8,6 +8,7 @@ export default function ListView() {
     const dispatch = useAppDispatch()
     const apiStore = useAppSelector(state => state.api)
     const searchStore = useAppSelector(state => state.search)
+    const dateStore = useAppSelector(state => state.dateSearch)
     const [isDataLoaded, setIsDataLoaded] = React.useState(false)
     const [isRequestLaunched, setIsRequestLaunched] = React.useState(false)
     
@@ -16,12 +17,16 @@ export default function ListView() {
             const cityName = searchStore.searchValue && searchStore.searchValue.trim() !== '' ? searchStore.searchValue : "paris"; // Get event of the previously saved city that the user wrote or from paris
             if (!isRequestLaunched) {
                 setIsRequestLaunched(true)
-                dispatch(getEvent$(cityName)).unwrap().then(() => {
+                dispatch(getEvent$({
+                    city_name: cityName,
+                    _start: dateStore.start,
+                    _end: dateStore.end
+                })).unwrap().then(() => {
                     setIsDataLoaded(true)
                 });
             }
         }
-    }, [apiStore.data.length, dispatch, isDataLoaded, searchStore.searchValue, isRequestLaunched]);
+    }, [apiStore.data.length, dispatch, isDataLoaded, searchStore.searchValue, isRequestLaunched, dateStore.start, dateStore.end]);
     
     return (
         <div className={styles.lContainer} data-testid='iv-list'>
