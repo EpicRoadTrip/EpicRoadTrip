@@ -4,18 +4,20 @@ import ListRoundedIcon from '@mui/icons-material/ListRounded';
 import MapRoundedIcon from '@mui/icons-material/MapRounded';
 
 import { useAppSelector, useAppDispatch } from '../store/hook';
-import { change } from '../store/slices/viewSlice';
+import { change, leavePageDetail } from '../store/slices/viewSlice';
 import { Button, ChakraProvider } from '@chakra-ui/react';
 import ListView from './view/list';
 import MapView from './view/map';
 
 export default function Home() {
-  const [listView, setListView] = React.useState<boolean>(true);
   const view = useAppSelector(state => state.view.value);
   const dispatch = useAppDispatch();
 
+  React.useEffect(() => {
+    dispatch(leavePageDetail())
+  })
+
   function handleClick() {
-    setListView(!listView);
     dispatch(change()); 
   }
 
@@ -26,7 +28,7 @@ export default function Home() {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
         <div style={{overflow: 'hidden'}}>
-          {view ? <ListView/> : <MapView/>}
+          {view === 'list' ? <ListView/> : <MapView/>}
         </div>
         <ChakraProvider>
           <Button
