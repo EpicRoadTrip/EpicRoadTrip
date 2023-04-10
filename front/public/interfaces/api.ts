@@ -25,7 +25,7 @@ export interface IDetailDataAPI {
     photo: string
 }
 
-interface IDetailAPI {
+export interface IDetailAPI {
     place_id: string,
     name: string,
     formatted_address: string,
