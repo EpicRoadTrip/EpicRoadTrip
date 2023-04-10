@@ -107,6 +107,7 @@ export default function SearchEvent({ className }: IClassName) {
             break;
         }
       })
+      setDropdownOpen(false)
     } else {
       alert('Toute les items ne sont pas présent');
     }

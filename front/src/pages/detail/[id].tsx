@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styles from "@styledPageStyle/Detail.module.css"
 import { useAppDispatch, useAppSelector } from "src/store/hook";
 import { setIsInPageDetail } from "src/store/slices/viewSlice";
-import { getDetail$ } from "src/store/slices/apiCallSlice";
+import { getDetail$, setDetailId } from "src/store/slices/apiCallSlice";
 import Image from "next/image";
 import { Button, ChakraProvider, CloseButton, Link, Spinner } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
@@ -38,6 +38,7 @@ export default function Detail() {
     React.useEffect(() => {
       dispatch(setIsInPageDetail());
       if (id) {
+        dispatch(setDetailId(id as string))
         dispatch(getDetail$(id as string))
       }
     }, [dispatch, id])
@@ -67,8 +68,8 @@ export default function Detail() {
 
     function displayDetail(): JSX.Element {
       if (detailStore && detailStore.place_id === id) {
-        const lat = detailStore.location.split(",")[0].trim()
-        const long = detailStore.location.split(",")[1].trim()
+        const lat = detailStore.location !== 'Not available' ? detailStore.location.split(",")[0].trim() : 'Not available'
+        const long = detailStore.location  !== 'Not available' ? detailStore.location.split(",")[1].trim() : 'Not available'
         return (
           <>
           <div className={styles.dWrapperLeft}>
@@ -80,7 +81,7 @@ export default function Detail() {
               </div>
               <div className={styles.dTextLinkContainer}>
                 {
-                  detailStore.website !== "Indisponible" && (
+                  detailStore.website !== "Not available" && (
                   <ChakraProvider>
                     <Link display={'flex'} alignItems={'center'} className={styles.dOfficialSite} href={detailStore.website} isExternal>
                       Site officiel <ExternalLinkIcon mx='2px' />
@@ -97,7 +98,13 @@ export default function Detail() {
             <div className={styles.dWrapperRightTop}>
               <div className={styles.dWrapperRightItem}>
                 <h3 className={styles.dWrapperRightItemTitle}>Localisation</h3>
-                <Maps style={{width:400, height:250, borderRadius: 10}} position={{depart: {lat: lat, long: long, data: detailStore}}}  mapOptions={mapOptions} />
+                {
+                  lat !== 'Not available' && long !== 'Not available' ? (
+                    <Maps style={{width:400, height:250, borderRadius: 10}} position={{depart: {lat: lat, long: long, data: detailStore}}}  mapOptions={mapOptions} />
+                  ) : (
+                    <p>Position is not available</p>
+                  )
+                }
               </div>
               <div className={styles.dWrapperRightItem}>
                 <h3 className={styles.dWrapperRightItemTitle}>Horaire</h3>
@@ -121,6 +128,7 @@ export default function Detail() {
                 variant='outline'
                 colorScheme="blue"
                 className={styles.dItineraryButton}
+                isDisabled={detailStore.location === 'Not available'}
                 onClick={(() => handleDisplayItinerary())}
               >
                 Itinerary

@@ -2,6 +2,7 @@ export interface IAPI {
     data: IDataAPI[],
     loading: loadingDetail[],
     detail: IDetailDataAPI | null
+    idDetail: string
 }
 
 export interface IDataAPI {
@@ -30,9 +31,18 @@ export interface IDetailAPI {
     name: string,
     formatted_address: string,
     photo: string,
-    location: string,
-    price_level: string,
+    location?: string,
+    price_level?: string,
     description: string,
+    date?: string,
+}
+
+export interface IDataEventAPI {
+    name: string,
+    formatted_address: string,
+    photo: string,
+    description: string,
+    date: string
 }
 
 interface loadingDetail {

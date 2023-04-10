@@ -1,5 +1,6 @@
+import { IDataEventAPI, IDetailAPI } from './../../../public/interfaces/api';
 import { IAPI } from '@interfaces/api'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const urlAccomodationAPI = process.env.NEXT_PUBLIC_API_ACCOMODATION
@@ -9,13 +10,12 @@ const urlRestaurantAPI = process.env.NEXT_PUBLIC_API_RESTAURANT
 const urlEventAPI = process.env.NEXT_PUBLIC_API_EVENT
 const urlDetailAPI = process.env.NEXT_PUBLIC_API_DETAIL
 
-let idDetail = "";
-
 // Define the initial state using that type
 const initialState: IAPI = {
   data: [],
   loading: [],
-  detail: null
+  detail: null,
+  idDetail: ""
 }
 
 export const getAccomodation$ = createAsyncThunk('api/accomodation', async (city_name: string) => {
@@ -55,7 +55,6 @@ export const getEvent$ = createAsyncThunk('api/event', async (city_name: string)
 
 export const getDetail$ = createAsyncThunk('api/detail', async (id: string) => {
   const { data } = await axios.get(urlDetailAPI + id)
-  idDetail = id;
   return data
 })
 
@@ -63,8 +62,12 @@ export const apiCallSlice = createSlice({
   name: 'apiCall',
   initialState,
   reducers: {
+    setDetailId: (state, action: PayloadAction<string>) => {
+        state.idDetail = action.payload;
+    },
     resetSearch: (state) => {
         state.data = [];
+        state.loading = [];
     }
   },
   extraReducers(builder) {
@@ -184,11 +187,31 @@ export const apiCallSlice = createSlice({
                 state.loading.filter((item) => item.name === loading.name);
             }
             if (data) {
-                data.data.push(action.payload.results)
+                const formattedData = action.payload.results.map((data: IDataEventAPI) => {
+                    return {
+                        place_id: crypto.randomUUID(),
+                        name: data.name,
+                        formatted_adress: data.formatted_address,
+                        photo: data.photo,
+                        description: data.description.trim() !== "" ? data.description : "No description available",
+                        date: data.date
+                    }
+                });
+                data.data.push(formattedData)
             } else {
+                const formattedData: IDetailAPI[] = action.payload.results.map((data: IDataEventAPI) => {
+                    return {
+                        place_id: crypto.randomUUID(),
+                        name: data.name,
+                        formatted_adress: data.formatted_address,
+                        photo: data.photo,
+                        description: data.description.trim() !== "" ? data.description : "No description available",
+                        date: data.date
+                    }
+                });
                 state.data.push({
                     id: "Events",
-                    data: action.payload.results
+                    data: formattedData
                 })
             }
         })
@@ -211,7 +234,7 @@ export const apiCallSlice = createSlice({
             if (action.payload) {
                 state.detail = action.payload.results
                 if (state.detail) {
-                    state.detail.place_id = idDetail;
+                    state.detail.place_id = state.idDetail;
                     state.detail.hours = [];
                     state.detail.opening_hours.forEach(value => {
                         state.detail?.hours.push({
@@ -222,21 +245,21 @@ export const apiCallSlice = createSlice({
                 }
             } else {
                 state.data.forEach((item) => {
-                    const detailItem = item.data.find((value) => value.place_id === idDetail);
+                    const detailItem = item.data.find((value) => value.place_id === state.idDetail);
                     if (detailItem) {
                         state.detail = {
-                            place_id: detailItem.place_id,
+                            place_id: detailItem.place_id ?? crypto.randomUUID(),
                             description: detailItem.description,
                             formatted_address: detailItem.formatted_address,
                             name: detailItem.name,
-                            location: detailItem.location,
+                            location: detailItem.location ?? "Not available",
                             photo: detailItem.photo,
-                            phone: "Indisponible",
-                            opening_hours: ["Indisponible"],
-                            website: "Indisponible",
+                            phone: "Not available",
+                            opening_hours: ["Not available"],
+                            website: "Not available",
                             hours: [{
                                 id: crypto.randomUUID(),
-                                value: "Indisponible"
+                                value: "Not available"
                             }]
                         }
                     }
@@ -249,21 +272,21 @@ export const apiCallSlice = createSlice({
                 state.loading.filter((item) => item.name === loading.name);
             }
             state.data.forEach((item) => {
-                const detailItem = item.data.find((value) => value.place_id === idDetail);
+                const detailItem = item.data.find((value) => value.place_id === state.idDetail);
                 if (detailItem) {
                     state.detail = {
-                        place_id: detailItem.place_id,
+                        place_id: detailItem.place_id ?? crypto.randomUUID(),
                         description: detailItem.description,
                         formatted_address: detailItem.formatted_address,
                         name: detailItem.name,
-                        location: detailItem.location,
+                        location: detailItem.location ?? "Not available",
                         photo: detailItem.photo,
-                        phone: "Indisponible",
-                        opening_hours: ["Indisponible"],
-                        website: "Indisponible",
+                        phone: "Not available",
+                        opening_hours: ["Not available"],
+                        website: "Not available",
                         hours: [{
                             id: crypto.randomUUID(),
-                            value: "Indisponible"
+                            value: "Not available"
                         }]
                     }
                 }
@@ -274,5 +297,5 @@ export const apiCallSlice = createSlice({
   },
 })
 
-export const { resetSearch } = apiCallSlice.actions
+export const { resetSearch, setDetailId } = apiCallSlice.actions
 export default apiCallSlice.reducer

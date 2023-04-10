@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from 'src/store/hook';
-import { getAccomodation$ } from 'src/store/slices/apiCallSlice';
+import { getEvent$ } from 'src/store/slices/apiCallSlice';
 import styles from '@styledPageStyle/List.module.css';
 import CardColumn from '@components/CardColumn';
 
@@ -16,7 +16,7 @@ export default function ListView() {
             const cityName = searchStore.searchValue && searchStore.searchValue.trim() !== '' ? searchStore.searchValue : "paris"; // Get event of the previously saved city that the user wrote or from paris
             if (!isRequestLaunched) {
                 setIsRequestLaunched(true)
-                dispatch(getAccomodation$(cityName)).unwrap().then(() => {
+                dispatch(getEvent$(cityName)).unwrap().then(() => {
                     setIsDataLoaded(true)
                 });
             }
@@ -33,7 +33,7 @@ export default function ListView() {
                             {
                                 item.data && item.data.map((value) => (
                                     <div key={value.place_id}>
-                                        <CardColumn id={value.place_id} title={value.name} description={value.description} imgSrc={value.photo} price={value.price_level}  />
+                                        <CardColumn id={value.place_id} title={value.name} description={value.description} imgSrc={value.photo} price={value.price_level ?? ""}  />
                                     </div>
                                 ))
                             }
