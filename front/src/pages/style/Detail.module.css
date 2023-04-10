@@ -21,10 +21,6 @@
     gap: 25px;
 }
 
-.dWrapperRight {
-    gap: 45px;
-}
-
 .dWrapperLeft .dWrapperLeftImage {
     width: 100%;
     height: auto;
@@ -90,7 +86,13 @@
     grid-column: 1 / 3;
 }
 
-.dWrapperRight .dWrapperRightItem {
+.dWrapperRightTop {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dWrapperRightTop .dWrapperRightItem {
     width: 400px;
     min-height: 120px;
     font-family: 'Montserrat';
@@ -114,4 +116,41 @@
 
 .dWrapperRightItem p span {
     color: #0466C8;
+}
+
+.dItineraryButton {
+    width: 150px;
+    align-self: flex-end;
+}
+
+.dOverlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dOverlayContent {
+    position: relative;
+}
+
+.dOverlayCloseButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border-radius: 10px;
+    color: #fd1515;
+    backdrop-filter: blur(10px);
+    background: rgba( 255, 255, 255, 0.15 )!important;
+}
+
+.dOverlayCloseButton:hover {
+    /* color: #000; */
+    background: rgba( 255, 255, 255, 0.5 )!important;
 }
