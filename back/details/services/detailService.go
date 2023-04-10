@@ -22,15 +22,16 @@ func GetDetails(placeId string) (models.Detail, error) {
 		return models.Detail{}, fmt.Errorf("erreur lors de la création du client maps : %s", err)
 	}
 
-	placeId = strings.ReplaceAll(placeId, " ", "-")
+	fmt.Println(placeId)
 
 	r := &maps.PlaceDetailsRequest{
-		PlaceID:  placeId,
-		Language: "fr",
+		PlaceID: placeId,
 	}
 
 	resp, err := client.PlaceDetails(context.Background(), r)
 	if err != nil {
+		fmt.Println("Ici le debug")
+		fmt.Println(err)
 		return models.Detail{}, fmt.Errorf("erreur lors de la récupération des détails du lieu : %s", err)
 	}
 
@@ -43,6 +44,8 @@ func GetDetails(placeId string) (models.Detail, error) {
 
 	if tripadvisorDescription != "" {
 		detail.Description = tripadvisorDescription
+	} else {
+		detail.Description = "No description available"
 	}
 
 	return detail, nil
@@ -50,9 +53,6 @@ func GetDetails(placeId string) (models.Detail, error) {
 
 func GetDetailsTripAdvisor(name string, location string) (string, error) {
 	tripAdvisorKey := config.GetVarEnv()["tripAdvisorKey"]
-
-	fmt.Println(name)
-	fmt.Println(location)
 
 	name = strings.ReplaceAll(name, " ", "-")
 
@@ -134,16 +134,15 @@ func GetDetailsTripAdvisor(name string, location string) (string, error) {
 
 func MapPlaceDetailsResultToDetail(result maps.PlaceDetailsResult) models.Detail {
 	detail := models.Detail{
-		Name:         result.Name,
-		Address:      result.FormattedAddress,
-		Location:     fmt.Sprintf("%f,%f", result.Geometry.Location.Lat, result.Geometry.Location.Lng),
-		Phone:        result.InternationalPhoneNumber,
-		OpeningHours: result.OpeningHours.WeekdayText,
-		Website:      result.Website,
+		Name:     result.Name,
+		Address:  result.FormattedAddress,
+		Location: fmt.Sprintf("%f,%f", result.Geometry.Location.Lat, result.Geometry.Location.Lng),
+		Phone:    result.InternationalPhoneNumber,
+		Website:  result.Website,
 	}
 
-	if result.EditorialSummary != nil {
-		detail.Description = result.EditorialSummary.Overview
+	if result.OpeningHours != nil {
+		detail.OpeningHours = result.OpeningHours.WeekdayText
 	}
 
 	if len(result.Photos) > 0 {

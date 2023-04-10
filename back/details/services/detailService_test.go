@@ -111,7 +111,6 @@ func TestMapPlaceDetailsResultToDetail(t *testing.T) {
 		InternationalPhoneNumber: "+1 123-456-7890",
 		OpeningHours:             &maps.OpeningHours{WeekdayText: []string{"Monday: 9:00 AM – 5:00 PM"}},
 		Website:                  "https://www.example.com",
-		EditorialSummary:         &maps.PlaceEditorialSummary{Overview: "Test description"},
 		Photos:                   []maps.Photo{{PhotoReference: "test_photo_reference"}},
 	}
 
@@ -122,7 +121,6 @@ func TestMapPlaceDetailsResultToDetail(t *testing.T) {
 	assert.Equal(t, "+1 123-456-7890", detail.Phone)
 	assert.Equal(t, []string{"Monday: 9:00 AM – 5:00 PM"}, detail.OpeningHours)
 	assert.Equal(t, "https://www.example.com", detail.Website)
-	assert.Equal(t, "Test description", detail.Description)
 	assert.Contains(t, detail.Photo, "test_photo_reference")
 }
 
