@@ -1,0 +1,45 @@
+definitions:
+  models.Restaurant:
+    properties:
+      description:
+        type: string
+      formatted_address:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      photo:
+        type: string
+      place_id:
+        type: string
+      price_level:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /restaurants/{location}:
+    get:
+      consumes:
+      - application/json
+      description: Get restaurants
+      parameters:
+      - description: Location
+        in: path
+        name: location
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Restaurant'
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get restaurants
+swagger: "2.0"

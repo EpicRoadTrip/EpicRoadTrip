@@ -4,6 +4,8 @@ https://epic-road-trip-mu.vercel.app/
 
 ## Table of Contents
 
+- [EPIC ROAD TRIP](#epic-road-trip)
+  - [Table of Contents](#table-of-contents)
   - [Status](#status)
   - [Introduction](#introduction)
   - [User Stories](#user-stories)
@@ -17,8 +19,12 @@ https://epic-road-trip-mu.vercel.app/
   - [UI / UX](#ui--ux)
   - [Bonus Features](#bonus-features)
   - [Team](#team)
- 
+
 ## Status
+
+Frontend deployment: <https://epic-road-trip-mu.vercel.app/>
+
+Gateway deployment: <http://163.172.137.43/>
 
 | Workflow | Status | Platform |
 | - | - | - |
@@ -63,9 +69,11 @@ The application's architecture consists of a frontend built with Next.js, and ba
 
 The frontend communicates with the backend services via API calls. The backend services fetch data from external APIs such as TripAdvisor and Google, process the data, and return the results to the frontend.
 
-Continuous integration and deployment are managed using Github Actions. The frontend is deployed to Vercel, while the backend microservices are deployed to GCP Cloud Run.
+Continuous integration and deployment are managed using Github Actions. The frontend is deployed to Vercel, while the backend microservices are deployed on Scaleway.
 
-Development follows the Git Flow and Test Driven Development methodologies. Unit tests are performed using Jest for the frontend and testify for the backend.
+The gateway service is responsible for routing requests to the appropriate backend service. It rates limits requests to prevent abuse. It also caches responses to reduce the number of requests to external APIs.
+
+The rate limit is set to 10 requests per second. The cache is set to expire after 1 hour.
 
 Here's a high-level diagram of the architecture:
 
@@ -74,27 +82,37 @@ graph LR
   subgraph Vercel
     A[Frontend<br>Next.js]
   end
-  A -- REST, JSON --> D[Enjoy Service]
-  A -- REST, JSON --> E[Sleep Service]
-  A -- REST, JSON --> F[Transport Service]
-  A -- REST, JSON --> G[Eat Service]
-  A -- REST, JSON --> H[Drink Service]
-  A -- REST, JSON --> J[Printable Service]
-  A -- REST, JSON --> K[Save & Share Service]
-  subgraph GCP Cloud Run
-    D
-    E
-    F
-    G
-    H
-    J
-    K
+
+  subgraph Scaleway
+    B[API Gateway<br>Rate-limiting<br>Caching]
+    D[Enjoy Service]
+    E[Sleep Service]
+    F[Transport Service]
+    G[Eat Service]
+    H[Drink Service]
+    I[Details Service]
   end
-  D -- REST, JSON --> L[External Event API]
-  E -- REST, JSON --> M[External Hotel API]
-  F -- REST, JSON --> N[External Transport API]
-  G -- REST, JSON --> O[External Restaurant API]
-  H -- REST, JSON --> P[External Bar API]
+  A -- REST, JSON --> B
+  B -- REST, JSON --> D
+  B -- REST, JSON --> E
+  B -- REST, JSON --> F
+  B -- REST, JSON --> G
+  B -- REST, JSON --> H
+  B -- REST, JSON --> I
+  subgraph External APIs
+    L[SerpAPI]
+    M[External Hotel API]
+    N[External Transport API]
+    O[External Restaurant API]
+    P[External Bar API]
+    Q[TripAdvisor API]
+  end
+  D -- REST, JSON --> L
+  E -- REST, JSON --> M
+  F -- REST, JSON --> N
+  G -- REST, JSON --> O
+  H -- REST, JSON --> P
+  I -- REST, JSON --> Q
 ```
 
 ## API Specifications
@@ -102,20 +120,17 @@ graph LR
 The API consists of the following endpoints:
 
 ```text
-POST /enjoy - List of existing events and activities.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /events/:location?constraints - List of existing events and activities.
 
-POST /sleep - List of available accommodations.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /accomodations/:location?constraints - List of available accommodations.
 
-POST /travel - List of available transports.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /bars/:location?constraints - List of available bars.
 
-POST /eat - List of available restaurants.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /restaurants/:location?constraints - List of available restaurants.
 
-POST /drink - List of available bars.
-Request body: { "location": "<location>", "constraints": "<constraints>" }
+GET /details/:placeId - Get the details of a specific event, accommodation, restaurant, or bar.
+
+GET /transports/:location?constraints - List of available transports.
 ```
 
 Each endpoint accepts a JSON object in the request body containing a location and an optional constraints field. The constraints field can be used to refine the search results according to dates, budget, area, and other constraints.
@@ -133,6 +148,8 @@ To utilize these external APIs, API keys and proper authentication are implement
 Epic Road Trip follows the Test Driven Development (TDD) methodology, which involves writing tests before implementing the actual functionality. This ensures that the application meets the expected requirements and minimizes the risk of introducing bugs during development.
 
 The frontend uses Jest for testing, while the backend employs testify. By following TDD, we ensure that the application is stable, reliable, and functioning as intended.
+
+Development follows the Git Flow and Test Driven Development methodologies. Unit tests are performed using Jest for the frontend and testify for the backend.
 
 ## Documentation
 
