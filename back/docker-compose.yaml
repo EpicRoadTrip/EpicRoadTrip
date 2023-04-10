@@ -63,7 +63,7 @@ services:
       DETAILS_API_BASE_URL: "http://details:8080/details"
       EVENT_API_BASE_URL: "http://event:8080/events"
       RESTAURANT_API_BASE_URL: "http://restaurant:8080/restaurants"
-      TRANSPORT_API_BASE_URL: "http://transport:8080"
+      TRANSPORT_API_BASE_URL: "http://transport:8080/transports"
       GIN_MODE: "release"
     ports:
       - "80:8080"
@@ -74,4 +74,5 @@ services:
 
 networks:
   mynetwork:
+
 

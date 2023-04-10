@@ -51,8 +51,8 @@ func gatewayHandler(w http.ResponseWriter, r *http.Request) {
 	// Extract the API and resource names from the URL path
 	api := path[1]
 	resource := ""
-	if len(path) > 1 {
-		resource = path[1]
+	if len(path) > 2 {
+		resource = path[2]
 	}
 
 	// Look up the base URL for the API in an environment variable
@@ -89,11 +89,15 @@ func gatewayHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println("Cache: ", cache)
+
 	// Generate a cache key for the requested resource
 	cacheKey := baseUrl
 	if resource != "" {
 		cacheKey += "/" + resource
 	}
+
+	fmt.Println("Cache key: ", cacheKey)
 
 	// Check if the response for the requested resource is already cached
 	if cachedData, ok := cache.Load(cacheKey); ok {
