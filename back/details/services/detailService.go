@@ -22,6 +22,7 @@ func GetDetails(placeId string) (models.Detail, error) {
 		return models.Detail{}, fmt.Errorf("erreur lors de la création du client maps : %s", err)
 	}
 
+
 	fmt.Println(placeId)
 
 	r := &maps.PlaceDetailsRequest{
@@ -30,8 +31,6 @@ func GetDetails(placeId string) (models.Detail, error) {
 
 	resp, err := client.PlaceDetails(context.Background(), r)
 	if err != nil {
-		fmt.Println("Ici le debug")
-		fmt.Println(err)
 		return models.Detail{}, fmt.Errorf("erreur lors de la récupération des détails du lieu : %s", err)
 	}
 
