@@ -99,6 +99,14 @@ func gatewayHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Cache key: ", cacheKey)
 
+	// Dont cache if the request method is POST
+	if r.Method == http.MethodPost {
+		// If the request method is POST, proxy the request to the API
+		log.Printf("[%s] Cache miss: %s", r.Method, cacheKey)
+		proxyAPI(w, *r, cacheKey)
+		return
+	}
+
 	// Check if the response for the requested resource is already cached
 	if cachedData, ok := cache.Load(cacheKey); ok {
 		// If the response is cached, write it to the response writer
