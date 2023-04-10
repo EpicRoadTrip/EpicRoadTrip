@@ -20,7 +20,7 @@ func setupRouter() *gin.Engine {
 		c.String(200, "pong")
 	})
 
-	r.GET("/transports", controllers.GetTransportsHandler)
+	r.POST("/transports", controllers.GetTransportsHandler)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
