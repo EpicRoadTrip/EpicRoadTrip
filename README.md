@@ -82,6 +82,7 @@ graph LR
   subgraph Vercel
     A[Frontend<br>Next.js]
   end
+
   subgraph Scaleway
     B[API Gateway<br>Rate-limiting<br>Caching]
     D[Enjoy Service]
