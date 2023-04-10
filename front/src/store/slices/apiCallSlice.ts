@@ -7,11 +7,15 @@ const urlBarAPI = process.env.NEXT_PUBLIC_API_BAR
 const urlTransportAPI = process.env.NEXT_PUBLIC_API_TRANSPORT
 const urlRestaurantAPI = process.env.NEXT_PUBLIC_API_RESTAURANT
 const urlEventAPI = process.env.NEXT_PUBLIC_API_EVENT
+const urlDetailAPI = process.env.NEXT_PUBLIC_API_DETAIL
+
+let idDetail = "";
 
 // Define the initial state using that type
 const initialState: IAPI = {
   data: [],
-  loading: []
+  loading: [],
+  detail: null
 }
 
 export const getAccomodation$ = createAsyncThunk('api/accomodation', async (city_name: string) => {
@@ -46,6 +50,12 @@ export const getRestaurant$ = createAsyncThunk('api/restaurant', async (city_nam
 
 export const getEvent$ = createAsyncThunk('api/event', async (city_name: string) => {
   const { data } = await axios.get(urlEventAPI + city_name)
+  return data
+})
+
+export const getDetail$ = createAsyncThunk('api/detail', async (id: string) => {
+  const { data } = await axios.get(urlDetailAPI + id)
+  idDetail = id;
   return data
 })
 
@@ -187,6 +197,77 @@ export const apiCallSlice = createSlice({
             if (loading) {
                 state.loading.filter((item) => item.name === loading.name);
             }
+        })
+        //#endregion
+        //#region Detail
+        .addCase(getDetail$.pending, (state) => {
+            state.loading.push({name: "api/detail", isLoading: true});
+        })
+        .addCase(getDetail$.fulfilled, (state, action) => {
+            const loading = state.loading.find((loadingState) => loadingState.name === 'api/detail');
+            if (loading) {
+                state.loading.filter((item) => item.name === loading.name);
+            }
+            if (action.payload) {
+                state.detail = action.payload.results
+                if (state.detail) {
+                    state.detail.place_id = idDetail;
+                    state.detail.hours = [];
+                    state.detail.opening_hours.forEach(value => {
+                        state.detail?.hours.push({
+                            id: crypto.randomUUID(),
+                            value: value
+                        })
+                    })
+                }
+            } else {
+                state.data.forEach((item) => {
+                    const detailItem = item.data.find((value) => value.place_id === idDetail);
+                    if (detailItem) {
+                        state.detail = {
+                            place_id: detailItem.place_id,
+                            description: detailItem.description,
+                            formatted_address: detailItem.formatted_address,
+                            name: detailItem.name,
+                            location: detailItem.location,
+                            photo: detailItem.photo,
+                            phone: "Indisponible",
+                            opening_hours: ["Indisponible"],
+                            website: "Indisponible",
+                            hours: [{
+                                id: crypto.randomUUID(),
+                                value: "Indisponible"
+                            }]
+                        }
+                    }
+                })
+            }
+        })
+        .addCase(getDetail$.rejected, (state) => {
+            const loading = state.loading.find((loadingState) => loadingState.name === 'api/detail');
+            if (loading) {
+                state.loading.filter((item) => item.name === loading.name);
+            }
+            state.data.forEach((item) => {
+                const detailItem = item.data.find((value) => value.place_id === idDetail);
+                if (detailItem) {
+                    state.detail = {
+                        place_id: detailItem.place_id,
+                        description: detailItem.description,
+                        formatted_address: detailItem.formatted_address,
+                        name: detailItem.name,
+                        location: detailItem.location,
+                        photo: detailItem.photo,
+                        phone: "Indisponible",
+                        opening_hours: ["Indisponible"],
+                        website: "Indisponible",
+                        hours: [{
+                            id: crypto.randomUUID(),
+                            value: "Indisponible"
+                        }]
+                    }
+                }
+            })
         })
         //#endregion
         
