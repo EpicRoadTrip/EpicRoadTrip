@@ -18,7 +18,7 @@ export default function Header() {
                 </nav>
                 <div style={{flex: 1, textAlign: 'right', marginRight: '2%', color: '#fff'}} data-testid='h-copyright'>Copryright 2023</div>
             </div>
-            <SearchEvent className={styles.hSearchEvent} />
+            <SearchEvent className={`${styles.hSearchEvent} ${viewStore.value === 'map' && !viewStore.isInPageDetail ? styles.mapView : ''}`} />
         </header>
     )
 }
