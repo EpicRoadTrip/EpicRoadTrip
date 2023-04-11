@@ -118,7 +118,7 @@ export default function Detail() {
                 <h3 className={styles.dWrapperRightItemTitle}>Localisation</h3>
                 {
                   lat !== 'Not available' && long !== 'Not available' ? (
-                    <Maps style={{width:400, height:250, borderRadius: 10}} position={{depart: {lat: lat, long: long, data: detailStore}}}  mapOptions={mapOptions} />
+                    <Maps style={{height:250, borderRadius: 10}} position={{depart: {lat: lat, long: long, data: detailStore}}}  mapOptions={mapOptions} />
                   ) : (
                     <p>Position is not available</p>
                   )
@@ -224,9 +224,9 @@ export default function Detail() {
                 </div>
                 <Maps
                   style={{
-                    borderRadius: 10,
-                    width: (window.innerWidth/100)*65,
-                    height: (window.innerHeight/100)*75
+                    borderRadius: window.innerWidth > 800 ? 10 : 0,
+                    width: window.innerWidth > 1024 ? '65vw' : window.innerWidth > 800 ? '90vw' : '100vw',
+                    height: window.innerWidth > 1024 ? '75vh' : window.innerWidth > 800 ? '80vh' : '100vh'
                   }} 
                   position={{
                     depart: {

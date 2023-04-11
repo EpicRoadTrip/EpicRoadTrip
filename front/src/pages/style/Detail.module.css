@@ -6,8 +6,6 @@
     transform: translateX(-50%);
     display: grid;
     gap: 50px;
-    align-content: space-between;
-    justify-content: space-between;
     grid-template-columns: repeat(2, auto);
 }
 
@@ -93,7 +91,6 @@
 }
 
 .dWrapperRightTop .dWrapperRightItem {
-    width: 400px;
     min-height: 120px;
     font-family: 'Montserrat';
     display: flex;
@@ -176,4 +173,18 @@
     gap: 10px;
     align-items: center;
     flex-direction: row;
+}
+
+@media screen and (max-width: 1024px) {
+    .dWrapper {
+        width: 95%;
+        left: calc(5% / 2);
+        transform: translateX(0)
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .dWrapper {
+        grid-template-columns: 100%;
+    }
 }
