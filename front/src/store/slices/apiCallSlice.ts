@@ -290,6 +290,9 @@ export const apiCallSlice = createSlice({
                 if (state.detail) {
                     state.detail.place_id = state.idDetail;
                     state.detail.hours = [];
+                    if (!state.detail.opening_hours) {
+                        state.detail.opening_hours = ["Not available"]
+                    }
                     state.detail.opening_hours.forEach(value => {
                         state.detail?.hours.push({
                             id: crypto.randomUUID(),
