@@ -5,6 +5,7 @@ import { viewSlice } from './slices/viewSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import searchSlice from './slices/searchSlice';
 import apiCallSlice from './slices/apiCallSlice';
+import eventPrintSlice from './slices/eventPrintSlice';
 
 const persistConfig = {
   key: 'root',
@@ -20,6 +21,7 @@ export const store = configureStore({
     dateSearch: persistedDateSearchReducer,
     search: persistedSearchReducer,
     api: apiCallSlice,
+    dataToPrint: eventPrintSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false
