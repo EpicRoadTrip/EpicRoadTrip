@@ -26,3 +26,22 @@
     font-weight: 700;
     margin-left: 30px;
 }
+
+@media screen and (max-width: 1024px) {
+    .lItemContainer {
+        grid-template-columns: repeat(2, auto);
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .lItem {
+        align-items: center;
+    }
+    .lTitleItem {
+        align-self: flex-start;
+    }
+    .lItemContainer {
+        align-items: center;
+        grid-template-columns: 100%;
+    }
+}
