@@ -1,35 +1,66 @@
-import { useLoadScript, GoogleMap, MarkerF } from '@react-google-maps/api';
 import type { NextPage } from 'next';
 import { useMemo, useState } from 'react';
 import CardRow from '@components/CardRow';
 import { useAppSelector } from 'src/store/hook';
 import styles from '@styledPageStyle/Map.module.css'
+import MapEvent from '@components/MapEvent';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useGoogleMap } from '@react-google-maps/api';
+import { ILatLong, IMapEvents } from '@interfaces/map';
 
-const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places']
+// const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places']
 
 const MapView: NextPage = () => {
-    const [located, setLocated] = useState<boolean>(false);
-    const [position, setPosition] = useState<google.maps.LatLng>(new google.maps.LatLng(0, 0));
+    // const [located, setLocated] = useState<boolean>(false);
     const apiStore = useAppSelector(state => state.api)
     const mapOptions = useMemo<google.maps.MapOptions>(() => ({
       disableDefaultUI: false,
       clickableIcons: false,
       scrollwheel: false,
+      zoom: 0
 
     }), []);
-
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
-        libraries: libraries
-    });
-
-    navigator.geolocation.getCurrentPosition((pos) => {
-        setPosition(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-        setLocated(true);
+    const [mapEventData, setMapEventData] = useState<IMapEvents>({
+        events: [],
+        mapOptions: mapOptions
     })
 
-    if (!isLoaded || !located)
-        return <p>Loading...</p>;
+    useMemo(() => {
+        if (apiStore.data.length) {
+            const events: ILatLong[] = [];
+            apiStore.data.forEach((item) => {
+                if (item.id !== 'Transports' && item.data.length) {
+                    item.data.forEach((data) => {
+                        const location = data.location ? data.location?.split(',').map((str) => str.trim()) : 'Location not available'
+                        if (location !== 'Location not available') {
+                            events.push({
+                                id: crypto.randomUUID(),
+                                lat: location[0],
+                                long: location[1],
+                                data: {
+                                    place_id: data.place_id,
+                                    formatted_address: data.formatted_address,
+                                    description: data.description,
+                                    phone: "Not available",
+                                    website: "Not available",
+                                    photo: data.photo,
+                                    hours: [{
+                                        id: crypto.randomUUID(),
+                                        value: "Not available"
+                                    }],
+                                    opening_hours: ["Not available"],
+                                    name: data.name,
+                                    location: data.location as string,
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            mapEventData.events = events;
+            setMapEventData(mapEventData);
+        }
+    }, [apiStore.data, mapEventData])
 
     return (
         <div className={styles.mContainer}>
@@ -58,16 +89,7 @@ const MapView: NextPage = () => {
                 }
             </div>
             <div>
-                <GoogleMap
-                    options={mapOptions}
-                    zoom={15}
-                    center={position}
-                    mapTypeId={google.maps.MapTypeId.ROADMAP}
-                    mapContainerStyle={{ width: '100%', height: '100%' }}
-                    onLoad={() => console.log('Map Component Loaded...')}
-                >
-                    <MarkerF position={position}/>
-                </GoogleMap>
+                <MapEvent events={mapEventData.events} mapOptions={mapEventData.mapOptions}/>
             </div>
         </div>
     );//47.214642, -1.577739

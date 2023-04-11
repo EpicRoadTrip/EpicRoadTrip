@@ -7,12 +7,18 @@ export interface IMap {
     mapOptions?: google.maps.MapOptions
 }
 
+export interface IMapEvents {
+    events: ILatLong[],
+    mapOptions?: google.maps.MapOptions
+}
+
 export interface IMapItinerary {
     depart: ILatLong,
     dest?: ILatLong,
 }
 
-interface ILatLong {
+export interface ILatLong {
+    id: string,
     lat: string,
     long: string,
     data?: IDetailDataAPI
