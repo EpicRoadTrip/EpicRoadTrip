@@ -1,6 +1,6 @@
 import React from 'react'
 import { SearchIcon } from '@chakra-ui/icons'
-import { Button, ChakraProvider, IconButton, Input, Stack, useOutsideClick } from '@chakra-ui/react'
+import { Button, ChakraProvider, IconButton, Input, Stack, useOutsideClick, useToast } from '@chakra-ui/react'
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded'
 import NumberSelector from './NumberSelector'
 import InputDateRangePicker from './InputDateRangePicker'
@@ -17,6 +17,7 @@ import { getAccomodation$, getRestaurant$, getBar$, getEvent$, resetSearch } fro
 export default function SearchEvent({ className }: IClassName) {
   const ref = React.useRef(null)
   const dispatch = useAppDispatch()
+  const toast = useToast()
   const refInputSearch = React.useRef(null)
   const searchStore = useAppSelector(state => state.search)
   const dateStore = useAppSelector(state => state.dateSearch)
@@ -99,17 +100,31 @@ export default function SearchEvent({ className }: IClassName) {
             break;
 
           case "event":
-            dispatch(getEvent$(inputSearchValue));
+            dispatch(getEvent$({
+              city_name: inputSearchValue,
+              _start: dateStore.start,
+              _end: dateStore.end
+            }));
             break;
 
           default:
-            dispatch(getEvent$(inputSearchValue));
+            dispatch(getEvent$({
+              city_name: inputSearchValue,
+              _start: dateStore.start,
+              _end: dateStore.end
+            }));
             break;
         }
       })
       setDropdownOpen(false)
     } else {
-      alert('Toute les items ne sont pas présent');
+      toast({
+        title: 'Error',
+        description: "Some fields are missing.",
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      })
     }
   }
 
@@ -125,6 +140,14 @@ export default function SearchEvent({ className }: IClassName) {
         selectedTypes: selectedDropdownData,
         searchValue: inputSearchValue
       }));
+    } else {
+      toast({
+        title: 'Search cannot be saved',
+        description: "Some fields are missing.",
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      })
     }
   }
 
