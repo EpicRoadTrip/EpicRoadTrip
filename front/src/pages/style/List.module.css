@@ -13,9 +13,11 @@
 }
 
 .lItemContainer {
+    width: 95%;
+    margin: auto;
     display: grid;
     gap: 25px;
-    justify-content: center;
+    justify-content: flex-start;
     grid-template-columns: repeat(5, auto);
     grid-template-rows: auto;
 }
@@ -27,8 +29,23 @@
     margin-left: 30px;
 }
 
+@media screen and (max-width: 1800px) {
+    .lItemContainer {
+        justify-content: center;
+        grid-template-columns: repeat(4, auto);
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .lItemContainer {
+        justify-content: center;
+        grid-template-columns: repeat(3, auto);
+    }
+}
+
 @media screen and (max-width: 1024px) {
     .lItemContainer {
+        justify-content: center;
         grid-template-columns: repeat(2, auto);
     }
 }
@@ -41,7 +58,8 @@
         align-self: flex-start;
     }
     .lItemContainer {
-        align-items: center;
+        width: max-content;
+        margin: auto;
         grid-template-columns: 100%;
     }
 }
