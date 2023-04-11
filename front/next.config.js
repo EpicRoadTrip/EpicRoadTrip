@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
 }
 
 module.exports = {
   ...nextConfig,
-  transpilePackages: ['multi-range-slider-react']
+  transpilePackages: ['multi-range-slider-react'],
+  images: {
+    domains: ['picsum.photos', 'maps.googleapis.com', 'encrypted-tbn0.gstatic.com']
+  }
 }

@@ -1,0 +1,52 @@
+.mContainer {
+    display: grid;
+    grid-template-columns: 30vw auto;
+}
+
+.mListOfCardContainer {
+    width: 100%;
+    height: calc(100vh - 75px);
+    padding: 1em;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.mListOfCardContainer::-webkit-scrollbar {
+    width: 20px;
+}
+
+.mListOfCardContainer::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.mListOfCardContainer::-webkit-scrollbar-thumb {
+    background-color: #979DAC;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+.lItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.lItemContainer {
+    width: 95%;
+    margin: auto;
+    display: grid;
+    gap: 20px;
+    justify-content: flex-start;
+    grid-template-columns: 100%;
+    grid-template-rows: auto;
+}
+
+.lTitleItem {
+    font-size: x-large;
+    color: var(--greyOne);
+    font-weight: 700;
+    margin-left: 15px;
+}

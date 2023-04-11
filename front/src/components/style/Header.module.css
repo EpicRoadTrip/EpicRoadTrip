@@ -1,0 +1,89 @@
+.hhContainerImage {
+    position: relative;
+    width: 100%;
+    height: 40vh;
+    background-size: cover;
+    background-position: center;
+    background-image: url(/assets/images/header-background.png);
+}
+
+.hhContainerNoImage {
+    position: relative;
+    width: 100%;
+    height: 75px;
+    background: linear-gradient(90.16deg, #001233 0%, #023E7D 100%);
+}
+
+.hhTop {
+    width: 100%;
+    padding: 1.5em 0;
+    font-family: 'Montserrat';
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.hhContainerNoImage .hhTop {
+    height: 100%;
+}
+
+.hhTitle {
+    color: #fff;
+    flex: 1;
+    text-align: left;
+    margin-left: 2%;
+}
+
+.hNav {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+}
+
+.hSearchEvent {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hSearchEvent.mapView {
+    transform: translateX(-15%);
+}
+
+.hhContainerImage .hSearchEvent {
+    top: calc(100% - 30px);
+}
+
+.hhContainerNoImage .hSearchEvent {
+    top: calc(100% + 30px);
+}
+
+@media screen and (max-width: 1024px) {
+    .hhContainerImage {
+        position: relative;
+        width: 100%;
+        height: 75px;
+        background: linear-gradient(90.16deg, #001233 0%, #023E7D 100%);
+    }
+
+    .hhContainerImage .hhTop {
+        height: 100%;
+    }
+
+    .hhContainerImage .hSearchEvent {
+        top: 0;
+    }
+
+    .hSearchEvent {
+        position: relative;
+        width: 100% !important;
+        max-width: none;
+        border-radius: 0 !important;
+    }
+}

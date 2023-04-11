@@ -1,8 +1,3 @@
-export interface ICard {
-    id: number,
-    imgSrc?: string,
-    alt?: string,
-    title: string,
-    price: number,
-    description: string,
-}
+import { IDetailAPI } from "./api";
+
+export type ICard = IDetailAPI

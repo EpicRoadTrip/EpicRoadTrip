@@ -1,13 +1,22 @@
-.card-container {
-    max-width: 250px;
-    max-height: 200px;
+.cardWrapper {
+    position: relative;
+    max-width: 350px;
+    height: 200px;
     border-radius: 10px;
+    overflow: hidden;
     background-color: #fff;
+}
+
+.cardContainer {
     display: flex;
     flex-direction: column;
 }
 
-.card-container .card-image {
+.cardContainer:hover {
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+}
+
+.cardContainer .cardImage {
     max-width: 100%;
     height: auto;
     color: #fff;
@@ -15,19 +24,17 @@
     -o-object-position: center;
     object-fit: cover;
     object-position: center;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
     background-color: var(--blueSix);
 }
 
-.card-container .card-body {
+.cardContainer .cardBody {
     padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.card-body .card-header {
+.cardBody .cardHeader {
     border-bottom: 1px solid var(--greyFour);
     display: flex;
     flex-direction: row;
@@ -35,17 +42,28 @@
     justify-content: space-between;
 }
 
-.card-header .card-header-title {
-    font-weight: 800;
-}
-
-.card-header .card-header-price {
-    align-self: flex-end;
-}
-
-.card-body .card-body-description {
-    width: max-content;
+.cardHeader .cardHeaderTitle {
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 800;
+}
+
+.cardHeader .cardHeaderPrice {
+    text-align: right;
+    align-self: flex-end;
+}
+
+.cardBody .cardBodyDescription {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cardCheckbox {
+    position: absolute;
+    right: 15px;
+    top: 15px;
 }

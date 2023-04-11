@@ -102,7 +102,7 @@ body {
 body {
   min-height: 100vh!important;
   color: rgb(var(--foreground-rgb));
-  background: #fff!important;
+  background: #F6F6F6!important;
 }
 
 a {

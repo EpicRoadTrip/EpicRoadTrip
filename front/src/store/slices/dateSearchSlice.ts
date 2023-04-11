@@ -1,16 +1,12 @@
+import { IDateSearchSliceState } from '@interfaces/date';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import moment from 'moment';
 
 // Define a type for the slice state
-interface DateSearchSliceState {
-  start: string | null,
-  end: string | null,
-  isDateSet: boolean,
-};
 
 // Define the initial state using that type
-const initialState: DateSearchSliceState = {
+const initialState: IDateSearchSliceState = {
   start: null,
   end: null,
   isDateSet: false
