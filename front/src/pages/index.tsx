@@ -33,7 +33,7 @@ export default function Home() {
         <ChakraProvider>
           <Button
             onClick={() => {handleClick()}}
-            leftIcon={view ? <MapRoundedIcon />: <ListRoundedIcon />}
+            leftIcon={view === 'list' ? <MapRoundedIcon />: <ListRoundedIcon />}
             colorScheme='blue'
             variant='solid'
             borderRadius={50}
@@ -42,7 +42,7 @@ export default function Home() {
             left='50%'
             transform='translateX(-50%)'
           >
-            { view ? 'Display map' : 'Display list' }
+            { view === 'list' ? 'Display map' : 'Display list' }
           </Button>
         </ChakraProvider>
     </>

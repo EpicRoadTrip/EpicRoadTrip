@@ -187,12 +187,12 @@ export const apiCallSlice = createSlice({
                 state.loading.filter((item) => item.name === loading.name);
             }
             if (data) {
-                data.data.push(action.payload.data.results)
+                data.data[0] = action.payload.results
             } else {
-                state.data.push({
+                state.data = [...state.data, {
                     id: "Transports",
-                    data: action.payload.data.results
-                })
+                    data: action.payload.results
+                }]
             }
         })
         .addCase(getTransport$.rejected, (state) => {

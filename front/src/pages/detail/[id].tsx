@@ -8,6 +8,10 @@ import Image from "next/image";
 import { Button, ChakraProvider, CloseButton, Link, Spinner } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import Maps from "@components/Map";
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
+import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
+import DirectionsTransitIcon from '@mui/icons-material/DirectionsTransit';
 
 export default function Detail() {
     const router = useRouter()
@@ -171,6 +175,53 @@ export default function Detail() {
           return (
             <div className={styles.dOverlay}>
               <div className={styles.dOverlayContent}>
+                <div className={styles.dOverlayDirection}>
+                  {
+                    <>
+                      <span>
+                        <DirectionsWalkIcon /> 
+                        {
+                          !resultTransport ? (
+                            <Spinner size='md' label="Veuillez patienter..." ></Spinner>
+                          ) : (
+                            resultTransport?.walk
+                          )
+                        }
+                      </span>
+                      <span>
+                        <DirectionsBikeIcon /> 
+                        {
+                          !resultTransport ? (
+                            <Spinner size='md' label="Veuillez patienter..." ></Spinner>
+                          ) : (
+                            resultTransport?.bicycl
+                          )
+                        }
+                      </span>
+                      <span>
+                        <DirectionsCarIcon /> 
+                        {
+                          !resultTransport ? (
+                            <Spinner size='md' label="Veuillez patienter..." ></Spinner>
+                          ) : (
+                            resultTransport?.drive
+                          )
+                        }
+                      </span>
+                      <span>
+                        <DirectionsTransitIcon />
+                        {
+                          !resultTransport ? (
+                            <Spinner size='md' label="Veuillez patienter..." ></Spinner>
+                          ) : (
+                            resultTransport?.transit
+                          )
+                        }
+                      </span>
+                      
+                    </>
+                  }
+                </div>
                 <Maps
                   style={{
                     borderRadius: 10,
@@ -190,12 +241,6 @@ export default function Detail() {
                   }}
                   mapOptions={mapOptionsItinerary}
                 />
-                <div style={{position: 'absolute', right: 0, bottom: 0, padding: '1em', display: 'flex', flexDirection: 'column', gap: 10}}>
-                  <p> {resultTransport?.walk} </p>
-                  <p> {resultTransport?.bicycl} </p>
-                  <p> {resultTransport?.drive} </p>
-                  <p> {resultTransport?.transit} </p>
-                </div>
                 <ChakraProvider>
                   <CloseButton size="lg" className={styles.dOverlayCloseButton} onClick={() => setDisplayItinerary({
                     type: 'ask',

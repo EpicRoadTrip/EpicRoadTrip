@@ -154,3 +154,26 @@
     /* color: #000; */
     background: rgba( 255, 255, 255, 0.5 )!important;
 }
+
+.dOverlayDirection  {
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+    padding: 1.5em;
+    z-index: 10;
+    border-radius: 10px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.dOverlayDirection span {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: row;
+}

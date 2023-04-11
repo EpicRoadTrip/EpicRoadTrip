@@ -33,16 +33,22 @@ export default function ListView() {
             {
                 apiStore.data.map((item) => (
                     <div key={item.id} className={styles.lItem}>
-                        <h3 className={styles.lTitleItem}>{item.id}</h3>
-                        <div className={styles.lItemContainer}>
-                            {
-                                item.data && item.data.map((value) => (
-                                    <div key={value.place_id}>
-                                        <CardColumn id={value.place_id} title={value.name} description={value.description} imgSrc={value.photo} price={value.price_level ?? ""}  />
+                        {
+                            item.id !== 'Transports' && item.data.length && (
+                                <>
+                                    <h3 className={styles.lTitleItem}>{item.id}</h3>
+                                    <div className={styles.lItemContainer}>
+                                        {
+                                            item.data && item.data.length && item.data.map((value) => (
+                                                <div key={value.place_id}>
+                                                    <CardColumn id={value.place_id} title={value.name} description={value.description} imgSrc={value.photo} price={value.price_level ?? ""}  />
+                                                </div>
+                                            ))
+                                        }
                                     </div>
-                                ))
-                            }
-                        </div>
+                                </>
+                            )
+                        }
                     </div>
                 ))
             }
