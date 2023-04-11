@@ -1,6 +1,7 @@
 export interface INumberSelector {
     title: string,
     items: INumberSelectorData[],
+    className?: string,
     onChange?: (items: INumberSelectorData[]) => void,
 }
 

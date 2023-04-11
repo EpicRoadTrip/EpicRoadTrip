@@ -1,8 +1,8 @@
-import { INumberSelector, INumberSelectorData } from '@/public/interfaces/number-selector';
+import { INumberSelector, INumberSelectorData } from '@interfaces/number-selector';
 import React from 'react';
 import styles from './style/NumberSelector.module.css';
 
-export default function NumberSelector({ title, items, onChange }: INumberSelector) {
+export default function NumberSelector({ title, items, className, onChange }: INumberSelector) {
 
     React.useEffect(() => {
         if (items) {
@@ -46,7 +46,7 @@ export default function NumberSelector({ title, items, onChange }: INumberSelect
     }
 
     return (
-        <div className={styles.nbsContainer} data-testid='nbs-container'>
+        <div className={`${styles.nbsContainer} ${className ?? ''}`} data-testid='nbs-container'>
             <h2 className={styles.nbsTitle} data-testid='nbs-title'>{title ?? "Veuillez insérer un titre"}</h2>
             <div className={styles.nbsBody} data-testid='nbs-body'>
                 {

@@ -1,5 +1,6 @@
 export interface IInputSelectDropdown {
     data?: IInputSelectDropdownData[],
+    className?: string,
     selectedData?: ISelectedInputDropdownData[],
     onSelectedChange?: (selectedData: ISelectedInputDropdownData[]) => void,
     inputPlaceholder?: string

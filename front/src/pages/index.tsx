@@ -1,12 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
-
+import ListRoundedIcon from '@mui/icons-material/ListRounded';
+import MapRoundedIcon from '@mui/icons-material/MapRounded';
 import Header from '../components/Header';
-import ListView from './view/list';
-import MapView from './view/map';
-
 import { useAppSelector, useAppDispatch } from '../store/hook';
 import { change } from '../store/slices/viewSlice';
+import { Button, ChakraProvider } from '@chakra-ui/react';
 
 export default function Home() {
   const [listView, setListView] = React.useState<boolean>(true);
@@ -29,7 +28,21 @@ export default function Home() {
         </Head>
         <Header />
         { view ? <p>List</p> : <p>Map</p>}
-        <button onClick={() => {handleClick()}} style={{position: 'absolute', bottom: '5%', left: '50%', transform: 'translateX(-50%)'}}>Change view</button>
+        <ChakraProvider>
+          <Button
+            onClick={() => {handleClick()}}
+            leftIcon={view ? <MapRoundedIcon />: <ListRoundedIcon />}
+            colorScheme='blue'
+            variant='solid'
+            borderRadius={50}
+            position='fixed'
+            bottom='3%'
+            left='50%'
+            transform='translateX(-50%)'
+          >
+            { view ? 'Display map' : 'Display list' }
+          </Button>
+        </ChakraProvider>
     </>
   )
 }
