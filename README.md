@@ -2,9 +2,14 @@
 
 https://epic-road-trip-mu.vercel.app/
 
+## Notion
+
+<https://www.notion.so/591ff8d4dd714dfa8118737d81afc9dd?v=82bd5a6c0f9647aca9a946fe1235fde9>
+
 ## Table of Contents
 
 - [EPIC ROAD TRIP](#epic-road-trip)
+  - [Notion](#notion)
   - [Table of Contents](#table-of-contents)
   - [Status](#status)
   - [Introduction](#introduction)
