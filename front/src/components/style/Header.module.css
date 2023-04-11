@@ -1,10 +1,10 @@
 .hhContainerImage {
     position: relative;
     width: 100%;
-    height: 24vh;
+    height: 40vh;
     background-size: cover;
     background-position: center;
-    background-image: url(/assets/images/header-background.jpg);
+    background-image: url(/assets/images/header-background.png);
 }
 
 .hhContainerNoImage {
@@ -16,9 +16,10 @@
 
 .hhTop {
     width: 100%;
-    height: 30%;
+    padding: 1.5em 0;
     font-family: 'Montserrat';
     backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;

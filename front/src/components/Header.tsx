@@ -14,7 +14,7 @@ export default function Header() {
             <div className={ styles.hhTop}>
                 <h1 data-testid='h-title' className={styles.hhTitle}><Link href='/'>EpicRoadTrip</Link></h1>
                 <nav style={{flex: 1, textAlign: 'center'}} className={styles.hNav}>
-                    <Link href='/' style={{marginRight: '1%', color: router.pathname === '/' ? '#fff' : viewStore.value ? '#fff' : '#979DAC', borderBottom: router.pathname === '/' ? '1px solid #fff' : 'none'}} data-testid='h-nav-home'>Home</Link>
+                    <Link href='/' style={{marginRight: '1%', color: router.pathname === '/' ? '#fff' : viewStore.value === 'list' ? '#fff' : '#979DAC', borderBottom: router.pathname === '/' ? '1px solid #fff' : 'none'}} data-testid='h-nav-home'>Home</Link>
                 </nav>
                 <div style={{flex: 1, textAlign: 'right', marginRight: '2%', color: '#fff'}} data-testid='h-copyright'>Copryright 2023</div>
             </div>
