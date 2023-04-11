@@ -1,9 +1,13 @@
-.cardContainer {
+.cardWrapper {
+    position: relative;
     max-width: 350px;
     height: 200px;
     border-radius: 10px;
     overflow: hidden;
     background-color: #fff;
+}
+
+.cardContainer {
     display: flex;
     flex-direction: column;
 }
@@ -56,4 +60,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.cardCheckbox {
+    position: absolute;
+    right: 15px;
+    top: 15px;
 }

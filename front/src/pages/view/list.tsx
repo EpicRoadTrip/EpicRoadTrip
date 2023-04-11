@@ -41,7 +41,7 @@ export default function ListView() {
                                         {
                                             item.data && item.data.length && item.data.map((value) => (
                                                 <div key={value.place_id}>
-                                                    <CardColumn id={value.place_id} title={value.name} description={value.description} imgSrc={value.photo} price={value.price_level ?? ""}  />
+                                                    <CardColumn place_id={value.place_id} formatted_address={value.formatted_address} name={value.name} description={value.description} photo={value.photo} price_level={value.price_level ?? ""}  />
                                                 </div>
                                             ))
                                         }
