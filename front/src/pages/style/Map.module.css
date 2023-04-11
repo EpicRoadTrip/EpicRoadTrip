@@ -8,10 +8,24 @@
     height: calc(100vh - 75px);
     padding: 1em;
     overflow: auto;
-    /* overflow-x: scroll; */
     display: flex;
     flex-direction: column;
     gap: 30px;
+}
+
+.mListOfCardContainer::-webkit-scrollbar {
+    width: 20px;
+}
+
+.mListOfCardContainer::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.mListOfCardContainer::-webkit-scrollbar-thumb {
+    background-color: #979DAC;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
 }
 
 .lItem {

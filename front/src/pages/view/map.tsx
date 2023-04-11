@@ -4,21 +4,16 @@ import CardRow from '@components/CardRow';
 import { useAppSelector } from 'src/store/hook';
 import styles from '@styledPageStyle/Map.module.css'
 import MapEvent from '@components/MapEvent';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useGoogleMap } from '@react-google-maps/api';
 import { ILatLong, IMapEvents } from '@interfaces/map';
 
-// const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ['places']
 
 const MapView: NextPage = () => {
-    // const [located, setLocated] = useState<boolean>(false);
     const apiStore = useAppSelector(state => state.api)
     const mapOptions = useMemo<google.maps.MapOptions>(() => ({
       disableDefaultUI: false,
       clickableIcons: false,
       scrollwheel: false,
       zoom: 0
-
     }), []);
     const [mapEventData, setMapEventData] = useState<IMapEvents>({
         events: [],
@@ -92,7 +87,7 @@ const MapView: NextPage = () => {
                 <MapEvent events={mapEventData.events} mapOptions={mapEventData.mapOptions}/>
             </div>
         </div>
-    );//47.214642, -1.577739
+    );
 };
 
 export default MapView;
