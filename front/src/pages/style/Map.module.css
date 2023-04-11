@@ -1,0 +1,38 @@
+.mContainer {
+    display: grid;
+    grid-template-columns: 30vw auto;
+}
+
+.mListOfCardContainer {
+    width: 100%;
+    height: calc(100vh - 75px);
+    padding: 1em;
+    overflow: auto;
+    /* overflow-x: scroll; */
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.lItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.lItemContainer {
+    width: 95%;
+    margin: auto;
+    display: grid;
+    gap: 20px;
+    justify-content: flex-start;
+    grid-template-columns: 100%;
+    grid-template-rows: auto;
+}
+
+.lTitleItem {
+    font-size: x-large;
+    color: var(--greyOne);
+    font-weight: 700;
+    margin-left: 15px;
+}
